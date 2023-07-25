@@ -1,0 +1,46 @@
+/* Define the style for the login container */
+.login-container {
+  width: 400px; /* Set the width of the container */
+  height: 300px; /* Set the height of the container */
+  margin: 50px auto; /* Center the container on the page */
+  border: 2px solid #ccc; /* Add a border to the container */
+  border-radius: 20px; /* Make the border rounded */
+  padding: 20px; /* Add some padding to the container */
+  box-shadow: 0 0 10px #ccc; /* Add some shadow to the container */
+}
+
+/* Define the style for the login title */
+.login-title {
+  text-align: center; /* Align the title to the center */
+  font-size: 24px; /* Set the font size of the title */
+  font-weight: bold; /* Set the font weight of the title */
+  color: #333; /* Set the font color of the title */
+}
+
+/* Define the style for the login form */
+.login-form {
+  display: flex; /* Use flex layout for the form */
+  flex-direction: column; /* Arrange the form elements in a column */
+  align-items: center; /* Align the form elements to the center */
+}
+
+/* Define the style for the login input boxes */
+.login-input {
+  width: 80%; /* Set the width of the input boxes */
+  height: 40px; /* Set the height of the input boxes */
+  margin: 10px; /* Add some margin to the input boxes */
+  border: none; /* Remove the default border of the input boxes */
+  border-radius: 20px; /* Make the input boxes rounded */
+  padding: 10px; /* Add some padding to the input boxes */
+}
+
+/* Define the style for the login submit button */
+.login-button {
+  width: 50%; /* Set the width of the button */
+  height: 40px; /* Set the height of the button */
+  margin: 10px; /* Add some margin to the button */
+  border: none; /* Remove the default border of the button */
+  border-radius: 20px; /* Make the button rounded */
+  background-color: #333; /* Set the background color of the button */
+  color: white; /* Set the font color of the button */
+}

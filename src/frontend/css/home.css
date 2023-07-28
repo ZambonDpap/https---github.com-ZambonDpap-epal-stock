@@ -1,11 +1,12 @@
 body{
+
+}
+
+#top_menu{
     font-family: Arial, sans-serif;
     font-size: 13px;
     font-weight: bold;
     color: rgb(59, 59, 59);
-}
-
-#top_menu{
     display: flex;
     justify-content: space-between;
     position: absolute;

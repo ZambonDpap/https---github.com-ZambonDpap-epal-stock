@@ -29,6 +29,15 @@ if( !isset($_POST['functionname']) )
         case "get_materials":
             $result = get_materials($conn, $result);
             break;
+        case "get_last_invoice_id":
+            $result = get_last_invoice_id($conn, $result);
+            break;
+        case "add_new_supplier":
+            $result = add_new_supplier($conn, $result);
+            break;
+        case "add_new_material":
+            $result = add_new_material($conn, $result);
+            break;            
     }
 
     mysqli_close($conn);
@@ -112,5 +121,64 @@ function get_materials($conn, $result){
     $result = mysqli_fetch_all($res,MYSQLI_ASSOC);
     
     return $result;
+}
+function get_last_invoice_id($conn, $result){
+    $sql = "SELECT MAX(id) FROM invoice";
+    
+    $res = mysqli_query($conn,$sql);
+    $max_id = mysqli_fetch_all($res,MYSQLI_ASSOC);
+    
+    return $max_id;
+}
+function add_new_supplier($conn, $result){
+    if( !isset($_POST['arguments']) ) 
+    { 
+        $result['error'] = 'No arguments'; 
+    } else
+    {
+        $arguments = $_POST['arguments'];
+        $new_supplier_name = $arguments[0];
+
+        $sql = "INSERT INTO suppliers (name) SELECT '$new_supplier_name' WHERE '$new_supplier_name' NOT IN (SELECT name FROM suppliers)";
+
+        $result = mysqli_query($conn,$sql);
+        $rows_affected = mysqli_affected_rows($conn);
+        if($result === true){
+            if ($rows_affected === 0){
+                $result = "exists";
+            } else {
+                $result = true;
+            }
+        }
+    }
+
+    return $result;
+}
+function add_new_material($conn, $result){
+    if( !isset($_POST['arguments']) ) 
+    { 
+        $result['error'] = 'No arguments'; 
+    } else
+    {
+        $arguments = $_POST['arguments'];
+        $name = $arguments[0];
+        $type = $arguments[1];
+
+        $sql = "INSERT INTO materials (name, type) VALUES ('$name','$type')";
+        $result = mysqli_query($conn,$sql);
+        
+        $last_id = mysqli_insert_id($conn);
+
+        $rows_affected = mysqli_affected_rows($conn);
+        if($result === true){
+            if ($rows_affected === 0){
+                $result = "exists";
+            } else {
+                $result = true;
+            }
+        }
+    }
+
+    return $result . "|-|" . $last_id;
 }
 ?>

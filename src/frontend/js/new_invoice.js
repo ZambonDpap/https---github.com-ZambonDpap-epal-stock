@@ -16,7 +16,7 @@ $(document).ready(function() {
     addFieldsToDropdown();
 
     //each time a new field is selected get the related labs and update the labs dropdown list
-    addFieldsLabsToDropdown();
+    addFieldLabsToDropdown();
 
     //each time a new lab is selected get the related materials and update the materials source array
     addLabsMaterialsToAutocompleteInput();  
@@ -27,6 +27,8 @@ $(document).ready(function() {
     //get the suppliers from the db and fill the dropdown
     addSuppliersToDropdown();
 
+    //setup grid for bought materials
+    setupBoughtMaterialsGrid()
 
     //notifications
     $("#notification_success").jqxNotification({ width: 350, height: 50, position: "top-right", opacity: 0.9, autoOpen: false, animationOpenDelay: 800, autoClose: true, autoCloseDelay: 4000, template: "success"});
@@ -55,9 +57,27 @@ $(document).ready(function() {
     $("#add_new_supplier").on('click', ()=>{
         addNewSupplier($("#new_added_supplier_name").val())
     })
+
+    //delete an added material from the table. Nothing is changed to the mysql database.
+    $("#delete_added_material").on('click', ()=>{
+        selectedrowindex = $("#materials_added").jqxGrid ("getselectedrowindex");
+        var rowid = $("#materials_added").jqxGrid ("getrowid", selectedrowindex); 
+        var commit = $("#materials_added").jqxGrid('deleterow', rowid)
+    })
+
+    //when the button "συνεχεια" ia pressed. set pdf viewer to inactive and activate the protocol viewer
+    $("#continue").on('click', ()=>{
+        console.log("test")
+        $("#pdf_viewer").hide();
+        $("#protocol_viewer").show();
+    })
+
+
 });
 
 function disableElements(){
+    $("#pdf_viewer").show();
+    $("#protocol_viewer").hide();
     $("#new_added_material_type").jqxDropDownList({itemHeight: 40, height: 35, width: 200, popupZIndex: 999999, disabled: false});
     $("#invoice_no").prop("disabled",true);
     $("#invoice_date").prop("disabled",true);
@@ -91,11 +111,12 @@ function addAcademicYearsToDropdown(){
 
 function invoicePDFSelected(){
     $("#invoice_select").change(function() {
+        $("#pdf_viewer").show();
+        $("#protocol_viewer").hide();
         var file = this.files[0];
         var pdf_file = $("#pdf_file");
         if (file) {
             var url = URL.createObjectURL(file);
-            console.log("URL: " + url)
             pdf_file.attr("src", url);
 
             //enable elements once an invoice pdf is selected
@@ -155,7 +176,7 @@ function addFieldsToDropdown(){
     });
 }
 
-function addFieldsLabsToDropdown(){
+function addFieldLabsToDropdown(){
     $("#fields").change(function() {
         var field = $("#fields").jqxDropDownList('getSelectedItem'); 
 
@@ -325,11 +346,38 @@ function addNewMaterial(name, type, amount){
 }
 
 function addMaterialToBoughtList(id, name, type, number){
-    var val = ` <div class=material_added>
-                    <div class="material_name" id=${id}> ${name}</div>
-                    <div class="material_type" id=${id}_type> ${type}</div>
-                    <input class="material_amount" type=number id=${id}_number value=${number} required>
-                </div>`
-    $('#materials_added').append(val)
-    $("#materials").jqxInput("val", "");
+    data = [{id: id, name: name, type: type, amount: number}];
+    var commit = $("#materials_added").jqxGrid('addrow', null, data)
+    $('#materials').val("");
+}
+
+function setupBoughtMaterialsGrid(){
+    data = []
+    var source = {
+        localdata: data,
+        datafields: [
+            { name: 'id',     type: 'number' }, 
+            { name: 'name',   type: 'string' }, 
+            { name: 'type',   type: 'string' }, 
+            { name: 'amount', type: 'number' }
+        ],
+        datatype: "array"
+    };
+   
+    var adapter = new $.jqx.dataAdapter(source);
+    $("#materials_added").jqxGrid({
+        width: "89.3%",
+        height: "25%",
+        source: adapter,
+        sortable: true,
+        filterable: true,
+        editable: true,
+        editmode: 'click', 
+        columns: [
+            { text: '',         datafield: 'id',     hidden: true,  editable: false}, 
+            { text: 'Όνομα',    datafield: 'name',   width: "61%",  editable: false}, 
+            { text: 'Τύπος',    datafield: 'type',   width: "23%",  editable: false}, 
+            { text: 'Ποσότητα', datafield: 'amount', width: "16%",  editable: true}
+        ],
+    });
 }

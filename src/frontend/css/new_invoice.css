@@ -38,12 +38,19 @@
     border-radius: 4px;
   }
 
+  #protocol_viewer{
+    width: 49%;
+    height: 96%;
+    position: absolute;
+    left: 51%;
+    top: 4%;
+  }
   #pdf_viewer{
     width: 50%;
-    height: 100%;
+    height: 96%;
     position: absolute;
     left: 50%;
-    top: 0;
+    top: 4%;
   }
 
   #pdf_file{
@@ -52,29 +59,19 @@
   }
 
   #new_supplier{
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    font-size: 13px;
-    font-weight: bold;
-    width: 100px;
     position: absolute;
-    top: 32%;
-    left: 680px;
-    color: green;
+    top: 30%;
+    left: 92%;
+    border: none;
+    background-color: white;
   }
 
   #new_material{
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    font-size: 13px;
-    font-weight: bold;
-    width: 100px;
     position: absolute;
-    top: 62%;
-    left: 680px;
-    color: green;
+    top: 60%;
+    left: 92%;
+    border: none;
+    background-color: white;
   }
 
   #new_supplier:hover, #new_material:hover{
@@ -83,49 +80,9 @@
 
   #materials_added{
     position: absolute;
-    height: 25%;
-    width: 62%;
     overflow-y: auto;
-    border: 1px solid #bbbbbb;
-    left: 225px;
-    border-radius: 4px;
-    padding-top: 10px;
-  }
-
-  .material_name {
-    width: 55.5%;
-    float: left;
-    /* background-color: red; */
-    height: 35px;
-    font-size: 13px;
-    font-weight: bold;
-    text-align: left;
-    padding-top: 1.5%;
-    padding-left: 1.5%;
-  }
-  
-  .material_type {
-    width: 25%;
-    float: left;
-    /* background-color: green; */
-    height: 35px;
-    font-size: 13px;
-    font-weight: bold;
-    text-align: center;
-    padding-top: 1.5%;
-    padding-left: 1.5%;
-  }
-  
-  .material_amount {
-    width: 15%;
-    float: left;
-    /* background-color: blue; */
-    height: 35px;
-    font-size: 13px;
-    font-weight: bold;
-    text-align: center;
-    padding-top: 1.5%;
-    padding-left: 1.5%;
+    left: 15px;
+    top: 66%;
   }
 
   #new_added_material_name_label, #new_added_supplier_name_label{
@@ -198,12 +155,23 @@
     cursor: pointer;
   }
 
+  #delete_added_material{
+    position: absolute;
+    top: 85%;
+    left: 92%;
+    background-color: white;
+    border: none;
+  }
+  #delete_added_material:hover{
+    cursor: pointer;
+  }
+
 
   input[type="submit"] {
     width: 120px;
     height: 40px;
     margin-top: 20px;
-    background-color: #333333;
+    background-color: #5c5f81;
     color: #ffffff;
     font-weight: bold;
     cursor: pointer;

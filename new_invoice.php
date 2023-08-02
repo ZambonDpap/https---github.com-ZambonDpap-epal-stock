@@ -222,104 +222,135 @@
             </div>
 
 
+
             <div style="position:absolute;top:4.17in; left: 5%; width:20%;line-height:0.14in;">
                 <span style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Cambria;color:#000000">ΕΠΙΤΡΟΠΗ ΑΓΟΡΑΣ</span>
                 <br />
             </div>
+            <div style="position:absolute;top:4.38in; left: 6%; ;width:0.09in;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">1.</span>
+                <br />
+            </div>
+            <div style="position:absolute; top:52%; left: 8%;width:22%;line-height:0.21in;">
+                <span id="buyer_1_id" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">ΚΑΡΓΟΠΟΥΛΟΥ Ο.</span>
+            </div>
+            <div style="position:absolute;top:4.66in; left: 6%; ;width:0.09in;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">2.</span>
+                <br />
+            </div>
+            <div style="position:absolute; top:55.3%; left: 8%;width:22%;line-height:0.21in;">
+                <span id="buyer_2_id" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">ΚΟΥΤΣΟΓΙΑΝΝΗ Ι. </span>
+            </div>
+            <div style="position:absolute;top:4.95in; left: 6%; ;width:0.09in;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">3.</span>
+                <br />
+            </div>
+            <div style="position:absolute;top:58.8%;left: 8%;width:22%;line-height:0.21in;">
+                <span id="buyer_3_id" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">ΠΕΤΡΟΒΙΤΣΟΣ Ε.</span>
+            </div>
 
-            <div style="position:absolute;top:4.38in; left: 6%; ;width:0.09in;line-height:0.14in;"><span
-                style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">1.</spacing<br />
-            </div>
-            <div style="position:absolute;top:4.66in; left: 6%; ;width:0.09in;line-height:0.14in;"><span
-                style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">2.</span>
-                <br />
-            </div>
-            <div style="position:absolute;top:4.95in; left: 6%; ;width:0.09in;line-height:0.14in;"><span
-                style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">3.</span>
-                <br />
-            </div>
+
+
             <div style="position:absolute;top:5.39in; left: 5%; width:25%;line-height:0.14in;">
                 <span style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Cambria;color:#000000">ΕΠΙΤΡΟΠΗ ΠΑΡΑΛΑΒΗΣ</span>
                 <br />
             </div>
-
-            <img style="position:absolute;top:5.51in; left: 5%; width:1.36in;height:0.01in" src="./src/images/vi_1.png" />
-
-            <div style="position:absolute;top:5.61in; left: 6%; ;width:0.09in;line-height:0.14in;"><span
-                style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">1.</span>
+            <div style="position:absolute;top:5.61in; left: 6%; ;width:0.09in;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">1.</span>
                 <br />
             </div>
-            <div style="position:absolute;top:5.90in; left: 6%; ;width:0.09in;line-height:0.14in;"><span
-                style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">2.</span>
+            <div style="position:absolute;top:5.90in;left: 8%;width:30%;line-height:0.14in;">
+                <span id="receiver_1_id" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">ΤΣΟΥΓΚΑ Π.</span>
                 <br />
             </div>
-            <div style="position:absolute;top:7.00in; left: 6%; ;width:0.09in;line-height:0.14in;"><span
-                style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">κ.</span>
+            <div style="position:absolute;top:5.90in; left: 6%; ;width:0.09in;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">2.</span>
                 <br />
             </div>
-    <div style="position:absolute;top:7.00in; left:47% ;width:0.59in;line-height:0.14in;"><span
-            style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">Υπογραφή:</span><br /></div>
-    <div style="position:absolute;top:7.83in; left:4.6%; width:10%;line-height:0.12in;"><span
-            style="font-style:normal;font-weight:bold;font-size:9pt;font-family:Cambria;color:#000000">Α/Α</span><br /></div>
-    <div style="position:absolute;top:7.83in; left:11%; width:0.46in;line-height:0.12in;"><span
-            style="font-style:normal;font-weight:bold;font-size:9pt;font-family:Cambria;color:#000000">ΑΡΙΘΜΟΣ</span><br /></div>
-    <div style="position:absolute;top:7.83in; left:40%; width:0.28in;line-height:0.12in;"><span
-            style="font-style:normal;font-weight:bold;font-size:9pt;font-family:Cambria;color:#000000">ΠΟΣΟ</span><br /></div>
-    <div style="position:absolute;top:8.13in;left: 6%;width:0.06in;line-height:0.12in;"><span
-            style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">1</span><br /></div>
-    <div style="position:absolute;top:8.13in; left:13%; width:0.16in;line-height:0.13in;"><span
-            style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Calibri;color:#000000">215</span><br /></div>
-    <div style="position:absolute;top:8.34in;left: 6%;width:0.06in;line-height:0.12in;"><span
-            style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">2</span><br /></div>
-    <div style="position:absolute;top:8.52in;left: 6%;width:0.06in;line-height:0.12in;"><span
-            style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">3</span><br /></div>
-    <div style="position:absolute;top:8.69in;left: 6%;width:0.06in;line-height:0.12in;"><span
-            style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">4</span><br /></div>
-    <div style="position:absolute;top:8.87in;left: 6%;width:0.06in;line-height:0.12in;"><span
-            style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">5</span><br /></div>
-    <div style="position:absolute;top:9.04in;left: 6%;width:0.06in;line-height:0.12in;"><span
-            style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">6</span><br /></div>
-    <div style="position:absolute;top:6.47in; left: 5%; width:55%;line-height:0.14in;"><span
-            style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">Παραλαμβάνει
-            &amp; παραδίδει στον Υπεύθυνο του Εργαστηρίου:</span><br /></div>
-    <div style="position:absolute; top:83.7%; left:8%; width:30%;line-height:0.14in;"><span
-            style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">ΚΑΡΓΟΠΟΥΛΟΥ
-            Ο.</span><br /></div>
-    <div style="position:absolute;top:7.45in; left: 5%; width:55%;line-height:0.14in;"><span
-            style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">τα
-            υλικά/εργασίες που αναφέρονται στα παρακάτω παραστατικά:</span><br /></div>
-    <div style="position:absolute;top:7.83in; left:27%; width:0.39in;line-height:0.12in;"><span
-            style="font-style:normal;font-weight:bold;font-size:9pt;font-family:Cambria;color:#000000">ΗΜ/ΝΙΑ</span><br /></div>
-    <div style="position:absolute;top:8.12in; left:37.8%; width:0.45in;line-height:0.13in;"><span
-            style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Calibri;color:#000000">31/5/2023</span><br /></div>
-    <div style="position:absolute;top:5.90in;left: 8%;width:30%;line-height:0.14in;"><span
-            style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">ΤΣΟΥΓΚΑ
-            Π.</span><br /></div>
-    <div style="position:absolute;top:6.47in;left: 63%;width:1.14in;line-height:0.15in;"><span
-            style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Calibri;color:#000000">ΒΡΕΦΟΝΗΠΙΟΚΟΜΙΑΣ</span><br /></div>
-    <div style="position:absolute; top:52%; left: 8%;width:22%;line-height:0.21in;">
-        <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">ΚΑΡΓΟΠΟΥΛΟΥ Ο.</span>
-    </div>
-    <div style="position:absolute; top:55.3%; left: 8%;width:22%;line-height:0.21in;">
-        <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">ΚΟΥΤΣΟΓΙΑΝΝΗ Ι. </span>
-    </div>
-    <div style="position:absolute;top:58.8%;left: 8%;width:22%;line-height:0.21in;">
-        <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">ΠΕΤΡΟΒΙΤΣΟΣ Ε.</span>
-    </div>
-    <div style="position:absolute;top:5.61in;left: 8%;width:30%;line-height:0.14in;"><span
-            style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">ΒΟΪΔΟΜΑΤΗ
-            ΓΛ.</span><span
-            style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">
-        </span><br /></div>
-
-
-
-            <img style="position:absolute;top:4.29in; left: 5%; width:1.10in;height:0.01in" src="./src/images/vi_2.png" />
+            <div style="position:absolute;top:5.61in;left: 8%;width:30%;line-height:0.14in;">
+                <span id="receiver_2_id" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">ΒΟΪΔΟΜΑΤΗ ΓΛ.</span>
+                <br />
+            </div>
 
 
 
 
+            <div style="position:absolute;top:6.47in; left: 5%; width:55%;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">Παραλαμβάνει &amp; παραδίδει στον Υπεύθυνο του Εργαστηρίου:</span>
+                <br />
+            </div>
+            <div style="position:absolute;top:6.47in;left: 63%;width:1.14in;line-height:0.15in;">
+                <span id="lab_id" style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Calibri;color:#000000">ΒΡΕΦΟΝΗΠΙΟΚΟΜΙΑΣ</span>
+                <br />
+            </div>
+            <div style="position:absolute;top:7.00in; left: 6%; ;width:0.09in;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">κ.</span>
+                <br />
+            </div>
+            <div style="position:absolute; top:83.7%; left:8%; width:30%;line-height:0.14in;">
+                <span id="manager_id" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">ΚΑΡΓΟΠΟΥΛΟΥ Ο.</span>
+                <br />
+            </div>
+            <div style="position:absolute;top:7.00in; left:47% ;width:0.59in;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">Υπογραφή:</span>
+                <br />
+            </div>
+            <div style="position:absolute;top:7.45in; left: 5%; width:55%;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">τα υλικά/εργασίες που αναφέρονται στα παρακάτω παραστατικά:</span>
+                <br />
+            </div>
 
+
+
+
+            <div style="position:absolute;top:7.83in; left:4.6%; width:10%;line-height:0.12in;">
+                <span style="font-style:normal;font-weight:bold;font-size:9pt;font-family:Cambria;color:#000000">Α/Α</span>
+                <br />
+            </div>
+            <div style="position:absolute;top:8.13in; left:13%; width:0.16in;line-height:0.13in;">
+                <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Calibri;color:#000000">215</span>
+                <br />
+            </div>
+            <div style="position:absolute;top:7.83in; left:11%; width:0.46in;line-height:0.12in;">
+                <span style="font-style:normal;font-weight:bold;font-size:9pt;font-family:Cambria;color:#000000">ΑΡΙΘΜΟΣ</span>
+                <br />
+            </div>
+            <div style="position:absolute;top:8.13in;left: 6%;width:0.06in;line-height:0.12in;">
+                <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">1</span>
+                <br />
+            </div>
+            <div style="position:absolute;top:8.34in;left: 6%;width:0.06in;line-height:0.12in;">
+                <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">2</span>
+                <br />
+            </div>
+            <div style="position:absolute;top:8.52in;left: 6%;width:0.06in;line-height:0.12in;">
+                <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">3</span>
+                <br />
+            </div>
+            <div style="position:absolute;top:8.69in;left: 6%;width:0.06in;line-height:0.12in;">
+                <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">4</span>
+                <br />
+            </div>
+            <div style="position:absolute;top:8.87in;left: 6%;width:0.06in;line-height:0.12in;">
+                <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">5</span>
+                <br />
+            </div>
+            <div style="position:absolute;top:9.04in;left: 6%;width:0.06in;line-height:0.12in;">
+                <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">6</span>
+                <br />
+            </div>
+            <div style="position:absolute;top:7.83in; left:27%; width:10%;line-height:0.12in;">
+                <span style="font-style:normal;font-weight:bold;font-size:9pt;font-family:Cambria;color:#000000">ΗΜ/ΝΙΑ</span>
+                <br />
+            </div>
+            <div style="position:absolute;top:8.12in; left:26.4%; width:0.45in;line-height:0.13in;">
+                <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Calibri;color:#000000">31/5/2023</span>
+                <br />
+            </div>
+            <div style="position:absolute;top:7.83in; left:40%; width:0.28in;line-height:0.12in;">
+                <span style="font-style:normal;font-weight:bold;font-size:9pt;font-family:Cambria;color:#000000">ΠΟΣΟ</span>
+                <br />
+            </div>
             <div style="position:absolute;top:7.83in; left:62%; width:30%;line-height:0.12in;">
                 <span style="font-style:normal;font-weight:bold;font-size:9pt;font-family:Cambria;color:#000000">Π Ρ Ο Μ Η Θ Ε Υ Τ Η Σ</span>
                 <br />
@@ -328,15 +359,10 @@
                 <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Calibri;color:#000000">Δ.ΓΕΡΓΟΥ-Χ.ΣΤΡΑΒΑ Ο.Ε.</span>
                 <br />
             </div>
-            <img style="position:absolute;top:0.89in; left:4%; width:6.32in;height:8.31in" src="./src/images/vi_3.png" />
-            <img style="position:absolute;top:0.89in; left:4%; width:6.33in;height:8.31in" src="./src/images/vi_4.png" />
-            <img style="position:absolute;top:7.71in; left:4%; width:6.32in;height:1.48in" src="./src/images/vi_5.png" />
-
             <div style="position:absolute;top:9.19in;left: 63%;width:0.84in;line-height:0.16in;">
                 <span style="font-style:normal;font-weight:bold;font-size:11pt;font-family:Cambria;color:#000000">ΘΕΩΡΗΘΗΚΕ</span>
                 <br />
             </div>
-
             <div style="position:absolute;top:9.89in; left:57%; width:30%;line-height:0.26in;">
                 <div style="position:relative; left:0.30in;">
                     <span style="font-style:normal;font-weight:bold;font-size:11pt;font-family:Cambria;color:#000000">Ο ΑΝ/ΤΗΣ Δ/ΝΤΗΣ</span>
@@ -345,6 +371,15 @@
                 <span style="font-style:normal;font-weight:bold;font-size:11pt;font-family:Cambria;color:#000000">ΣΤΕΦΑΝΟΣ ΜΕΡΛΙΑΟΥΝΤΑΣ</span>
                 <br />
             </div>
+
+
+
+            <img style="position:absolute;top:5.51in; left: 5%; width:1.36in;height:0.01in" src="./src/images/vi_1.png" />
+            <img style="position:absolute;top:4.29in; left: 5%; width:1.10in;height:0.01in" src="./src/images/vi_2.png" />
+            <img style="position:absolute;top:0.89in; left:4%; width:6.32in;height:8.31in" src="./src/images/vi_3.png" />
+            <img style="position:absolute;top:0.89in; left:4%; width:6.33in;height:8.31in" src="./src/images/vi_4.png" />
+            <img style="position:absolute;top:7.71in; left:4%; width:6.32in;height:1.48in" src="./src/images/vi_5.png" />
+            
         </div>
     </body>
 </html>

@@ -12,6 +12,7 @@
 
         <!-- Add external js files-->
         <script src="/src/frontend/js/new_invoice.js"></script>
+        <script src="/src/frontend/js/protocol.js"></script>
         <script src="/src/frontend/js/home.js"></script>
 
 
@@ -39,6 +40,12 @@
         <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxgrid.filter.js"></script>
         <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxpopover.js"></script>
         <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxnotification.js"></script>
+        <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxtooltip.js"></script>
+        <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxnumberinput.js"></script>
+        <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxdatetimeinput.js"></script>
+        <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxcalendar.js"></script>
+        <script type="text/javascript" src="./libs/jqwidgets_16.0.0/globalization/globalize.js"></script>
+
     </head>
    
    <body>
@@ -58,61 +65,60 @@
             </div>
         </div>
         <div id="invoice_form">
-            <div class="form-group">
-                <label for="academic_year">Ακαδημαϊκό Έτος</label>
+            <div id="academic-year-form-group">
+                <label id="academic-year-label" for="academic_year">Ακαδημαϊκό Έτος</label>
                 <div id="academic_year"></div>
             </div>
-            <div class="form-group">
-                <label for="invoice_select">Τιμολόγιο</label>
+            <div id="invoice-form-group">
+                <label id="invoice-label" for="invoice_select">Τιμολόγιο</label>
                 <input type="file" id="invoice_select" name="invoice_select">
             </div>
-            <div class="form-group">
-                <label for="invoice_no">Αριθμός Τιμολογίου</label>
+            <div id="invoice-no-date-form-group">
+                <label id="invoice-no-label" for="invoice_no">Αριθμός Τιμολογίου</label>
                 <input type="number" id="invoice_no" name="invoice_no" required>
+                <div id="invoice-date-form-group">
+                    <label id="invoice-date-label" for="invoice_date">Ημερομηνία Τιμολογίου</label>
+                    <input id="invoice_date" name="invoice_date" required>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="invoice_date">Ημερομηνία Τιμολογίου:</label>
-                <input type="date" id="invoice_date" name="invoice_date" required>
-            </div>
-            <div class="form-group">
-                <label for="protocol_no">Αριθμός πρωτοκόλλου</label>
-                <input type="number" id="protocol_no" name="protocol_no" required>
-            </div>
-            <div class="form-group">
-                <label for="protocol_date">Ημερομηνία πρωτοκόλλου</label>
-                <input type="date" id="protocol_date" name="protocol_date" required>
-            </div>
-            <div class="form-group">
-                <label for="suppliers">Προμηθευτής:</label>
+            <div id="supplier-form-group">
+                <label id="supplier-label" for="suppliers">Προμηθευτής</label>
                 <div id="suppliers"></div>
             </div>
+            <button id="new_supplier"><img src="http://localhost/src/images/add_16.png"></button>  
             <div id="new_supplier_popover">
                 <div id="new_added_supplier_name_label">Όνομα Προμηθευτή</div><input type="text" id="new_added_supplier_name">
                 <button div id="add_new_supplier">ΟΚ</button>
             </div>
-            <button id="new_supplier"><img src="./src/images/add_16.png"></button>
-            <div class="form-group">
+            <div id="protocol-no-date-form-group">
+                <label id="protocol-no-label" for="protocol_no">Αριθμός πρωτοκόλλου</label>
+                <input type="number" id="protocol_no" name="protocol_no" required>
+                <div id="protocol-date-form-group">
+                    <label id="protocol-date-label" for="protocol_date">Ημερομηνία πρωτοκόλλου</label>
+                    <input id="protocol_date" name="protocol_date" required>
+                </div>
+            </div>
+            <div id="fields-form-group">
+                <label for="field">Τομέας</label>
+                <div id="fields"></div>
+            </div>
+            <div id="labs-form-group">
+                <label for="lab">Εργαστήριο</label>
+                <div id="labs"></div>
+            </div>
+            <div id="payment-methods-form-group">
                 <label for="payment_method">Τρόπος Πληρωμής</label>
                 <div id="payment_methods"></div>
             </div>
-            <div class="form-group">
+            <div id="costs-form-group">
                 <label for="cost">Ποσό</label>
                 <input type="number" id="cost" name="cost" required>
+                <div id="field-cost-form-group">
+                    <label id="field-cost-label" for="field_cost">Ποσό Τομέα</label>
+                    <input type="number" id="field_cost" name="field_cost" required>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="field_cost">Ποσό Τομέα</label>
-                <input type="number" id="field_cost" name="field_cost" required>
-            </div>
-            <div class="form-group">
-                <label for="field">Τομέας:</label>
-                <div id="fields"></div>
-            </div>
-            <div class="form-group">
-                <label for="lab">Εργαστήριο:</label>
-                <div id="labs"></div>
-            </div>
-            <div class="form-group">
+            <div id="materials-form-group">
                 <label for="materials">Υλικά:</label>
                 <input type="text" id="materials">
             </div>
@@ -122,13 +128,15 @@
                 <div id="new_added_material_number_label">Ποσότητα αγοράς</div><input type="number" id="new_added_material_number">
                 <button div id="add_new_material">ΟΚ</button>
             </div>
-            <button id="new_material"><img src="./src/images/add_16.png"></button>
+            <button id="new_material"><img src="http://localhost/src/images/add_16.png"></button>
 
             <div id="materials_added">
             </div>
-            <button id="delete_added_material"><img src="./src/images/delete_16.png"></button>
+            <button id="delete_added_material"><img src="http://localhost/src/images/delete_16.png"></button>
 
             <input id="continue" type="submit" value="Συνέχεια">
+            <input id="save" type="submit" value="Αποθήκευση">
+
         </div>
 
         <!-- PDF VIEWER -->
@@ -139,13 +147,13 @@
         <!-- PROTOCOL VIEWER -->
         <div id="protocol_viewer">
 
-            <img style="position:absolute;top:5%; left:21%; width:0.49in;height:0.43in" src="./src/images/ri_1.png" />
+            <img style="position:absolute;top:5%; left:21%; width:0.49in;height:0.43in" src="http://localhost/src/images/ri_1.png" />
 
-            <div style="position:absolute;top:10.7%; left:15%; width:20%; line-height:0.15in;">
-                <span style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Calibri;color:#000000">ΕΛΛΗΝΙΚΗ ΔΗΜΟΚΡΑΤΙΑ</span>
+            <div style="position:absolute; top:10.7%; left:12.5%; width:30%; line-height:0.15in;">
+                <span style="font-style:normal;font-weight:bold;font-size:1em;font-family:'DejaVu Sans Mono';color:#000000">ΕΛΛΗΝΙΚΗ ΔΗΜΟΚΡΑΤΙΑ</span>
                 <br />
             </div>
-             <div style="position:absolute;top:13%; left:18.2%; width:20%;line-height:0.12in;">
+             <div style="position:absolute; top:13%; left:18.2%; width:20%; line-height:0.12in;">
                 <span style="font-style:normal;font-weight:bold;font-size:8pt;font-family:Calibri;color:#000000">ΥΠΟΥΡΓΕΙΟ ΠΑΙΔΕΙΑΣ</span>
                 <br />
             </div>
@@ -153,7 +161,7 @@
                 <span style="font-style:normal;font-weight:bold;font-size:8pt;font-family:Calibri;color:#000000">ΚΑΙ ΘΡΗΣΚΕΥΜΑΤΩΝ</span>
                 <br />
             </div>
-            <div style="position:absolute;top:18%; left:5%; width:45%;line-height:0.16in;">
+            <div style="position:absolute;top:18%; left:5%; width:55%;line-height:0.16in;">
                 <span style="font-style:normal;font-weight:bold;font-size:7pt;font-family:Calibri;color:#000000">ΠΕΡΙΦΕΡΕΙΑΚΗ Δ/ΝΣΗ Α/ΘΜΙΑΣ ΚΑΙ Β/ΘΜΙΑΣ ΕΚΠ/ΣΗΣ ΚΕΝΤΡ. ΜΑΚΕΔΟΝΙΑΣ</span>
                 <br />
             </div>
@@ -161,7 +169,7 @@
                 <span style="font-style:normal;font-weight:bold;font-size:7pt;font-family:Calibri;color:#000000">Δ/ΝΣΗ Β/ΘΜΙΑΣ ΕΚΠ/ΣΗΣ ΑΝΑΤ.ΘΕΣΣΑΛΟΝΙΚΗΣ</span>
                 <br />
             </div>
-            <div style="position:absolute;top:1.82in; left:18%; width:20%;line-height:0.15in;">
+            <div style="position:absolute;top:22%; left:18%; width:20%;line-height:0.15in;">
                 <span style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Calibri;color:#000000">8ο Ε.Κ.ΕΠΑΝΟΜΗΣ </span>
             </div>
 
@@ -171,15 +179,15 @@
                 <br />
             </div>
             <div style="position:absolute;top:1.02in;left: 80%;width:0.12in;line-height:0.15in;">
-                <span id = "protocol_id" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Calibri;color:#000000">83</span>
+                <span id = "pv_protocol_id" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Calibri;color:#000000"></span>
                 <br />
             </div>
-            <div style="position:absolute;top:1.30in;left: 63%;width:0.67in;line-height:0.15in;">
+            <div style="position:absolute;top:1.30in;left: 63%;width:15%;line-height:0.15in;">
                 <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Calibri;color:#000000">Ημερομηνία :</span>
                 <br />
             </div>
             <div style="position:absolute;top:1.30in;left: 80%;width:0.46in;line-height:0.15in;">
-                <span id="protocol_date_1" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Calibri;color:#000000">8/6/2023</span>
+                <span id="pv_protocol_date_1" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Calibri;color:#000000"></span>
                 <br />
             </div>
             <div style="position:absolute;top:29%; left: 34%; width:2.04in;line-height:0.22in;">
@@ -190,14 +198,11 @@
                 <span style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Cambria;color:#000000">ΠΑΡΑΛΑΒΗΣ ΥΛΙΚΩΝ &amp; ΕΡΓΑΣΙΩΝ</span>
                 <br />
             </div>
-
-
-
             <div style="position:absolute;top:37%; left: 5%; width:2.04in;line-height:0.14in;">
                 <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">Σήμερα </span>
             </div>
             <div style="position:absolute;top:37%; left: 14%; width:2.04in;line-height:0.14in;">
-                <span id="protocol_date_2" style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Calibri;color:#000000">Πέμπτη, 8/06/2023</span>
+                <span id="pv_protocol_date_2" style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Calibri;color:#000000"></span>
             </div>
             <div style="position:absolute;top:37%; left: 33%; width:60%;line-height:0.14in;">
                 <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">συνήλθαν στο 8ο Ε.Κ. Επανομής οι επιτροπές αγοράς &amp; παραλαβής υλικών</span>
@@ -206,7 +211,7 @@
                 <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">για τον ΤΟΜΕΑ</span>
             </div>
             <div style="position:absolute;top:39.5%; left: 28%; width:2.04in;line-height:0.14in;">
-                <span id="field_name" style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Calibri;color:#000000">ΥΓΕΙΑΣ-ΠΡΟΝΟΙΑΣ-ΕΥΕΞΙΑΣ</span>            
+                <span id="pv_field_name" style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Calibri;color:#000000"></span>            
             </div>
             <div style="position:absolute;top:39.5%; left: 56%; width:2.04in;line-height:0.14in;">
                 <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">όπως αυτές ορίσθηκαν</span>
@@ -218,7 +223,8 @@
                 <span style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Cambria;color:#000000">1 - 5/10/2021</span>
             </div>
             <div style="position:absolute;top:42%; left: 36%; width:60%;line-height:0.14in;">
-             <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">του Συλ. Διδ/ντων του 8ου Ε.Κ. Επανομής αποτελούμενες από τους:</span>            <br />
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">του Συλ. Διδ/ντων του 8ου Ε.Κ. Επανομής αποτελούμενες από τους:</span>            
+                <br />
             </div>
 
 
@@ -232,21 +238,21 @@
                 <br />
             </div>
             <div style="position:absolute; top:52%; left: 8%;width:22%;line-height:0.21in;">
-                <span id="buyer_1_id" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">ΚΑΡΓΟΠΟΥΛΟΥ Ο.</span>
+                <span id="pv_buyer_1" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000"></span>
             </div>
             <div style="position:absolute;top:4.66in; left: 6%; ;width:0.09in;line-height:0.14in;">
                 <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">2.</span>
                 <br />
             </div>
             <div style="position:absolute; top:55.3%; left: 8%;width:22%;line-height:0.21in;">
-                <span id="buyer_2_id" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">ΚΟΥΤΣΟΓΙΑΝΝΗ Ι. </span>
+                <span id="pv_buyer_2" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000"></span>
             </div>
             <div style="position:absolute;top:4.95in; left: 6%; ;width:0.09in;line-height:0.14in;">
                 <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">3.</span>
                 <br />
             </div>
             <div style="position:absolute;top:58.8%;left: 8%;width:22%;line-height:0.21in;">
-                <span id="buyer_3_id" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">ΠΕΤΡΟΒΙΤΣΟΣ Ε.</span>
+                <span id="pv_buyer_3" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000"></span>
             </div>
 
 
@@ -260,7 +266,7 @@
                 <br />
             </div>
             <div style="position:absolute;top:5.90in;left: 8%;width:30%;line-height:0.14in;">
-                <span id="receiver_1_id" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">ΤΣΟΥΓΚΑ Π.</span>
+                <span id="pv_receiver_1" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000"></span>
                 <br />
             </div>
             <div style="position:absolute;top:5.90in; left: 6%; ;width:0.09in;line-height:0.14in;">
@@ -268,7 +274,7 @@
                 <br />
             </div>
             <div style="position:absolute;top:5.61in;left: 8%;width:30%;line-height:0.14in;">
-                <span id="receiver_2_id" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">ΒΟΪΔΟΜΑΤΗ ΓΛ.</span>
+                <span id="pv_receiver_2" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000"></span>
                 <br />
             </div>
 
@@ -280,7 +286,7 @@
                 <br />
             </div>
             <div style="position:absolute;top:6.47in;left: 63%;width:1.14in;line-height:0.15in;">
-                <span id="lab_id" style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Calibri;color:#000000">ΒΡΕΦΟΝΗΠΙΟΚΟΜΙΑΣ</span>
+                <span id="pv_lab" style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Calibri;color:#000000"></span>
                 <br />
             </div>
             <div style="position:absolute;top:7.00in; left: 6%; ;width:0.09in;line-height:0.14in;">
@@ -288,14 +294,14 @@
                 <br />
             </div>
             <div style="position:absolute; top:83.7%; left:8%; width:30%;line-height:0.14in;">
-                <span id="manager_id" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">ΚΑΡΓΟΠΟΥΛΟΥ Ο.</span>
+                <span id="pv_lab_manager" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000"></span>
                 <br />
             </div>
             <div style="position:absolute;top:7.00in; left:47% ;width:0.59in;line-height:0.14in;">
                 <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">Υπογραφή:</span>
                 <br />
             </div>
-            <div style="position:absolute;top:7.45in; left: 5%; width:55%;line-height:0.14in;">
+            <div style="position:absolute;top:7.45in; left: 5%; width:60%;line-height:0.14in;">
                 <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">τα υλικά/εργασίες που αναφέρονται στα παρακάτω παραστατικά:</span>
                 <br />
             </div>
@@ -305,14 +311,6 @@
 
             <div style="position:absolute;top:7.83in; left:4.6%; width:10%;line-height:0.12in;">
                 <span style="font-style:normal;font-weight:bold;font-size:9pt;font-family:Cambria;color:#000000">Α/Α</span>
-                <br />
-            </div>
-            <div style="position:absolute;top:8.13in; left:13%; width:0.16in;line-height:0.13in;">
-                <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Calibri;color:#000000">215</span>
-                <br />
-            </div>
-            <div style="position:absolute;top:7.83in; left:11%; width:0.46in;line-height:0.12in;">
-                <span style="font-style:normal;font-weight:bold;font-size:9pt;font-family:Cambria;color:#000000">ΑΡΙΘΜΟΣ</span>
                 <br />
             </div>
             <div style="position:absolute;top:8.13in;left: 6%;width:0.06in;line-height:0.12in;">
@@ -339,16 +337,28 @@
                 <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">6</span>
                 <br />
             </div>
+            <div style="position:absolute;top:7.83in; left:11%; width:0.46in;line-height:0.12in;">
+                <span style="font-style:normal;font-weight:bold;font-size:9pt;font-family:Cambria;color:#000000">ΑΡΙΘΜΟΣ</span>
+                <br />
+            </div>
+            <div style="position:absolute;top:8.13in; left:13%; width:0.16in;line-height:0.13in;">
+                <span id = "pv_invoice_id" style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Calibri;color:#000000"></span>
+                <br />
+            </div>
             <div style="position:absolute;top:7.83in; left:27%; width:10%;line-height:0.12in;">
                 <span style="font-style:normal;font-weight:bold;font-size:9pt;font-family:Cambria;color:#000000">ΗΜ/ΝΙΑ</span>
                 <br />
             </div>
             <div style="position:absolute;top:8.12in; left:26.4%; width:0.45in;line-height:0.13in;">
-                <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Calibri;color:#000000">31/5/2023</span>
+                <span id = "pv_invoice_date" style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Calibri;color:#000000"></span>
                 <br />
             </div>
             <div style="position:absolute;top:7.83in; left:40%; width:0.28in;line-height:0.12in;">
                 <span style="font-style:normal;font-weight:bold;font-size:9pt;font-family:Cambria;color:#000000">ΠΟΣΟ</span>
+                <br />
+            </div>
+            <div style="position:absolute;top:8.12in; left:40%; width:0.28in;line-height:0.12in;">
+                <span id = "pv_invoice_amount" style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000"></span>
                 <br />
             </div>
             <div style="position:absolute;top:7.83in; left:62%; width:30%;line-height:0.12in;">
@@ -356,7 +366,7 @@
                 <br />
             </div>
             <div style="position:absolute;top:8.12in; left:62%; width:20%;line-height:0.13in;">
-                <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Calibri;color:#000000">Δ.ΓΕΡΓΟΥ-Χ.ΣΤΡΑΒΑ Ο.Ε.</span>
+                <span id = "pv_supplier" style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Calibri;color:#000000"></span>
                 <br />
             </div>
             <div style="position:absolute;top:9.19in;left: 63%;width:0.84in;line-height:0.16in;">
@@ -372,14 +382,12 @@
                 <br />
             </div>
 
+            <img style="position:absolute;top:5.51in; left: 5%; width:1.36in;height:0.01in" src="http://localhost/src/images/vi_1.png" />
+            <img style="position:absolute;top:4.29in; left: 5%; width:1.10in;height:0.01in" src="http://localhost/src/images/vi_2.png" />
+            <img style="position:absolute;top:0.89in; left:4%; width:6.32in;height:8.31in" src="http://localhost/src/images/vi_3.png" />
+            <img style="position:absolute;top:0.89in; left:4%; width:6.33in;height:8.31in" src="http://localhost/src/images/vi_4.png" />
+            <img style="position:absolute;top:7.71in; left:4%; width:6.32in;height:1.48in" src="http://localhost/src/images/vi_5.png" />
 
-
-            <img style="position:absolute;top:5.51in; left: 5%; width:1.36in;height:0.01in" src="./src/images/vi_1.png" />
-            <img style="position:absolute;top:4.29in; left: 5%; width:1.10in;height:0.01in" src="./src/images/vi_2.png" />
-            <img style="position:absolute;top:0.89in; left:4%; width:6.32in;height:8.31in" src="./src/images/vi_3.png" />
-            <img style="position:absolute;top:0.89in; left:4%; width:6.33in;height:8.31in" src="./src/images/vi_4.png" />
-            <img style="position:absolute;top:7.71in; left:4%; width:6.32in;height:1.48in" src="./src/images/vi_5.png" />
-            
         </div>
     </body>
 </html>

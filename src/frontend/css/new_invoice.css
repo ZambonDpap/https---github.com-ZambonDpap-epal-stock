@@ -7,26 +7,138 @@
     color: #333333;
   }
 
+  label{
+    margin-right: 6px;
+  }
   #invoice_form {
+    position: absolute;
     width: 50%;
     height: 94%;
-    margin: 0 auto;
-    position: absolute;
-    top: 50px;
-    left: 0;
-    padding-left: 15px;
+    top: 6%;
     border-right: 1px solid #cccccc;
   }
-
-  .form-group {
-    height: 5%;
-    display: flex;
-    align-items: center;
+  #invoice-select{
+    height: 35px;
   }
 
-  label {
-    width: 200px;
-    margin-right: 10px;
+  #academic-year-form-group {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 2%;
+  }
+
+  #invoice-form-group{
+    position: absolute;
+    align-items: center;
+    left: 2%;
+    top: 7%;
+  }
+  #invoice-no-date-form-group{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 2%;
+    top: 13.5%;
+    width: 90%;
+    /* border: 1px solid black; */
+  }
+  #invoice-date-form-group{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 35%;
+  }
+  #supplier-form-group{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 2%;
+    top: 20%;
+  }
+  #new_supplier{
+    position: absolute;
+    top: 20%;
+    left: 80%;
+    border: none;
+    background-color: white;
+  }
+  #protocol-no-date-form-group{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 2%;
+    top: 26.8%;
+    width: 90%;
+    /* border: 1px solid black; */
+  }
+  #protocol-date-form-group{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 38%;
+  }
+  #fields-form-group{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 2%;
+    top: 33.5%;
+    width: 90%;
+    /* border: 1px solid black; */
+    text-align: center;
+  }
+  #labs-form-group{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 2%;
+    top: 40.6%;
+    width: 90%;
+    /* border: 1px solid black; */
+    text-align: center;
+  }
+  #payment-methods-form-group{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 2%;
+    top: 48%;
+    width: 90%;
+    /* border: 1px solid black; */
+    text-align: center;
+  }
+  #costs-form-group {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 2%;
+    top: 55%;
+    width: 90%;
+    /* border: 1px solid black; */
+    text-align: center;
+  }
+
+  #field-cost-form-group {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 23%;
+  }
+
+  #field-cost-label{
+    width: 100px;
+  }
+
+  #materials-form-group {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 2%;
+    top: 62%;
+    width: 90%;
+    /* border: 1px solid black; */
+    text-align: center;
   }
 
   input {
@@ -36,6 +148,7 @@
     border: 1px solid #bbbbbb;
     font-size: 16px;
     border-radius: 4px;
+    text-align: center;
   }
 
   #protocol_viewer{
@@ -44,6 +157,8 @@
     position: absolute;
     left: 51%;
     top: 4%;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
   #pdf_viewer{
     width: 50%;
@@ -58,18 +173,10 @@
     height: 100%;
   }
 
-  #new_supplier{
-    position: absolute;
-    top: 30%;
-    left: 92%;
-    border: none;
-    background-color: white;
-  }
-
   #new_material{
     position: absolute;
-    top: 60%;
-    left: 92%;
+    top: 61.5%;
+    left: 72%;
     border: none;
     background-color: white;
   }
@@ -82,7 +189,7 @@
     position: absolute;
     overflow-y: auto;
     left: 15px;
-    top: 66%;
+    top: 68%;
   }
 
   #new_added_material_name_label, #new_added_supplier_name_label{
@@ -176,5 +283,19 @@
     font-weight: bold;
     cursor: pointer;
     position: relative;
-    top: 25%;
+    top: 91.5%;
+    left: 2%
+  }
+
+  #save{
+    width: 120px;
+    height: 40px;
+    margin-top: 20px;
+    background-color: #35b582;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative;
+    top: 91.5%;
+    left: 2%  
   }

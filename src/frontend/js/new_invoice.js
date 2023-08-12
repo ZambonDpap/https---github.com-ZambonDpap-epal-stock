@@ -9,8 +9,8 @@ $(document).ready(function() {
     //each time a new invoice is selected trigger pdf viewer to preview the file
     invoicePDFSelected();
 
-    //get the payment methods and fill the dropdown
-    addPaymentMethodsToDropdown();
+    //get the suppliers from the db and fill the dropdown
+    addSuppliersToDropdown();
 
     //get the fields from the db and fill the dropdown
     addFieldsToDropdown();
@@ -18,14 +18,14 @@ $(document).ready(function() {
     //each time a new field is selected get the related labs and update the labs dropdown list
     addFieldLabsToDropdown();
 
+    //get the payment methods and fill the dropdown
+    addPaymentMethodsToDropdown();
+
     //each time a new lab is selected get the related materials and update the materials source array
     addLabsMaterialsToAutocompleteInput();  
 
     //get the material types from the db and fill the dropdown
     addMaterialTypesToDropdown()
-
-    //get the suppliers from the db and fill the dropdown
-    addSuppliersToDropdown();
 
     //setup grid for bought materials
     setupBoughtMaterialsGrid()
@@ -64,49 +64,45 @@ $(document).ready(function() {
         var rowid = $("#materials_added").jqxGrid ("getrowid", selectedrowindex); 
         var commit = $("#materials_added").jqxGrid('deleterow', rowid)
     })
-
-    //when the button "συνεχεια" ia pressed. set pdf viewer to inactive and activate the protocol viewer
-    $("#continue").on('click', ()=>{
-        console.log("test")
-        $("#pdf_viewer").hide();
-        $("#protocol_viewer").show();
-    })
-
-
 });
 
 function disableElements(){
     $("#pdf_viewer").show();
     $("#protocol_viewer").hide();
-    $("#new_added_material_type").jqxDropDownList({itemHeight: 40, height: 35, width: 200, popupZIndex: 999999, disabled: false});
-    $("#invoice_no").prop("disabled",true);
-    $("#invoice_date").prop("disabled",true);
-    $("#protocol_no").prop("disabled",true);
-    $("#protocol_date").prop("disabled",true);
+    $("#save").hide();
+    $("#invoice_no").jqxNumberInput({ width: '50px', height: '35px', theme: 'energyblue', spinButtons: false, symbol: '', min: 1, inputMode: 'simple', decimalDigits: 0, disabled: true});
+    $("#invoice_date").jqxDateTimeInput({ width: '110px', height: '35px', disabled: true });
+    $("#protocol_no").jqxNumberInput({ width: '50px', height: '35px', theme: 'energyblue', spinButtons: false, symbol: '', min: 1, inputMode: 'simple', decimalDigits: 0, disabled: true});
+    $("#protocol_date").jqxDateTimeInput({ width: '110px', height: '35px', disabled: true });
+    $("#suppliers").jqxDropDownList({itemHeight: 40, height: 35, width: 445, disabled: true});
+    $("#new_supplier").hide();
     $("#fields").jqxDropDownList({itemHeight: 40, height: 35, width: 445, disabled: true});
     $("#labs").jqxDropDownList({itemHeight: 40, height: 35, width: 445, disabled: true});
-    $("#suppliers").jqxDropDownList({itemHeight: 40, height: 35, width: 445, disabled: true});
-    $("#materials").jqxInput({placeHolder: "Επιλογή Υλικών", height: 35, width: 445, minLength: 1, items: 11, disabled: true });
-    $("#payment_methods").jqxDropDownList({itemHeight: 40, height: 35, width: 445, disabled: true});
-    $("#cost").prop("disabled",true);
-    $("#field_cost").prop("disabled",true);
+    $("#payment_methods").jqxDropDownList({itemHeight: 40, height: 35, width: 170, disabled: true});
+    $("#cost").jqxNumberInput({ width: '75px', height: '35px', theme: 'energyblue', spinButtons: false, symbol: '€ ', min: 0.01, inputMode: 'simple', disabled: true});
+    $("#field_cost").jqxNumberInput({ width: '75px', height: '35px', theme: 'energyblue', spinButtons: false, symbol: '€ ', min: 0.01, inputMode: 'simple', disabled: true});
+    $("#materials").jqxInput({placeHolder: "Επιλογή Υλικών", height: 35, width: 445, minLength: 1, items: 9, disabled: true });
+    $("#new_added_material_type").jqxDropDownList({itemHeight: 40, height: 35, width: 200, popupZIndex: 999999, disabled: false});
+    $("#new_material").hide();
 }
 
 function enableElements(){
-    $("#invoice_no").prop("disabled",false);
-    $("#invoice_date").prop("disabled",false);
-    $("#protocol_no").prop("disabled",false);
-    $("#protocol_date").prop("disabled",false);
-    $("#fields").jqxDropDownList({disabled: false});
+    $("#invoice_no").jqxNumberInput({disabled: false})
+    $("#invoice_date").jqxDateTimeInput({ disabled: false });
+    $("#protocol_no").jqxNumberInput({disabled: false})
+    $("#protocol_date").jqxDateTimeInput({ disabled: false });
     $("#suppliers").jqxDropDownList({disabled: false});
+    $("#new_supplier").show();
+    $("#fields").jqxDropDownList({disabled: false});
     $("#payment_methods").jqxDropDownList({disabled: false});
-    $("#cost").prop("disabled",false);
-    $("#field_cost").prop("disabled",false);
+    $("#cost").jqxNumberInput({disabled: false})
+    $("#field_cost").jqxNumberInput({disabled: false})
+    $("#new_material").show();
 }
 
 function addAcademicYearsToDropdown(){
     var source = [ "2023-2024"];
-    $('#academic_year').jqxDropDownList({ source: source, selectedIndex: 0});
+    $('#academic_year').jqxDropDownList({ width: "100px", height: "35px", source: source, selectedIndex: 0});
 }
 
 function invoicePDFSelected(){
@@ -216,8 +212,6 @@ function addLabsMaterialsToAutocompleteInput(){
                 data: {functionname: 'get_materials', arguments: [lab.value]},
             
                 success: function (obj, textstatus) {
-                    // console.log(obj)
-
                     let obj_length = Object.entries(obj).length;
 
                     for (i=0; i<obj_length; i++){
@@ -277,7 +271,7 @@ function addMaterialTypesToDropdown(){
 
 function addPaymentMethodsToDropdown(){
     var source = [ "ΚΑΡΤΑ ONLINE", "ΚΑΡΤΑ ΦΥΣΙΚΗ", "ΤΡΑΠΕΖΙΚΗ ΚΑΤΑΘΕΣΗ", "ΜΕΤΡΗΤΑ"];
-    $('#payment_methods').jqxDropDownList({ source: source, placeHolder: "Τρόπος Πληρωμής"});
+    $('#payment_methods').jqxDropDownList({ source: source});
 }
 
 function addNewSupplier(supplier_name){
@@ -288,7 +282,6 @@ function addNewSupplier(supplier_name){
         data: {functionname: 'add_new_supplier', arguments: [supplier_name]},
         
          success: function (obj, textstatus) {
-            console.log(obj)
             if( obj === true ) {
                 $("#notification_success").html("Ο νέος προμηθευτής καταχωρήθηκε με επιτυχία. Επιλέξτε από την λίστα.")
                 $("#notification_success").jqxNotification("open");
@@ -318,10 +311,7 @@ function addNewMaterial(name, type, amount){
         data: {functionname: 'add_new_material', arguments: [name, type]},
         
          success: function (obj, textstatus) {
-            console.log(obj)
             let res = obj.split("|-|");
-            console.log(res[0])
-            console.log(res[1])
             if( res[0] == 1 ) {
                 $("#notification_success").html("Tο νέο υλικό καταχωρήθηκε με επιτυχία.")
                 $("#notification_success").jqxNotification("open");

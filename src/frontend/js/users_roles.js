@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $("#users_table").on('rowselect', function (event) {
-        console.log(event)
         var user_id = event.args.row.id;
 
         jQuery.ajax({

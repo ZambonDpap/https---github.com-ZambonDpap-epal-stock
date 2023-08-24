@@ -290,7 +290,7 @@ function getMaxProtocolId() {
 
 function addFieldsToDropdown() {
   jQuery.ajax({
-    type: "POST",
+    type: "GET",
     url: "/src/backend/rest_api.php",
     dataType: "json",
     data: { functionname: "get_fields", arguments: [] },
@@ -324,7 +324,7 @@ function addFieldLabsToDropdown() {
     var field = $("#fields").jqxDropDownList("getSelectedItem");
 
     jQuery.ajax({
-      type: "POST",
+      type: "GET",
       url: "/src/backend/rest_api.php",
       dataType: "json",
       data: { functionname: "get_labs", arguments: [field.value] },
@@ -360,10 +360,10 @@ function addLabsMaterialsToAutocompleteInput() {
     var lab = $("#labs").jqxDropDownList("getSelectedItem");
     if (lab !== null) {
       jQuery.ajax({
-        type: "POST",
+        type: "GET",
         url: "/src/backend/rest_api.php",
         dataType: "json",
-        data: { functionname: "get_materials", arguments: [lab.value] },
+        data: { functionname: "get_materials", arguments: [lab.value, ""] },
 
         success: function (obj, textstatus) {
           let obj_length = Object.entries(obj).length;

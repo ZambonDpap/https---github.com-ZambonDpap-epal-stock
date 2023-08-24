@@ -26,6 +26,8 @@
         <link rel="stylesheet" type="text/css" href="./src/frontend/css/new_invoice.css">
         <link rel="stylesheet" type="text/css" href="./src/frontend/css/protocol.css" />
         <link rel="stylesheet" type="text/css" href="./src/frontend/css/invoices.css" />
+        <link rel="stylesheet" type="text/css" href="./src/frontend/css/fields_labs_supplies.css" />
+    
 
 
         <!-- Add jqwidgets js files-->
@@ -364,7 +366,9 @@
         <!-- FILEDS LABS MATERIAL STOCK TABLE -->
         <div id="fields_table"></div>
         <div id="labs_table"></div>
-        <div id="material_table"></div>
+        <div id="consumables_materials_table"></div>
+        <div id="short_term_materials_table"></div>
+        <div id="long_term_materials_table"></div>
         <div id="stock_table"></div>
 
         <!-- PURCHACE PROPOSAL TABLE -->

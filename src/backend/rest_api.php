@@ -16,12 +16,6 @@ $result = array();
 if( !isset($_GET['functionname'])){
     if( $_POST['functionname'] == "validate_user"){
         $result = validate_user($conn, $result);
-    } else if ($_POST['functionname'] == "get_fields"){
-        $result = get_fields($conn, $result);
-    } else if ($_POST['functionname'] == "get_labs"){
-        $result = get_labs($conn, $result);
-    } else if ($_POST['functionname'] == "get_materials"){
-        $result = get_materials($conn, $result);
     } else if ($_POST['functionname'] == "get_academic_year_max_protocol_id"){
         $result = get_academic_year_max_protocol_id($conn, $result);
     } else if ($_POST['functionname'] == "add_new_supplier"){
@@ -48,6 +42,12 @@ if( !isset($_GET['functionname'])){
         $result = get_users($conn, $result);
     } else if ($_GET['functionname'] == "get_user_roles"){
         $result = get_user_roles($conn, $result);
+    } else if ($_GET['functionname'] == "get_fields"){
+        $result = get_fields($conn, $result);
+    } else if ($_GET['functionname'] == "get_labs"){
+        $result = get_labs($conn, $result);
+    } else if ($_GET['functionname'] == "get_materials"){
+        $result = get_materials($conn, $result);
     } else {
         $result['error'] = 'No function name!'; 
     }
@@ -94,12 +94,12 @@ function get_fields($conn, $result){
     return $fields;
 }
 function get_labs($conn, $result){
-    if( !isset($_POST['arguments']) ) 
+    if( !isset($_GET['arguments']) ) 
     { 
         $result['error'] = 'No arguments'; 
     } else
     {
-        $arguments = $_POST['arguments'];
+        $arguments = $_GET['arguments'];
         $field_id = $arguments[0];
     }
 
@@ -119,21 +119,40 @@ function get_suppliers($conn, $result){
     return $suppliers;
 }
 function get_materials($conn, $result){
-    if( !isset($_POST['arguments']) ) 
+    if( !isset($_GET['arguments']) ) 
     { 
         $result['error'] = 'No arguments'; 
     } else
     {
-        $arguments = $_POST['arguments'];
+        $arguments = $_GET['arguments'];
         $lab_id = $arguments[0];
+        $type = $arguments[1];
+    }
+
+    $arr = array();
+    $sql = "";
+    if($type == ""){
+        $sql = "SELECT id, name, type FROM materials WHERE lab_id = $lab_id";
+        $res = mysqli_query($conn,$sql);
+        $arr = mysqli_fetch_all($res,MYSQLI_ASSOC);
+    } else if($type == "SPLIT"){
+        $sql = "SELECT id, name, type FROM materials WHERE lab_id = $lab_id AND type='ΑΝΑΛΩΣΗΜΑ'";
+        $res = mysqli_query($conn,$sql);
+        $result = mysqli_fetch_all($res,MYSQLI_ASSOC);
+        $arr["ΑΝΑΛΩΣΗΜΑ"] = $result;
+
+        $sql = "SELECT id, name, type FROM materials WHERE lab_id = $lab_id AND type='ΒΡΑΧΕΙΑΣ'";
+        $res = mysqli_query($conn,$sql);
+        $result = mysqli_fetch_all($res,MYSQLI_ASSOC);
+        $arr["ΒΡΑΧΕΙΑΣ"] = $result;
+
+        $sql = "SELECT id, name, type FROM materials WHERE lab_id = $lab_id AND type='ΜΑΚΡΑΣ'";
+        $res = mysqli_query($conn,$sql);
+        $result = mysqli_fetch_all($res,MYSQLI_ASSOC);
+        $arr["ΜΑΚΡΑΣ"] = $result;
     }
     
-    $sql = "SELECT id, name, type FROM materials WHERE lab_id = $lab_id";
-    
-    $res = mysqli_query($conn,$sql);
-    $result = mysqli_fetch_all($res,MYSQLI_ASSOC);
-    
-    return $result;
+    return $arr;
 }
 function get_academic_year_max_protocol_id($conn, $result){
     if( !isset($_POST['arguments']) ) 

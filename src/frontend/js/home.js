@@ -10,7 +10,9 @@ $(document).ready(function() {
     $("#suppliers_table").hide();
     $("#fields_table").hide();
     $("#labs_table").hide();
-    $("#material_table").hide();
+    $("#consumables_materials_table").hide();
+    $("#long_term_materials_table").hide();
+    $("#short_term_materials_table").hide();
     $("#stock_table").hide();
     $("#proposal").hide();
     
@@ -25,7 +27,9 @@ $(document).ready(function() {
         $("#suppliers_table").hide();
         $("#fields_table").hide();
         $("#labs_table").hide();
-        $("#material_table").hide();
+        $("#consumables_materials_table").hide();
+        $("#long_term_materials_table").hide();
+        $("#short_term_materials_table").hide();
         $("#stock_table").hide();
         $("#proposal").hide();
         changeButtonColor("#home_btn");
@@ -42,7 +46,9 @@ $(document).ready(function() {
         $("#suppliers_table").hide();
         $("#fields_table").hide();
         $("#labs_table").hide();
-        $("#material_table").hide();
+        $("#consumables_materials_table").hide();
+        $("#long_term_materials_table").hide();
+        $("#short_term_materials_table").hide();
         $("#stock_table").hide();
         $("#proposal").hide();
         changeButtonColor("#new_invoice_btn");
@@ -60,7 +66,9 @@ $(document).ready(function() {
         $("#suppliers_table").hide();
         $("#fields_table").hide();
         $("#labs_table").hide();
-        $("#material_table").hide();
+        $("#consumables_materials_table").hide();
+        $("#long_term_materials_table").hide();
+        $("#short_term_materials_table").hide();
         $("#stock_table").hide();
         $("#proposal").hide();
         buildInvoiceTable();
@@ -77,21 +85,14 @@ $(document).ready(function() {
         $("#suppliers_table").hide();
         $("#fields_table").hide();
         $("#labs_table").hide();
-        $("#material_table").hide();
+        $("#consumables_materials_table").hide();
+        $("#long_term_materials_table").hide();
+        $("#short_term_materials_table").hide();
         $("#stock_table").hide();
         $("#proposal").hide();
         buildUsersTable();
         changeButtonColor("#users_list_btn");
     })
-    // $("#roles_btn").on('click', ()=>{
-    //     $("#invoice_form").hide();
-    //     $("#pdf_viewer").hide();
-    //     $("#protocol_viewer").hide();
-    //     $("#invoices_table").hide();
-    //     $("#invoices_supplies_table").hide();
-
-    //     changeButtonColor("#roles_btn");
-    // })
     $("#fields_labs_list_btn").on('click', ()=>{
         $("#invoice_form").hide();
         $("#pdf_viewer").hide();
@@ -103,7 +104,9 @@ $(document).ready(function() {
         $("#suppliers_table").hide();
         $("#fields_table").show();
         $("#labs_table").show();
-        $("#material_table").show();
+        $("#consumables_materials_table").show();
+        $("#long_term_materials_table").show();
+        $("#short_term_materials_table").show();
         $("#stock_table").show();
         $("#proposal").hide();
         buildFieldsLabsMaterialTable();
@@ -120,20 +123,14 @@ $(document).ready(function() {
         $("#suppliers_table").show();
         $("#fields_table").hide();
         $("#labs_table").hide();
-        $("#material_table").hide();
+        $("#consumables_materials_table").hide();
+        $("#long_term_materials_table").hide();
+        $("#short_term_materials_table").hide();
         $("#stock_table").hide();
         $("#proposal").hide();
         buildSupplierTable();
         changeButtonColor("#suppliers_list_btn");
     })
-    // $("#supplies_list_btn").on('click', ()=>{
-    //     $("#invoice_form").hide();
-    //     $("#pdf_viewer").hide();
-    //     $("#protocol_viewer").hide();
-    //     $("#invoices_table").hide();
-    //     $("#invoices_supplies_table").hide();
-    //     changeButtonColor("#supplies_list_btn");
-    // })
     $("#proposal_btn").on('click', ()=>{
         $("#invoice_form").hide();
         $("#pdf_viewer").hide();
@@ -145,7 +142,9 @@ $(document).ready(function() {
         $("#suppliers_table").hide();
         $("#fields_table").hide();
         $("#labs_table").hide();
-        $("#material_table").hide();
+        $("#consumables_materials_table").hide();
+        $("#long_term_materials_table").hide();
+        $("#short_term_materials_table").hide();
         $("#stock_table").hide();
         $("#proposal").show();
         buildProposalTable();

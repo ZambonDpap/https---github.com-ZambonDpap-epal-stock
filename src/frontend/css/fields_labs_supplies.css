@@ -1,0 +1,29 @@
+#fields_table{
+    position: absolute;
+    top: 4%;
+    left:0%;
+}
+
+#labs_table{
+    position: absolute;
+    top: 4%;
+    left:28%;
+}
+
+#consumables_materials_table{
+    position: absolute;
+    top: 55%;
+    left:0%;
+}
+
+#short_term_materials_table{
+    position: absolute;
+    top: 55%;
+    left:28%;
+}
+
+#long_term_materials_table{
+    position: absolute;
+    top: 55%;
+    left:57%;
+}

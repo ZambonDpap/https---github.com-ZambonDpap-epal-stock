@@ -1,0 +1,17 @@
+#invoices_table{
+    position: absolute;
+    top: 4%;
+    left:0%;
+}
+
+#invoices_supplies_table{
+    position: absolute;
+    top: 60%;
+    left:0%;
+}
+
+#suppliers_table{
+    position: absolute;
+    top: 4%;
+    left:0%;
+}

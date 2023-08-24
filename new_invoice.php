@@ -1,28 +1,28 @@
-<?php
-   include('./src/backend/session.php');
-?>
-<html>
+ <?php
+//    include('./src/backend/session.php');
+ ?>
+<!-- <html> -->
    
-    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <!-- <meta http-equiv="content-type" content="text/html;charset=utf-8" /> -->
 
-    <head>
-        <title>Νέο Τιμολόγιο</title>
+    <!-- <head> -->
+        <!-- <title>Νέο Τιμολόγιο</title> -->
         <!-- Load jquery 3.7.0 from the CDN -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+        <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script> -->
 
         <!-- Add external js files-->
-        <script src="/src/frontend/js/new_invoice.js"></script>
+        <!-- <script src="/src/frontend/js/new_invoice.js"></script>
         <script src="/src/frontend/js/protocol.js"></script>
-        <script src="/src/frontend/js/home.js"></script>
+        <script src="/src/frontend/js/home.js"></script> -->
 
 
         <!-- Add css files-->
-        <link rel="stylesheet" type="text/css" href="./src/frontend/css/home.css">
+        <!-- <link rel="stylesheet" type="text/css" href="./src/frontend/css/home.css">
         <link rel="stylesheet" type="text/css" href="./src/frontend/css/new_invoice.css">
-        <link rel="stylesheet" type="text/css" href="./src/frontend/css/protocol.css" />
+        <link rel="stylesheet" type="text/css" href="./src/frontend/css/protocol.css" /> -->
 
         <!-- Add jqwidgets js files-->
-        <link rel="stylesheet" href="./libs/jqwidgets_16.0.0/styles/jqx.base.css" type="text/css" />
+        <!-- <link rel="stylesheet" href="./libs/jqwidgets_16.0.0/styles/jqx.base.css" type="text/css" />
 
         <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxcore.js"></script>
         <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxdata.js"></script>
@@ -57,14 +57,16 @@
                 <div class="box-left" id="proposal">Πρόταση Αργοράς</div>
             </div>
             <div id="top_right_menu">
-            <div class="box-right" id="username">Ελευθερουδάκης Αλέξανδρος</div>
-            <div class="box-right" id="logout">Sing out</div>
-            <div id="notification_success"></div>
-            <div id="notification_warning"></div>
-            <div id="notification_info"></div>
+                <div class="box-right" id="username">Ελευθερουδάκης Αλέξανδρος</div>
+                <div class="box-right" id="logout">Sing out</div>
+                <div id="notification_success"></div>
+                <div id="notification_warning"></div>
+                <div id="notification_info"></div>
             </div>
-        </div>
-        <div id="invoice_form">
+        </div> -->
+
+        <!-- INVOICE FORM -->
+        <!-- <div id="invoice_form">
             <div id="academic-year-form-group">
                 <label id="academic-year-label" for="academic_year">Ακαδημαϊκό Έτος</label>
                 <div id="academic_year"></div>
@@ -137,257 +139,200 @@
             <input id="continue" type="submit" value="Συνέχεια">
             <input id="save" type="submit" value="Αποθήκευση">
 
-        </div>
+        </div> -->
 
         <!-- PDF VIEWER -->
-        <div id="pdf_viewer">
+        <!-- <div id="pdf_viewer">
             <embed src="" type="application/pdf" id="pdf_file">
-        </div>
+        </div> -->
 
         <!-- PROTOCOL VIEWER -->
-        <div id="protocol_viewer">
+        <!-- <div id="protocol_viewer">
 
-            <img style="position:absolute;top:5%; left:21%; width:0.49in;height:0.43in" src="http://localhost/src/images/ri_1.png" />
+            <img style="position:absolute;top:3%; left:25%; width:8%; height:6%" src="http://localhost/src/images/ri_1.png" />
 
-            <div style="position:absolute; top:10.7%; left:12.5%; width:30%; line-height:0.15in;">
-                <span style="font-style:normal;font-weight:bold;font-size:1em;font-family:'DejaVu Sans Mono';color:#000000">ΕΛΛΗΝΙΚΗ ΔΗΜΟΚΡΑΤΙΑ</span>
+            <div style="position:absolute; top:8.7%; left:15%; width:40%; line-height:0.15in;">
+                <span style="font-style:normal;font-weight:bold;font-size:1em;">ΕΛΛΗΝΙΚΗ ΔΗΜΟΚΡΑΤΙΑ</span>
                 <br />
             </div>
-             <div style="position:absolute; top:13%; left:18.2%; width:20%; line-height:0.12in;">
-                <span style="font-style:normal;font-weight:bold;font-size:8pt;font-family:Calibri;color:#000000">ΥΠΟΥΡΓΕΙΟ ΠΑΙΔΕΙΑΣ</span>
+             <div style="position:absolute; top:11%; left:21.3%; width:20%; line-height:0.12in;">
+                <span style="font-style:normal;font-weight:bold;font-size:8pt;">ΥΠΟΥΡΓΕΙΟ ΠΑΙΔΕΙΑΣ</span>
                 <br />
             </div>
-            <div style="position:absolute;top:15%; left:18.2%; width:20%;line-height:0.12in;">
-                <span style="font-style:normal;font-weight:bold;font-size:8pt;font-family:Calibri;color:#000000">ΚΑΙ ΘΡΗΣΚΕΥΜΑΤΩΝ</span>
+            <div style="position:absolute;top:13%; left:21.5%; width:20%;line-height:0.12in;">
+                <span style="font-style:normal;font-weight:bold;font-size:8pt;">ΚΑΙ ΘΡΗΣΚΕΥΜΑΤΩΝ</span>
                 <br />
             </div>
-            <div style="position:absolute;top:18%; left:5%; width:55%;line-height:0.16in;">
-                <span style="font-style:normal;font-weight:bold;font-size:7pt;font-family:Calibri;color:#000000">ΠΕΡΙΦΕΡΕΙΑΚΗ Δ/ΝΣΗ Α/ΘΜΙΑΣ ΚΑΙ Β/ΘΜΙΑΣ ΕΚΠ/ΣΗΣ ΚΕΝΤΡ. ΜΑΚΕΔΟΝΙΑΣ</span>
+            <div style="position:absolute;top:16%; left:5%; width:70%;line-height:0.16in;">
+                <span style="font-style:normal;font-weight:bold;font-size:7pt;">ΠΕΡΙΦΕΡΕΙΑΚΗ Δ/ΝΣΗ Α/ΘΜΙΑΣ ΚΑΙ Β/ΘΜΙΑΣ ΕΚΠ/ΣΗΣ ΚΕΝΤΡ. ΜΑΚΕΔΟΝΙΑΣ</span>
                 <br />
             </div>
-            <div style="position:absolute;top:20%; left:12%; width:45%;line-height:0.16in;">
-                <span style="font-style:normal;font-weight:bold;font-size:7pt;font-family:Calibri;color:#000000">Δ/ΝΣΗ Β/ΘΜΙΑΣ ΕΚΠ/ΣΗΣ ΑΝΑΤ.ΘΕΣΣΑΛΟΝΙΚΗΣ</span>
+            <div style="position:absolute;top:18%; left:14%; width:45%;line-height:0.16in;">
+                <span style="font-style:normal;font-weight:bold;font-size:7pt;">Δ/ΝΣΗ Β/ΘΜΙΑΣ ΕΚΠ/ΣΗΣ ΑΝΑΤ.ΘΕΣΣΑΛΟΝΙΚΗΣ</span>
                 <br />
             </div>
-            <div style="position:absolute;top:22%; left:18%; width:20%;line-height:0.15in;">
-                <span style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Calibri;color:#000000">8ο Ε.Κ.ΕΠΑΝΟΜΗΣ </span>
+            <div style="position:absolute;top:20%; left:21%; width:20%;line-height:0.15in;">
+                <span style="font-style:normal;font-weight:bold;font-size:10pt;">8ο Ε.Κ.ΕΠΑΝΟΜΗΣ </span>
             </div>
 
 
-            <div style="position:absolute;top:1.02in;left: 63%;width:15%;line-height:0.15in;">
-                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Calibri;color:#000000">Αρ. Πρωτ. :</span>
+            <table style="position:absolute; top:4%; left:60%; width: 30%; border: 1px solid black;" >
+                <tr style="line-height:180%; border: 1px solid black;">
+                    <td style="font-style:normal;font-weight:normal;font-size:9pt;">Αρ. Πρωτ. :</td>
+                    <td id = "pv_protocol_id" style="text-align: center;font-style:normal;font-weight:normal;font-size:9pt;"></td>
+                </tr>
+                <tr>
+                  <td style="font-style:normal;font-weight:normal;font-size:9pt;">Ημερομηνία:</td>
+                  <td id="pv_protocol_date_1" style="text-align: center;font-style:normal;font-weight:normal;font-size:9pt;"></td>
+
+                </tr>
+            </table>
+
+            <div style="position:absolute;top:26%; left: 34%; width:2.04in;line-height:0.22in;">
+                <span style="font-style:normal;font-weight:bold;font-size:14pt;;letter-spacing:10px">ΠΡΩΤΟΚΟΛΛΟ </span>
                 <br />
             </div>
-            <div style="position:absolute;top:1.02in;left: 80%;width:0.12in;line-height:0.15in;">
-                <span id = "pv_protocol_id" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Calibri;color:#000000"></span>
+            <div style="position:absolute;top:28.5%; left: 35%; width:40%;line-height:0.19in;">
+                <span style="font-style:normal;font-weight:bold;font-size:9.5pt;">ΠΑΡΑΛΑΒΗΣ ΥΛΙΚΩΝ &amp; ΕΡΓΑΣΙΩΝ</span>
                 <br />
             </div>
-            <div style="position:absolute;top:1.30in;left: 63%;width:15%;line-height:0.15in;">
-                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Calibri;color:#000000">Ημερομηνία :</span>
-                <br />
+            <div style="position:absolute;top:34%; left: 5%; width:2.04in;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;">Σήμερα </span>
             </div>
-            <div style="position:absolute;top:1.30in;left: 80%;width:0.46in;line-height:0.15in;">
-                <span id="pv_protocol_date_1" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Calibri;color:#000000"></span>
-                <br />
+            <div style="position:absolute;top:34%; left: 14%; width:2.04in;line-height:0.14in;">
+                <span id="pv_protocol_date_2" style="font-style:normal;font-weight:bold;font-size:10pt;"></span>
             </div>
-            <div style="position:absolute;top:29%; left: 34%; width:2.04in;line-height:0.22in;">
-                <span style="font-style:normal;font-weight:bold;font-size:14pt;font-family:Cambria;color:#000000;letter-spacing:10px">ΠΡΩΤΟΚΟΛΛΟ </span>
-                <br />
+            <div style="position:absolute;top:34%; left: 33%; width:70%;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:9pt;">συνήλθαν στο 8ο Ε.Κ. Επανομής οι επιτροπές αγοράς &amp; παραλαβής υλικών</span>
             </div>
-            <div style="position:absolute;top:31.5%; left: 34.5%; width:40%;line-height:0.19in;">
-                <span style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Cambria;color:#000000">ΠΑΡΑΛΑΒΗΣ ΥΛΙΚΩΝ &amp; ΕΡΓΑΣΙΩΝ</span>
-                <br />
+            <div style="position:absolute;top:36.5%; left: 5%; width:2.04in;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;">για τον ΤΟΜΕΑ</span>
             </div>
-            <div style="position:absolute;top:37%; left: 5%; width:2.04in;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">Σήμερα </span>
+            <div style="position:absolute;top:36.5%; left: 20%; width:60%;line-height:0.14in;">
+                <span id="pv_field_name" style="font-style:normal;font-weight:bold;font-size:9pt;"></span>            
             </div>
-            <div style="position:absolute;top:37%; left: 14%; width:2.04in;line-height:0.14in;">
-                <span id="pv_protocol_date_2" style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Calibri;color:#000000"></span>
+            <div style="position:absolute;top:36.5%; left: 65%; width:2.04in;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;">όπως αυτές ορίσθηκαν</span>
             </div>
-            <div style="position:absolute;top:37%; left: 33%; width:60%;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">συνήλθαν στο 8ο Ε.Κ. Επανομής οι επιτροπές αγοράς &amp; παραλαβής υλικών</span>
+            <div style="position:absolute;top:39%; left: 5%; width:2.04in;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;">με την υπ’ αριθμ.</span>
             </div>
-            <div style="position:absolute;top:39.5%; left: 5%; width:2.04in;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">για τον ΤΟΜΕΑ</span>
+            <div style="position:absolute;top:39%; left: 22%; width:2.04in;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:bold;font-size:10pt;">1 - 5/10/2021</span>
             </div>
-            <div style="position:absolute;top:39.5%; left: 28%; width:2.04in;line-height:0.14in;">
-                <span id="pv_field_name" style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Calibri;color:#000000"></span>            
-            </div>
-            <div style="position:absolute;top:39.5%; left: 56%; width:2.04in;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">όπως αυτές ορίσθηκαν</span>
-            </div>
-            <div style="position:absolute;top:42%; left: 5%; width:2.04in;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">με την υπ’ αριθμ.</span>
-            </div>
-            <div style="position:absolute;top:42%; left: 21%; width:2.04in;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Cambria;color:#000000">1 - 5/10/2021</span>
-            </div>
-            <div style="position:absolute;top:42%; left: 36%; width:60%;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">του Συλ. Διδ/ντων του 8ου Ε.Κ. Επανομής αποτελούμενες από τους:</span>            
+            <div style="position:absolute;top:39%; left: 36%; width:70%;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;">του Συλ. Διδ/ντων του 8ου Ε.Κ. Επανομής αποτελούμενες από τους:</span>            
                 <br />
             </div>
 
 
 
-            <div style="position:absolute;top:4.17in; left: 5%; width:20%;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Cambria;color:#000000">ΕΠΙΤΡΟΠΗ ΑΓΟΡΑΣ</span>
+            <div style="position:absolute;top:44.7%; left: 5%; width:40%;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:bold;font-size:10pt;"><u>ΕΠΙΤΡΟΠΗ ΑΓΟΡΑΣ</u></span>
                 <br />
             </div>
-            <div style="position:absolute;top:4.38in; left: 6%; ;width:0.09in;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">1.</span>
+            <div style="position:absolute;top:49%; left: 6%; width:0.09in;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;">1.</span>
                 <br />
             </div>
-            <div style="position:absolute; top:52%; left: 8%;width:22%;line-height:0.21in;">
-                <span id="pv_buyer_1" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000"></span>
+            <div style="position:absolute; top:48.5%; left: 8%;width:30%;line-height:0.21in;">
+                <span id="pv_buyer_1" style="font-style:normal;font-weight:normal;font-size:10pt;"></span>
             </div>
-            <div style="position:absolute;top:4.66in; left: 6%; ;width:0.09in;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">2.</span>
+            <div style="position:absolute;top:52.3%; left: 6%; ;width:0.09in;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;">2.</span>
                 <br />
             </div>
-            <div style="position:absolute; top:55.3%; left: 8%;width:22%;line-height:0.21in;">
-                <span id="pv_buyer_2" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000"></span>
+            <div style="position:absolute; top:51.8%; left: 8%;width:30%;line-height:0.21in;">
+                <span id="pv_buyer_2" style="font-style:normal;font-weight:normal;font-size:10pt;"></span>
             </div>
-            <div style="position:absolute;top:4.95in; left: 6%; ;width:0.09in;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">3.</span>
+            <div style="position:absolute;top:55.5%; left: 6%; ;width:0.09in;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;">3.</span>
                 <br />
             </div>
-            <div style="position:absolute;top:58.8%;left: 8%;width:22%;line-height:0.21in;">
-                <span id="pv_buyer_3" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000"></span>
+            <div style="position:absolute;top:55%;left: 8%;width:30%;line-height:0.21in;">
+                <span id="pv_buyer_3" style="font-style:normal;font-weight:normal;font-size:10pt;"></span>
             </div>
 
 
 
-            <div style="position:absolute;top:5.39in; left: 5%; width:25%;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Cambria;color:#000000">ΕΠΙΤΡΟΠΗ ΠΑΡΑΛΑΒΗΣ</span>
+            <div style="position:absolute;top:59.3%; left: 5%; width:40%;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:bold;font-size:10pt;"><u>ΕΠΙΤΡΟΠΗ ΠΑΡΑΛΑΒΗΣ</u></span>
                 <br />
             </div>
-            <div style="position:absolute;top:5.61in; left: 6%; ;width:0.09in;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">1.</span>
+            <div style="position:absolute;top:64%; left: 6%; ;width:30%;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;">1.</span>
                 <br />
             </div>
-            <div style="position:absolute;top:5.90in;left: 8%;width:30%;line-height:0.14in;">
-                <span id="pv_receiver_1" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000"></span>
+            <div style="position:absolute;top:64%;left: 8%;width:30%;line-height:0.14in;">
+                <span id="pv_receiver_1" style="font-style:normal;font-weight:normal;font-size:10pt;"></span>
                 <br />
             </div>
-            <div style="position:absolute;top:5.90in; left: 6%; ;width:0.09in;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">2.</span>
+            <div style="position:absolute;top:67.5%; left: 6%; ;width:0.09in;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;">2.</span>
                 <br />
             </div>
-            <div style="position:absolute;top:5.61in;left: 8%;width:30%;line-height:0.14in;">
-                <span id="pv_receiver_2" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000"></span>
+            <div style="position:absolute;top:67.5%;left: 8%;width:30%;line-height:0.14in;">
+                <span id="pv_receiver_2" style="font-style:normal;font-weight:normal;font-size:10pt;"></span>
                 <br />
             </div>
 
 
 
 
-            <div style="position:absolute;top:6.47in; left: 5%; width:55%;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">Παραλαμβάνει &amp; παραδίδει στον Υπεύθυνο του Εργαστηρίου:</span>
+            <div style="position:absolute; top:71%; left:5%; width:70%; line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;">Παραλαμβάνει &amp; παραδίδει στον Υπεύθυνο του Εργαστηρίου:</span>
                 <br />
             </div>
-            <div style="position:absolute;top:6.47in;left: 63%;width:1.14in;line-height:0.15in;">
-                <span id="pv_lab" style="font-style:normal;font-weight:bold;font-size:10pt;font-family:Calibri;color:#000000"></span>
+            <div style="position:absolute; top:71% ;left: 63%; width:60% ;line-height:0.15in;">
+                <span id="pv_lab" style="font-style:normal;font-weight:bold;font-size:10pt;"></span>
                 <br />
             </div>
-            <div style="position:absolute;top:7.00in; left: 6%; ;width:0.09in;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">κ.</span>
+            <div style="position:absolute;top:75%; left: 5%; ;width:0.09in;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;">κ.</span>
                 <br />
             </div>
-            <div style="position:absolute; top:83.7%; left:8%; width:30%;line-height:0.14in;">
-                <span id="pv_lab_manager" style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000"></span>
+            <div style="position:absolute; top:75%; left:8%; width:30%;line-height:0.14in;">
+                <span id="pv_lab_manager" style="font-style:normal;font-weight:normal;font-size:10pt;"></span>
                 <br />
             </div>
-            <div style="position:absolute;top:7.00in; left:47% ;width:0.59in;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">Υπογραφή:</span>
+            <div style="position:absolute;top:75%; left:47%; width:0.59in;line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;">Υπογραφή:</span>
                 <br />
             </div>
-            <div style="position:absolute;top:7.45in; left: 5%; width:60%;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:normal;font-size:10pt;font-family:Cambria;color:#000000">τα υλικά/εργασίες που αναφέρονται στα παρακάτω παραστατικά:</span>
+            <div style="position:absolute;top:80%; left: 5%; width:80%; line-height:0.14in;">
+                <span style="font-style:normal;font-weight:normal;font-size:10pt;">τα υλικά/εργασίες που αναφέρονται στα παρακάτω παραστατικά:</span>
                 <br />
             </div>
 
+            <table style="position:absolute; top:83%; left:4.6%; width: 90%; border: 1px solid black;" >
+                <tr style="text-align: center;border: 1px solid black;">
+                  <th style="width:5%;font-weight:bold;font-size:9pt;border-bottom: 1px solid black;">Α/Α</th>
+                  <th style="width:15%;font-weight:bold;font-size:9pt;border-bottom: 1px solid black;">ΑΡΙΘΜΟΣ</th>
+                  <th style="width:15%;font-weight:bold;font-size:9pt;border-bottom: 1px solid black;">ΗΜ/ΝΙΑ</th>
+                  <th style="width:10%;font-weight:bold;font-size:9pt;border-bottom: 1px solid black;">ΠΟΣΟ</th>
+                  <th style="width:55%;font-weight:bold;font-size:9pt;border-bottom: 1px solid black;">ΠΡΟΜΗΘΕΥΤΗΣ</th>
+                </tr>
+                <tr style="text-align: center;">
+                  <td style="width:5%;">1</td>
+                  <td id = "pv_invoice_id"     style="width:15%;font-size:9pt;"></td>
+                  <td id = "pv_invoice_date"   style="width:15%;font-size:9pt;"></td>
+                  <td id = "pv_invoice_amount" style="width:10%;font-size:9pt;"></td>
+                  <td id = "pv_supplier"       style="width:55%;font-size:9pt;"></td>
+                </tr>
+            </table>
 
-
-
-            <div style="position:absolute;top:7.83in; left:4.6%; width:10%;line-height:0.12in;">
-                <span style="font-style:normal;font-weight:bold;font-size:9pt;font-family:Cambria;color:#000000">Α/Α</span>
+            <div style="position:absolute;top:89%;left: 63%;width:0.84in;line-height:0.16in;">
+                <span style="font-style:normal;font-weight:bold;font-size:10pt;">ΘΕΩΡΗΘΗΚΕ</span>
                 <br />
             </div>
-            <div style="position:absolute;top:8.13in;left: 6%;width:0.06in;line-height:0.12in;">
-                <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">1</span>
-                <br />
-            </div>
-            <div style="position:absolute;top:8.34in;left: 6%;width:0.06in;line-height:0.12in;">
-                <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">2</span>
-                <br />
-            </div>
-            <div style="position:absolute;top:8.52in;left: 6%;width:0.06in;line-height:0.12in;">
-                <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">3</span>
-                <br />
-            </div>
-            <div style="position:absolute;top:8.69in;left: 6%;width:0.06in;line-height:0.12in;">
-                <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">4</span>
-                <br />
-            </div>
-            <div style="position:absolute;top:8.87in;left: 6%;width:0.06in;line-height:0.12in;">
-                <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">5</span>
-                <br />
-            </div>
-            <div style="position:absolute;top:9.04in;left: 6%;width:0.06in;line-height:0.12in;">
-                <span style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000">6</span>
-                <br />
-            </div>
-            <div style="position:absolute;top:7.83in; left:11%; width:0.46in;line-height:0.12in;">
-                <span style="font-style:normal;font-weight:bold;font-size:9pt;font-family:Cambria;color:#000000">ΑΡΙΘΜΟΣ</span>
-                <br />
-            </div>
-            <div style="position:absolute;top:8.13in; left:13%; width:0.16in;line-height:0.13in;">
-                <span id = "pv_invoice_id" style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Calibri;color:#000000"></span>
-                <br />
-            </div>
-            <div style="position:absolute;top:7.83in; left:27%; width:10%;line-height:0.12in;">
-                <span style="font-style:normal;font-weight:bold;font-size:9pt;font-family:Cambria;color:#000000">ΗΜ/ΝΙΑ</span>
-                <br />
-            </div>
-            <div style="position:absolute;top:8.12in; left:26.4%; width:0.45in;line-height:0.13in;">
-                <span id = "pv_invoice_date" style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Calibri;color:#000000"></span>
-                <br />
-            </div>
-            <div style="position:absolute;top:7.83in; left:40%; width:0.28in;line-height:0.12in;">
-                <span style="font-style:normal;font-weight:bold;font-size:9pt;font-family:Cambria;color:#000000">ΠΟΣΟ</span>
-                <br />
-            </div>
-            <div style="position:absolute;top:8.12in; left:40%; width:0.28in;line-height:0.12in;">
-                <span id = "pv_invoice_amount" style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Cambria;color:#000000"></span>
-                <br />
-            </div>
-            <div style="position:absolute;top:7.83in; left:62%; width:30%;line-height:0.12in;">
-                <span style="font-style:normal;font-weight:bold;font-size:9pt;font-family:Cambria;color:#000000">Π Ρ Ο Μ Η Θ Ε Υ Τ Η Σ</span>
-                <br />
-            </div>
-            <div style="position:absolute;top:8.12in; left:62%; width:20%;line-height:0.13in;">
-                <span id = "pv_supplier" style="font-style:normal;font-weight:normal;font-size:9pt;font-family:Calibri;color:#000000"></span>
-                <br />
-            </div>
-            <div style="position:absolute;top:9.19in;left: 63%;width:0.84in;line-height:0.16in;">
-                <span style="font-style:normal;font-weight:bold;font-size:11pt;font-family:Cambria;color:#000000">ΘΕΩΡΗΘΗΚΕ</span>
-                <br />
-            </div>
-            <div style="position:absolute;top:9.89in; left:57%; width:30%;line-height:0.26in;">
+            <div style="position:absolute;top:93%; left:57%; width:50%;line-height:0.26in;">
                 <div style="position:relative; left:0.30in;">
-                    <span style="font-style:normal;font-weight:bold;font-size:11pt;font-family:Cambria;color:#000000">Ο ΑΝ/ΤΗΣ Δ/ΝΤΗΣ</span>
+                    <span style="font-style:normal;font-weight:bold;font-size:10pt;">Ο ΑΝ/ΤΗΣ Δ/ΝΤΗΣ</span>
                     <br />
                 </div>
-                <span style="font-style:normal;font-weight:bold;font-size:11pt;font-family:Cambria;color:#000000">ΣΤΕΦΑΝΟΣ ΜΕΡΛΙΑΟΥΝΤΑΣ</span>
+                <span style="font-style:normal;font-weight:bold;font-size:10pt;">ΣΤΕΦΑΝΟΣ ΜΕΡΛΙΑΟΥΝΤΑΣ</span>
                 <br />
             </div>
-
-            <img style="position:absolute;top:5.51in; left: 5%; width:1.36in;height:0.01in" src="http://localhost/src/images/vi_1.png" />
-            <img style="position:absolute;top:4.29in; left: 5%; width:1.10in;height:0.01in" src="http://localhost/src/images/vi_2.png" />
-            <img style="position:absolute;top:0.89in; left:4%; width:6.32in;height:8.31in" src="http://localhost/src/images/vi_3.png" />
-            <img style="position:absolute;top:0.89in; left:4%; width:6.33in;height:8.31in" src="http://localhost/src/images/vi_4.png" />
-            <img style="position:absolute;top:7.71in; left:4%; width:6.32in;height:1.48in" src="http://localhost/src/images/vi_5.png" />
-
         </div>
     </body>
-</html>
+</html> -->

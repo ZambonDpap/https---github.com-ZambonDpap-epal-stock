@@ -16,7 +16,8 @@ $(document).ready(function() {
                             window.location = '/home.php';
                           }
                           else {
-                              console.log(obj.error);
+                                alert("Λάθος στοιχεία!"); 
+                                console.log(obj.error);
                           }
                     },
             error: function(XMLHttpRequest, textStatus, errorThrown) { 

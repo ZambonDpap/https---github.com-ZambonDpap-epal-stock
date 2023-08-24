@@ -15,3 +15,15 @@
     top: 4%;
     left:0%;
 }
+
+#users_table{
+    position: absolute;
+    top: 4%;
+    left:0%;
+}
+
+#users_roles_table{
+    position: absolute;
+    top: 4%;
+    left:55%;
+}

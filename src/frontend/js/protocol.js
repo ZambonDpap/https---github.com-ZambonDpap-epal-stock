@@ -73,9 +73,7 @@ function savePDF() {
 
   const payment_method_item = $("#payment_methods").jqxDropDownList("getSelectedItem");
   const payment_method = payment_method_item.value;
-
-  console.log(payment_method)
-
+  
   jQuery.ajax({
     type: "POST",
     url: "/src/backend/rest_api.php",

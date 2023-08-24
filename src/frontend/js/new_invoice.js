@@ -278,7 +278,7 @@ function getMaxProtocolId() {
     },
 
     success: function (obj, textstatus) {
-      let max_protocol_id = Number(obj[0]["COUNT(protocol_id)"]) + 1;
+      let max_protocol_id = Number(obj[0]["MAX(protocol_id)"]) + 1;
       $("#protocol_no").val(max_protocol_id);
     },
     error: function (XMLHttpRequest, textStatus, errorThrown) {

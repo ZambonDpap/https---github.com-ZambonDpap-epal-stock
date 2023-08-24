@@ -44,6 +44,10 @@ if( !isset($_GET['functionname'])){
         $result = get_invoices($conn, $result);
     } else if ($_GET['functionname'] == "get_purchace"){
         $result = get_purchace($conn, $result);
+    } else if ($_GET['functionname'] == "get_users"){
+        $result = get_users($conn, $result);
+    } else if ($_GET['functionname'] == "get_user_roles"){
+        $result = get_user_roles($conn, $result);
     } else {
         $result['error'] = 'No function name!'; 
     }
@@ -140,7 +144,7 @@ function get_academic_year_max_protocol_id($conn, $result){
         $arguments = $_POST['arguments'];
         $academic_year = $arguments[0];
 
-        $sql = "SELECT COUNT(protocol_id) FROM invoice WHERE academic_year = '$academic_year'";
+        $sql = "SELECT MAX(protocol_id) FROM invoice WHERE academic_year = '$academic_year'";
     
         $res = mysqli_query($conn,$sql);
         $result = mysqli_fetch_all($res,MYSQLI_ASSOC);
@@ -325,7 +329,7 @@ function save_pdf($conn, $result){
 
             //TO DO insert only if academic year and protocol_id does not exist in the same entry
             // $sql = "INSERT INTO invoice (protocol_id, invoice_number, invoice_date, protocol_date, supplier_id, field_id, lab_id, cost, field_cost, protocol_pdf, academic_year) VALUES ($protocol_no, $invoice_no, '$new_invoice_date', '$new_protocol_date', $supplier_id, $field_id, $lab_id, $cost, $field_cost, '$pdf_name', '$academic_year')";
-            $sql = "INSERT INTO invoice (protocol_id, invoice_number, invoice_date, protocol_date, supplier_id, field_id, lab_id, cost, field_cost, protocol_pdf, payment_method, pay academic_year) SELECT $protocol_no, $invoice_no, '$new_invoice_date', '$new_protocol_date', $supplier_id, $field_id, $lab_id, $cost, $field_cost, '$pdf_name', '$payment_method', '$academic_year' FROM DUAL WHERE NOT EXISTS ( SELECT * FROM invoice WHERE protocol_id=$protocol_no AND academic_year = '$academic_year')";
+            $sql = "INSERT INTO invoice (protocol_id, invoice_number, invoice_date, protocol_date, supplier_id, field_id, lab_id, cost, field_cost, protocol_pdf, payment_method, academic_year) SELECT $protocol_no, $invoice_no, '$new_invoice_date', '$new_protocol_date', $supplier_id, $field_id, $lab_id, $cost, $field_cost, '$pdf_name', '$payment_method', '$academic_year' FROM DUAL WHERE NOT EXISTS ( SELECT * FROM invoice WHERE protocol_id=$protocol_no AND academic_year = '$academic_year')";
             $result = mysqli_query($conn,$sql);
 
             if($result) {
@@ -396,6 +400,57 @@ function get_purchace($conn, $result){
 
             $arr[$count] = $per;
 
+            $count = $count + 1;
+        }
+    }
+
+    return $arr;
+}
+function get_users($conn, $result){
+    $sql = "SELECT * FROM users";
+    $res = mysqli_query($conn,$sql);
+    $users = mysqli_fetch_all($res,MYSQLI_ASSOC);
+
+    return $users;
+}
+function get_user_roles($conn, $result){
+    if( !isset($_GET['arguments']) ) 
+    { 
+        $result['error'] = 'No arguments'; 
+    } else 
+    {
+        $arguments  = $_GET['arguments'];
+        $user_id    = $arguments[0];
+    
+        $sql = "SELECT * FROM roles WHERE user_id = $user_id";
+        $res = mysqli_query($conn,$sql);
+        $users_roles = mysqli_fetch_all($res,MYSQLI_ASSOC);
+
+        $count = 0;
+        $arr = array();
+        foreach($users_roles as $user_role){
+            if($user_role["field_id"] != 0 ){
+                $sql = "SELECT name FROM fields WHERE id=$user_role[field_id]";
+                $res = mysqli_query($conn,$sql);
+                $field_name = mysqli_fetch_assoc($res);
+                $user_role["field"] = $field_name["name"];
+            }
+    
+            if($user_role["lab_id"] !=0 ) {
+                $sql = "SELECT name FROM labs WHERE id=$user_role[lab_id]";
+                $res = mysqli_query($conn,$sql);
+                $lab_name = mysqli_fetch_assoc($res);
+                $user_role["lab"] = $lab_name["name"];
+            }
+
+            if($user_role["active"] == 1 ) {
+                $user_role["active"] = "ΝΑΙ";
+            } else {
+                $user_role["active"] = "OXI";
+            }
+
+            $arr[$count] = $user_role;
+            
             $count = $count + 1;
         }
     }

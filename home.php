@@ -15,6 +15,10 @@
         <script src="/src/frontend/js/protocol.js"></script>
         <script src="/src/frontend/js/home.js"></script>
         <script src="/src/frontend/js/invoices.js"></script>
+        <script src="/src/frontend/js/users_roles.js"></script>
+        <script src="/src/frontend/js/suppliers.js"></script>
+        <script src="/src/frontend/js/proposal.js"></script>
+        <script src="/src/frontend/js/fields_labs_supplies.js"></script>
 
 
         <!-- Add css files-->

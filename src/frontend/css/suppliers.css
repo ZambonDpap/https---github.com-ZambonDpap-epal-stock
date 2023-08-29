@@ -1,0 +1,15 @@
+#delete_suppliers_row_button{
+    position: absolute;
+    top: 41%;
+    left:70%;
+    width:25%;
+    cursor: pointer;
+}
+
+#add_suppliers_row_button{
+    position: absolute;
+    top: 41%;
+    left:43%;
+    width:25%;
+    cursor: pointer;
+}

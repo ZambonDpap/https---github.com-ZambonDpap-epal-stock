@@ -15,6 +15,25 @@ $(document).ready(function() {
     $("#short_term_materials_table").hide();
     $("#stock_table").hide();
     $("#proposal").hide();
+
+    $("#logout").on('click', ()=>{
+        $("#invoice_form").hide();
+        $("#pdf_viewer").hide();
+        $("#protocol_viewer").hide();
+        $("#invoices_table").hide();
+        $("#invoices_supplies_table").hide();
+        $("#users_table").hide();
+        $("#users_roles_table").hide();
+        $("#suppliers_table").hide();
+        $("#fields_table").hide();
+        $("#labs_table").hide();
+        $("#consumables_materials_table").hide();
+        $("#long_term_materials_table").hide();
+        $("#short_term_materials_table").hide();
+        $("#stock_table").hide();
+        $("#proposal").hide();
+        logout();
+    })
     
     $("#home_btn").on('click', ()=>{
         $("#invoice_form").hide();
@@ -165,4 +184,16 @@ function changeButtonColor(button_name) {
     $("#proposal_btn").css ("background-color", "rgb(213, 213, 213)");
 
     $(button_name).css ("background-color", "rgb(189, 189, 189)");
+}
+
+function logout(button_name) {
+    jQuery.ajax({
+        type: "POST",
+        url: "/src/backend/rest_api.php",
+        dataType: "json",
+        data: { functionname: "logout", arguments: [] },
+            success: function (obj, textstatus) {
+                window.location = '/index.html';
+            }
+    })
 }

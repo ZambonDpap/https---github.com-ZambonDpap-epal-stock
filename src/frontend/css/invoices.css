@@ -1,6 +1,6 @@
 #invoices_table{
     position: absolute;
-    top: 4%;
+    top: 6%;
     left:0%;
 }
 
@@ -12,18 +12,26 @@
 
 #suppliers_table{
     position: absolute;
-    top: 4%;
+    top: 6%;
     left:0%;
 }
 
 #users_table{
     position: absolute;
-    top: 4%;
+    top: 6%;
     left:0%;
 }
 
 #users_roles_table{
     position: absolute;
-    top: 4%;
+    top: 6%;
     left:55%;
+}
+
+#delete_invoice_row_button{
+    position: absolute;
+    top: 41%;
+    left:85%;
+    width:13%;
+    cursor: pointer;
 }

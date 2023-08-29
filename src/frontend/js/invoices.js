@@ -51,7 +51,7 @@ $(document).ready(function () {
         })
     })
 
-    $('#invoices_table').on('rowselect', function (event) {
+    $("#invoices_table").on('click', 'div[id^="pdf_"]', function() {
         var rowindex = $('#invoices_table').jqxGrid('getselectedrowindex');
         var rowid = $('#invoices_table').jqxGrid('getrowid', rowindex);
         var data = $('#invoices_table').jqxGrid('getrowdatabyid', rowid);
@@ -102,6 +102,22 @@ function buildInvoiceTable() {
                         { name: 'field', type: 'string' },
                         { name: 'lab', type: 'string' }
                     ],
+                    deleterow: function (rowid, commit) {
+                        var data = $('#invoices_table').jqxGrid('getrowdatabyid', rowid);
+                        jQuery.ajax({
+                            type: "POST",
+                            url: "/src/backend/rest_api.php",
+                            dataType: "json",
+                            data: { functionname: "delete_invoice", arguments: [data["invoice_number"], data["protocol_pdf"] ] },
+                
+                            success: function (obj, textstatus) {
+                                commit(true);
+                            },
+                            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                commit(false);
+                            },
+                        })
+                    },
                     localdata: obj
                 };
 
@@ -122,6 +138,24 @@ function buildInvoiceTable() {
                         rowsheight: 50,
                         selectionmode: 'singlerow',
                         showfilterrow: true,
+                        showtoolbar: true,
+                        toolbarheight: 60, 
+                        rendertoolbar: function (toolbar) {
+                            var me = this;
+                            var container = $("<div style='margin: 5px;'></div>");
+                            toolbar.append(container);
+                            container.append('<input style="margin-left: 5px;" id="delete_invoice_row_button" type="button" value="Διαγραφή τιμολογίου" />');
+                            $("#delete_invoice_row_button").jqxButton();
+                            // delete row.
+                            $("#delete_invoice_row_button").on('click', function () {
+                                var selectedrowindex = $("#invoices_table").jqxGrid('getselectedrowindex');
+                                var rowscount = $("#invoices_table").jqxGrid('getdatainformation').rowscount;
+                                if (selectedrowindex >= 0 && selectedrowindex < rowscount) {
+                                    var id = $("#invoices_table").jqxGrid('getrowid', selectedrowindex);
+                                    var commit = $("#invoices_table").jqxGrid('deleterow', id);
+                                }
+                            });
+                        },
                         columns: [
                             { text: 'Α/Α', datafield: 'count', width: "3%", cellsalign: 'center' },
                             { text: 'ΑΡ. ΤΙΜ.', datafield: 'invoice_number', width: "5%", cellsalign: 'center' },

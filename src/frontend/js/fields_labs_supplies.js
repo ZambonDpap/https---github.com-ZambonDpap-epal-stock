@@ -74,6 +74,8 @@ $(document).ready(function () {
                         datafields: [
                             { name: 'id', type: 'string' },
                             { name: 'name', type: 'string' },
+                            { name: '2022-2023', type: 'int' },
+                            { name: '2023-2024', type: 'int' }
                         ],
                         localdata: obj["ΑΝΑΛΩΣΗΜΑ"]
                     }
@@ -88,16 +90,28 @@ $(document).ready(function () {
                             sortable: true,
                             altrows: false,
                             enabletooltips: true,
-                            editable: false,
+                            editable: true,
                             filterable: true,
                             columnsheight: 45,
                             rowsheight: 50,
                             selectionmode: 'singlerow',
                             showfilterrow: true,
                             columns: [
-                                { text: 'ΥΛΙΚΑ ΑΝΑΛΩΣΗΜΑ', datafield: 'name', width: "100%", cellsalign: 'left' },
+                                { text: 'ΥΛΙΚΑ ΑΝΑΛΩΣΗΜΑ', datafield: 'name', width: "60%", cellsalign: 'left', editable: false },
+                                { text: '2022-2023', datafield: '2022-2023', width: "20%", cellsalign: 'center', editable: false },
+                                { text: '2023-2024', datafield: '2023-2024', width: "20%", cellsalign: 'center', editable: true },
                             ]
                         });
+
+                                // events
+                    $("#consumables_materials_table").on('cellbeginedit', function (event) {
+                        var args = event.args;
+                        console.log(args)
+                    });
+                    $("#consumables_materials_table").on('cellendedit', function (event) {
+                        var args = event.args;
+                        console.log(args)
+                    });
                     
                     var source =
                     {
@@ -105,6 +119,8 @@ $(document).ready(function () {
                         datafields: [
                             { name: 'id', type: 'string' },
                             { name: 'name', type: 'string' },
+                            // { name: '2022-2023', type: 'int' },
+                            // { name: '2023-2024', type: 'int' }
                         ],
                         localdata: obj["ΒΡΑΧΕΙΑΣ"]
                     }

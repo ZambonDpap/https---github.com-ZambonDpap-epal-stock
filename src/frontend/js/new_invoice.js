@@ -69,7 +69,7 @@ $(document).ready(function () {
     width: 680,
     height: 100,
     title: "Καταχώρηση Νέου Προμηθευτή",
-    selector: $("#new_supplier"),
+    selector: $(".add_new_supplier"),
   });
 
   //on actions
@@ -456,13 +456,13 @@ function addNewSupplier(supplier_name) {
     success: function (obj, textstatus) {
       if (obj === true) {
         $("#notification_success").html(
-          "Ο νέος προμηθευτής καταχωρήθηκε με επιτυχία. Επιλέξτε από την λίστα."
+          "Ο νέος προμηθευτής καταχωρήθηκε με επιτυχία."
         );
         $("#notification_success").jqxNotification("open");
         addSuppliersToDropdown();
       } else if (obj === "exists") {
         $("#notification_info").html(
-          "Ο νέος προμηθευτής υπάρχει. Επιλέξτε από την λίστα."
+          "Ο νέος προμηθευτής υπάρχει."
         );
         $("#notification_info").jqxNotification("open");
       } else {

@@ -13,6 +13,7 @@ $(document).ready(function() {
             success: function (obj, textstatus) {
                 console.log(obj)
                           if( ('success' in obj) ) {
+                            console.log(obj)
                             window.location = '/home.php';
                           }
                           else {

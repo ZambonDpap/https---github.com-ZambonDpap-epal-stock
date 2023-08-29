@@ -24,6 +24,12 @@ if( !isset($_GET['functionname'])){
         $result = add_new_material($conn, $result);
     } else if ($_POST['functionname'] == "save_pdf"){
         $result = save_pdf($conn, $result);
+    } else if ($_POST['functionname'] == "delete_invoice"){
+        $result = delete_invoice($conn, $result);
+    } else if ($_POST['functionname'] == "delete_supplier"){
+        $result = delete_supplier($conn, $result);
+    } else if ($_POST['functionname'] == "logout"){
+        $result = logout($conn, $result);
     }
 } else if( !isset($_POST['functionname'])){
     if ($_GET['functionname'] == "get_lab_manager"){
@@ -67,7 +73,7 @@ function validate_user($conn, $result){
         $username = $arguments[0];
         $password = $arguments[1];
 
-        $sql = "SELECT id, firstname FROM users WHERE lastname = '$username' and password = '$password'";
+        $sql = "SELECT id, firstname, lastname, admin_level FROM users WHERE lastname = '$username' and password = '$password'";
         $res = mysqli_query($conn,$sql);
         $row = mysqli_fetch_array($res,MYSQLI_ASSOC);
         $count = mysqli_num_rows($res);
@@ -77,6 +83,8 @@ function validate_user($conn, $result){
             $_SESSION['firstname'] = $row["firstname"];
             $_SESSION['username'] = $username;
             $_SESSION['password'] = $password;
+            $_SESSION['admin_level'] = $row["admin_level"];
+            $_SESSION['fullname'] = $row["lastname"] . " " . $row["firstname"];
             $result["success"] = "success";
         }else {
             $result["error"] = "Your Login Name or Password is invalid";
@@ -84,6 +92,55 @@ function validate_user($conn, $result){
     }
 
     return $result;
+}
+function logout($conn, $resut){
+    session_start();
+    session_unset();
+    session_destroy();
+    $result["success"] = "success";
+}
+function delete_invoice($conn, $result){
+    if( !isset($_POST['arguments']) ) 
+    { 
+        $result['error'] = 'No arguments'; 
+        return $result;
+
+    } else
+    {
+        $arguments = $_POST['arguments'];
+        $invoice_number = $arguments[0];
+        $protocol_pdf = $arguments[1];
+
+        
+        $sql = "DELETE FROM invoice WHERE invoice_number = '$invoice_number'";
+        $result = mysqli_query($conn,$sql);
+
+        $sql = "DELETE FROM purchace WHERE invoice_id = '$invoice_number'";
+        $result = mysqli_query($conn,$sql);
+
+        $file_to_delete = "pdf_protocols/" . $protocol_pdf;
+        unlink($file_to_delete);
+
+        return $result;
+    }
+}
+function delete_supplier($conn, $result){
+    if( !isset($_POST['arguments']) ) 
+    { 
+        $result['error'] = 'No arguments'; 
+        return $result;
+
+    } else
+    {
+        $arguments = $_POST['arguments'];
+        $supplier_id = $arguments[0];
+
+        
+        $sql = "DELETE FROM suppliers WHERE id = $supplier_id";
+        $result = mysqli_query($conn,$sql);
+
+        return $result;
+    }
 }
 function get_fields($conn, $result){
     $sql = "SELECT name, id FROM fields";
@@ -136,20 +193,55 @@ function get_materials($conn, $result){
         $res = mysqli_query($conn,$sql);
         $arr = mysqli_fetch_all($res,MYSQLI_ASSOC);
     } else if($type == "SPLIT"){
+        $sql = "SELECT * FROM material_stock";
+        $res = mysqli_query($conn,$sql);
+        $result1 = mysqli_fetch_all($res,MYSQLI_ASSOC);
+
         $sql = "SELECT id, name, type FROM materials WHERE lab_id = $lab_id AND type='ΑΝΑΛΩΣΗΜΑ'";
         $res = mysqli_query($conn,$sql);
         $result = mysqli_fetch_all($res,MYSQLI_ASSOC);
-        $arr["ΑΝΑΛΩΣΗΜΑ"] = $result;
+
+        $new_result1 = array();
+        foreach ($result as $material) {
+            foreach ($result1 as $material_stock) {
+                if ($material["id"] == $material_stock["material_id"]) {
+                    $material[$material_stock["academic_year"]] = $material_stock["stock"];
+                }
+            }
+            $new_result1[] = $material;
+        }
+        $arr["ΑΝΑΛΩΣΗΜΑ"] = $new_result1;
 
         $sql = "SELECT id, name, type FROM materials WHERE lab_id = $lab_id AND type='ΒΡΑΧΕΙΑΣ'";
         $res = mysqli_query($conn,$sql);
         $result = mysqli_fetch_all($res,MYSQLI_ASSOC);
-        $arr["ΒΡΑΧΕΙΑΣ"] = $result;
+
+        $new_result2 = array();
+        foreach ($result as $material) {
+            foreach ($result1 as $material_stock) {
+                if ($material["id"] == $material_stock["material_id"]) {
+                    $material[$material_stock["academic_year"]] = $material_stock["stock"];
+                }
+            }
+            $new_result2[] = $material;
+        }
+        $arr["ΒΡΑΧΕΙΑΣ"] = $new_result2;
 
         $sql = "SELECT id, name, type FROM materials WHERE lab_id = $lab_id AND type='ΜΑΚΡΑΣ'";
         $res = mysqli_query($conn,$sql);
         $result = mysqli_fetch_all($res,MYSQLI_ASSOC);
-        $arr["ΜΑΚΡΑΣ"] = $result;
+
+        $new_result3 = array();
+        foreach ($result as $material) {
+            foreach ($result1 as $material_stock) {
+                if ($material["id"] == $material_stock["material_id"]) {
+                    $material[$material_stock["academic_year"]] = $material_stock["stock"];
+                }
+            }
+            $new_result3[] = $material;
+        }
+        $arr["ΜΑΚΡΑΣ"] = $new_result3;
+
     }
     
     return $arr;
@@ -346,8 +438,6 @@ function save_pdf($conn, $result){
             $protocol_sql_date = DateTime::createFromFormat("d/m/Y", $protocol_date);
             $new_protocol_date = $protocol_sql_date->format("Y-m-d");
 
-            //TO DO insert only if academic year and protocol_id does not exist in the same entry
-            // $sql = "INSERT INTO invoice (protocol_id, invoice_number, invoice_date, protocol_date, supplier_id, field_id, lab_id, cost, field_cost, protocol_pdf, academic_year) VALUES ($protocol_no, $invoice_no, '$new_invoice_date', '$new_protocol_date', $supplier_id, $field_id, $lab_id, $cost, $field_cost, '$pdf_name', '$academic_year')";
             $sql = "INSERT INTO invoice (protocol_id, invoice_number, invoice_date, protocol_date, supplier_id, field_id, lab_id, cost, field_cost, protocol_pdf, payment_method, academic_year) SELECT $protocol_no, $invoice_no, '$new_invoice_date', '$new_protocol_date', $supplier_id, $field_id, $lab_id, $cost, $field_cost, '$pdf_name', '$payment_method', '$academic_year' FROM DUAL WHERE NOT EXISTS ( SELECT * FROM invoice WHERE protocol_id=$protocol_no AND academic_year = '$academic_year')";
             $result = mysqli_query($conn,$sql);
 

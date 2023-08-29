@@ -26,6 +26,7 @@
         <link rel="stylesheet" type="text/css" href="./src/frontend/css/new_invoice.css">
         <link rel="stylesheet" type="text/css" href="./src/frontend/css/protocol.css" />
         <link rel="stylesheet" type="text/css" href="./src/frontend/css/invoices.css" />
+        <link rel="stylesheet" type="text/css" href="./src/frontend/css/suppliers.css" />
         <link rel="stylesheet" type="text/css" href="./src/frontend/css/fields_labs_supplies.css" />
     
 
@@ -65,16 +66,18 @@
             <div id="top_left_menu">
                 <div class="box-left" id="home_btn">Αρχική</div>
                 <div class="box-left" id="new_invoice_btn">Νέο Τιμολόγιο</div>
-                <div class="box-left" id="invoice_list_btn">Τιμολόγια</div>
-                <div class="box-left" id="users_list_btn">Καθηγητές/Ρόλοι</div>
-                <!-- <div class="box-left" id="roles_btn">Ρόλοι</div> -->
-                <div class="box-left" id="fields_labs_list_btn">Τομείς/Εργαστήρια/Υλικά</div>
-                <div class="box-left" id="suppliers_list_btn">Προμηθευτές</div>
-                <!-- <div class="box-left" id="supplies_list_btn">Υλικά</div> -->
+                <?php 
+                    if ( $_SESSION['admin_level'] == 2 ){
+                        echo('<div class="box-left" id="invoice_list_btn">Τιμολόγια</div>
+                        <div class="box-left" id="users_list_btn">Καθηγητές/Ρόλοι</div>
+                        <div class="box-left" id="fields_labs_list_btn">Τομείς/Εργαστήρια/Υλικά</div>
+                        <div class="box-left" id="suppliers_list_btn">Προμηθευτές</div>');
+                    }
+                ?>
                 <div class="box-left" id="proposal_btn">Πρόταση Αγοράς</div>
             </div>
             <div id="top_right_menu">
-                <div class="box-right" id="username">Ελευθερουδάκης Αλέξανδρος</div>
+                <div class="box-right" id="username"><?php echo( $_SESSION['fullname'] ) ?></div>
                 <div class="box-right" id="logout">Sing out</div>
                 <div id="notification_success"></div>
                 <div id="notification_warning"></div>
@@ -104,7 +107,7 @@
                 <label id="supplier-label" for="suppliers">Προμηθευτής</label>
                 <div id="suppliers"></div>
             </div>
-            <button id="new_supplier"><img src="http://localhost/src/images/add_16.png"></button>  
+            <button class="add_new_supplier" id="new_supplier"><img src="http://localhost/src/images/add_16.png"></button>  
             <div id="new_supplier_popover">
                 <div id="new_added_supplier_name_label">Όνομα Προμηθευτή</div><input type="text" id="new_added_supplier_name">
                 <button div id="add_new_supplier">ΟΚ</button>
@@ -359,16 +362,27 @@
         <!-- USERS TABLE -->
         <div id="users_table"></div>
         <div id="users_roles_table"></div>
+        <div id="add_user"></div>
+        <div id="delete_user"></div>
 
         <!-- SUPPLIERS TABLE -->
         <div id="suppliers_table"></div>
+        <div id="add_supplier"></div>
+        <div id="delete_supplier"></div>
 
-        <!-- FILEDS LABS MATERIAL STOCK TABLE -->
+
+        <!-- FIELDS LABS MATERIAL STOCK TABLE -->
         <div id="fields_table"></div>
         <div id="labs_table"></div>
         <div id="consumables_materials_table"></div>
+        <div id="add_consumable"></div>
+        <div id="delete_consumable"></div>
         <div id="short_term_materials_table"></div>
+        <div id="add_short_term"></div>
+        <div id="delete_short_term"></div>
         <div id="long_term_materials_table"></div>
+        <div id="add_long_term"></div>
+        <div id="delete_long_term"></div>
         <div id="stock_table"></div>
 
         <!-- PURCHACE PROPOSAL TABLE -->

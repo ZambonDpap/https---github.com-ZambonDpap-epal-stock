@@ -153,19 +153,19 @@
 
   #protocol_viewer{
     width: 49%;
-    height: 96%;
+    height: 94%;
     position: absolute;
     left: 51%;
-    top: 4%;
+    top: 6%;
     overflow-x: hidden;
     overflow-y: auto;
   }
   #pdf_viewer{
     width: 50%;
-    height: 96%;
+    height: 94%;
     position: absolute;
     left: 50%;
-    top: 4%;
+    top: 6%;
   }
 
   #pdf_file{

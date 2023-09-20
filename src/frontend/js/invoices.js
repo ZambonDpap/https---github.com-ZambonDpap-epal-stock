@@ -51,33 +51,45 @@ $(document).ready(function () {
         })
     })
 
-    $("#invoices_table").on('click', 'div[id^="pdf_"]', function() {
+    $("#invoices_table").on('click', 'div[id^="pdf_protocol_"]', function() {
         var rowindex = $('#invoices_table').jqxGrid('getselectedrowindex');
         var rowid = $('#invoices_table').jqxGrid('getrowid', rowindex);
         var data = $('#invoices_table').jqxGrid('getrowdatabyid', rowid);
-        var url = "/src/backend/pdf_protocols/"+data.protocol_pdf;
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', url, true);
-        xhr.responseType = 'blob';
-        xhr.onload = function (e) {
-            if (this.status === 200) {
-                var blob = new Blob([this.response], { type: 'application/octet-stream' });
-                var link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-                link.download = url.split('/').pop();
-                link.click();
-            }
-        };
-        xhr.send();
+        downloadPDF("protocols", data.protocol_pdf)
+    });
+    $("#invoices_table").on('click', 'div[id^="pdf_invoice_"]', function() {
+        var rowindex = $('#invoices_table').jqxGrid('getselectedrowindex');
+        var rowid = $('#invoices_table').jqxGrid('getrowid', rowindex);
+        var data = $('#invoices_table').jqxGrid('getrowdatabyid', rowid);
+        downloadPDF("invoices", data.invoice_pdf)
     });
 })
 
+function downloadPDF(mode, pdf){
+    const url = "/src/backend/pdf_" + mode + "/" + pdf;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'blob';
+    xhr.onload = function (e) {
+        if (this.status === 200) {
+            var blob = new Blob([this.response], { type: 'application/octet-stream' });
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = url.split('/').pop();
+            link.click();
+        }
+    };
+    xhr.send();
+}
+
 function buildInvoiceTable() {
+    const user_id = $("#user_id").html();
+
     jQuery.ajax({
         type: "GET",
         url: "/src/backend/rest_api.php",
         dataType: "json",
-        data: { functionname: "get_invoices", arguments: [] },
+        data: { functionname: "get_invoices", arguments: [user_id] },
 
         success: function (obj, textstatus) {
             if (!("error" in obj)) {
@@ -97,6 +109,7 @@ function buildInvoiceTable() {
                         { name: 'field_cost', type: 'float' },
                         { name: 'payment_method', type: 'string' },
                         { name: 'protocol_pdf', type: 'string' },
+                        { name: 'invoice_pdf', type: 'string' },
                         { name: 'academic_year', type: 'string' },
                         { name: 'supplier', type: 'string' },
                         { name: 'field', type: 'string' },
@@ -108,7 +121,7 @@ function buildInvoiceTable() {
                             type: "POST",
                             url: "/src/backend/rest_api.php",
                             dataType: "json",
-                            data: { functionname: "delete_invoice", arguments: [data["invoice_number"], data["protocol_pdf"] ] },
+                            data: { functionname: "delete_invoice", arguments: [data["invoice_number"], data["protocol_pdf"], data["invoice_pdf"] ] },
                 
                             success: function (obj, textstatus) {
                                 commit(true);
@@ -165,8 +178,13 @@ function buildInvoiceTable() {
                             { text: 'ΑΡ. ΠΡΩΤ.', datafield: 'protocol_id', width: "6%", cellsalign: 'center' },
                             { text: 'ΗΜ. ΠΡΩΤ.', datafield: 'protocol_date', width: "6%", cellsalign: 'center' },
                             {
-                                text: 'ΠΡΩΤΟΚΟΛΛΟ', datafield: 'protocol_pdf', width: "6%", cellsrenderer: function (row, columnfield, value, defaulthtml) {
-                                    return '<div id="pdf_' + row + '" style = "text-align:center" > <img src="http://localhost/src/images/acrobat.png" style="padding-top:15px;width:23px;height:23px;"></div>';
+                                text: 'ΠΡΩΤΟΚ', datafield: 'protocol_pdf', width: "3%", cellsrenderer: function (row, columnfield, value, defaulthtml) {
+                                    return '<div id="pdf_protocol_' + row + '" style = "text-align:center" > <img src="http://localhost/src/images/acrobat.png" style="padding-top:15px;width:23px;height:23px;"></div>';
+                                }
+                            },
+                            {
+                                text: 'ΤΙΜΟΛO', datafield: 'invoice_pdf', width: "3%", cellsrenderer: function (row, columnfield, value, defaulthtml) {
+                                    return '<div id="pdf_invoice_' + row + '" style = "text-align:center" > <img src="http://localhost/src/images/acrobat.png" style="padding-top:15px;width:23px;height:23px;"></div>';
                                 }
                             },
                             { text: 'ΤΟΜΕΑΣ', datafield: 'field', width: "16%" },

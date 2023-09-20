@@ -1,9 +1,14 @@
 $(document).ready(function () {
+
+  let uploadfile = ""
+  let g_fields = {}
+  let g_field_labs = {}
+
   //disable everything until an invoice pdf is selected
   disableElements();
 
   //academic year
-  addAcademicYearsToDropdown();
+  addAcademicYearsToDropdown("#academic_year");
 
   //each time a new invoice is selected trigger pdf viewer to preview the file
   invoicePDFSelected();
@@ -91,11 +96,7 @@ $(document).ready(function () {
 
   //add new material in bought list and add it to the dropdown and the database
   $("#add_new_material").on("click", () => {
-    addNewMaterial(
-      $("#new_added_material_name").val(),
-      $("#new_added_material_type").val(),
-      $("#new_added_material_number").val()
-    );
+    addNewMaterial($("#new_added_material_name").val(), $("#new_added_material_type").val(), $("#new_added_material_number").val());
   });
 
   //add new supplier to the dropdown and add it to the dropdown and the database
@@ -116,6 +117,13 @@ function disableElements() {
   $("#pdf_viewer").show();
   $("#protocol_viewer").hide();
   $("#save").hide();
+  $("#academic_year").jqxDropDownList({
+    theme: 'energyblue',
+    itemHeight: 40,
+    height: 35,
+    width: 100,
+    disabled: false,
+  });
   $("#invoice_no").jqxNumberInput({
     width: "50px",
     height: "35px",
@@ -149,6 +157,7 @@ function disableElements() {
     disabled: true,
   });
   $("#suppliers").jqxDropDownList({
+    theme: 'energyblue',
     itemHeight: 40,
     height: 35,
     width: 445,
@@ -156,18 +165,21 @@ function disableElements() {
   });
   $("#new_supplier").hide();
   $("#fields").jqxDropDownList({
+    theme: 'energyblue',
     itemHeight: 40,
     height: 35,
     width: 445,
     disabled: true,
   });
   $("#labs").jqxDropDownList({
+    theme: 'energyblue',
     itemHeight: 40,
     height: 35,
     width: 445,
     disabled: true,
   });
   $("#payment_methods").jqxDropDownList({
+    theme: 'energyblue',
     itemHeight: 40,
     height: 35,
     width: 170,
@@ -202,6 +214,7 @@ function disableElements() {
     disabled: true,
   });
   $("#new_added_material_type").jqxDropDownList({
+    theme: 'energyblue',
     itemHeight: 40,
     height: 35,
     width: 200,
@@ -214,7 +227,7 @@ function disableElements() {
 function enableElements() {
   $("#invoice_no").jqxNumberInput({ disabled: false });
   $("#invoice_date").jqxDateTimeInput({ disabled: false });
-//   $("#protocol_no").jqxNumberInput({ disabled: false });
+  //   $("#protocol_no").jqxNumberInput({ disabled: false });
   $("#protocol_date").jqxDateTimeInput({ disabled: false });
   $("#suppliers").jqxDropDownList({ disabled: false });
   $("#new_supplier").show();
@@ -225,42 +238,62 @@ function enableElements() {
   $("#new_material").show();
 }
 
-function addAcademicYearsToDropdown() {
-  var source = ["", "2023-2024"];
-  $("#academic_year").jqxDropDownList({
-    width: "100px",
-    height: "35px",
-    source: source,
-    selectedIndex: 0,
-  });
+function addAcademicYearsToDropdown(element) {
+  jQuery.ajax({
+    type: "GET",
+    url: "/src/backend/rest_api.php",
+    dataType: "json",
+    data: { functionname: "get_academic_years", arguments: [] },
+
+    success: function (obj, textstatus) {
+      if (!("error" in obj)) {
+        var source = {
+          localdata: obj,
+          datatype: "json",
+        };
+        var dataAdapter = new $.jqx.dataAdapter(source);
+        $(element).jqxDropDownList({
+          selectedIndex: -1,
+          source: dataAdapter,
+          displayMember: "academic_year",
+          valueMember: "",
+        });
+      } else {
+        console.log(obj.error);
+      }
+    },
+    error: function (XMLHttpRequest, textStatus, errorThrown) {
+      alert("Status: " + textStatus);
+      alert("Error: " + errorThrown);
+    }
+  })
 }
 
 function invoicePDFSelected() {
-    $("#invoice_select").change(function () {
-        $("#pdf_viewer").show();
-        $("#protocol_viewer").hide();
-        var file = this.files[0];
-        var pdf_file = $("#pdf_file");
-        if (file) {
-            var url = URL.createObjectURL(file);
-            pdf_file.attr("src", url);
+  $("#invoice_select").change(function (e) {
+    $("#pdf_viewer").show();
+    $("#protocol_viewer").hide();
+    var file_data = this.files[0];
+    if (file_data) {
+      var url = URL.createObjectURL(file_data);
+      $("#pdf_file").attr("src", url);
 
-            //enable elements once an invoice pdf is selected
-            enableElements();
+      //enable elements once an invoice pdf is selected
+      enableElements();
 
-            //get the correct protocol id from database and add it to the form
-            getMaxProtocolId();
+      //get the correct protocol id from database and add it to the form
+      getMaxProtocolId();
 
-            //get the suppliers from the db and fill the dropdown
-            addSuppliersToDropdown();
+      //get the suppliers from the db and fill the dropdown
+      addSuppliersToDropdown();
 
-            //get the fields from the db and fill the dropdown
-            addFieldsToDropdown();
+      //get the fields from the db and fill the dropdown
+      addFieldsToDropdown();
 
-            //get the payment methods and fill the dropdown
-            addPaymentMethodsToDropdown();
-        }
-    });
+      //get the payment methods and fill the dropdown
+      addPaymentMethodsToDropdown();
+    }
+  });
 }
 
 function getMaxProtocolId() {
@@ -289,16 +322,20 @@ function getMaxProtocolId() {
 }
 
 function addFieldsToDropdown() {
+  const user_id = $("#user_id").html();
   jQuery.ajax({
     type: "GET",
     url: "/src/backend/rest_api.php",
     dataType: "json",
-    data: { functionname: "get_fields", arguments: [] },
+    data: { functionname: "get_user_fields", arguments: [user_id] },
 
     success: function (obj, textstatus) {
       if (!("error" in obj)) {
+        g_fields = obj[0];
+        g_field_labs = obj[1];
+
         var source = {
-          localdata: obj,
+          localdata: g_fields,
           datatype: "json",
         };
         var dataAdapter = new $.jqx.dataAdapter(source);
@@ -320,37 +357,23 @@ function addFieldsToDropdown() {
 }
 
 function addFieldLabsToDropdown() {
+  const user_id = $("#user_id").html();
   $("#fields").change(function () {
+    $("#labs").jqxDropDownList("clear");
+    $("#materials").jqxInput("clear");
     var field = $("#fields").jqxDropDownList("getSelectedItem");
 
-    jQuery.ajax({
-      type: "GET",
-      url: "/src/backend/rest_api.php",
-      dataType: "json",
-      data: { functionname: "get_labs", arguments: [field.value] },
-
-      success: function (obj, textstatus) {
-        if (!("error" in obj)) {
-          var source = {
-            localdata: obj,
-            datatype: "json",
-          };
-          var dataAdapter = new $.jqx.dataAdapter(source);
-          $("#labs").jqxDropDownList({
-            selectedIndex: -1,
-            source: dataAdapter,
-            displayMember: "name",
-            valueMember: "id",
-            disabled: false,
-          });
-        } else {
-          console.log(obj.error);
-        }
-      },
-      error: function (XMLHttpRequest, textStatus, errorThrown) {
-        alert("Status: " + textStatus);
-        alert("Error: " + errorThrown);
-      },
+    var source = {
+      localdata: g_field_labs[field.label],
+      datatype: "json",
+    };
+    var dataAdapter = new $.jqx.dataAdapter(source);
+    $("#labs").jqxDropDownList({
+      selectedIndex: -1,
+      source: dataAdapter,
+      displayMember: "name",
+      valueMember: "id",
+      disabled: false,
     });
   });
 }
@@ -358,6 +381,9 @@ function addFieldLabsToDropdown() {
 function addLabsMaterialsToAutocompleteInput() {
   $("#labs").change(function () {
     var lab = $("#labs").jqxDropDownList("getSelectedItem");
+    if (lab.value === undefined) {
+      lab.value = 8
+    }
     if (lab !== null) {
       jQuery.ajax({
         type: "GET",
@@ -442,8 +468,11 @@ function addPaymentMethodsToDropdown() {
     "ΚΑΡΤΑ ΦΥΣΙΚΗ",
     "ΤΡΑΠΕΖΙΚΗ ΚΑΤΑΘΕΣΗ",
     "ΜΕΤΡΗΤΑ",
+    "ΔΩΡΕΑ",
+    "ΕΥΡΩΠΑΙΚΟ ΠΡΟΓΡΑΜΜΑ",
+    "ΥΠΟΥΡΓΕΙΟ ΠΑΙΔΕΙΑΣ"
   ];
-  $("#payment_methods").jqxDropDownList({ source: source });
+  $("#payment_methods").jqxDropDownList({source: source });
 }
 
 function addNewSupplier(supplier_name) {
@@ -480,18 +509,20 @@ function addNewSupplier(supplier_name) {
 }
 
 function addNewMaterial(name, type, amount) {
+
+  var lab_id = $("#labs").jqxDropDownList("getSelectedItem").value;
+  var field_id = $("#fields").jqxDropDownList("getSelectedItem").value;
+
   jQuery.ajax({
     type: "POST",
     url: "/src/backend/rest_api.php",
     dataType: "json",
-    data: { functionname: "add_new_material", arguments: [name, type] },
+    data: { functionname: "add_new_material", arguments: [name, type, lab_id, field_id] },
 
     success: function (obj, textstatus) {
       let res = obj.split("|-|");
       if (res[0] == 1) {
-        $("#notification_success").html(
-          "Tο νέο υλικό καταχωρήθηκε με επιτυχία."
-        );
+        $("#notification_success").html("Tο νέο υλικό καταχωρήθηκε με επιτυχία.");
         $("#notification_success").jqxNotification("open");
         addMaterialTypesToDropdown();
         addMaterialToBoughtList(res[1], name, type, amount);
@@ -560,16 +591,16 @@ function clearInvoiceForm() {
   $("#protocol_date").jqxDateTimeInput({ disabled: true });
   $("#protocol_date").jqxDateTimeInput("val", 0);
   $("#protocol_no").jqxNumberInput("val", 0);
-  $("#protocol_no").jqxNumberInput({ disabled: true });
+  $("#protocol_no").jqxNumberInput({disabled: true });
   $("#suppliers").jqxDropDownList("clear");
-  $("#suppliers").jqxDropDownList({ disabled: true });
+  $("#suppliers").jqxDropDownList({disabled: true });
   $("#new_supplier").hide();
   $("#fields").jqxDropDownList("clear");
-  $("#fields").jqxDropDownList({ disabled: true });
+  $("#fields").jqxDropDownList({disabled: true });
   $("#labs").jqxDropDownList("clear");
-  $("#labs").jqxDropDownList({ disabled: true });
+  $("#labs").jqxDropDownList({disabled: true });
   $("#payment_methods").jqxDropDownList("clear");
-  $("#payment_methods").jqxDropDownList({ disabled: true });
+  $("#payment_methods").jqxDropDownList({disabled: true });
   $("#cost").jqxNumberInput("val", 0);
   $("#cost").jqxNumberInput({ disabled: true });
   $("#field_cost").jqxNumberInput("val", 0);

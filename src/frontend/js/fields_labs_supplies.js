@@ -15,7 +15,7 @@ $(document).ready(function () {
             type: "GET",
             url: "/src/backend/rest_api.php",
             dataType: "json",
-            data: { functionname: "get_labs", arguments: [field_id] },        
+            data: { functionname: "get_field_labs", arguments: [field_id] },        
 
             success: function (obj, textstatus) {
                 if (!("error" in obj)) {
@@ -98,7 +98,7 @@ $(document).ready(function () {
                             showfilterrow: true,
                             columns: [
                                 { text: 'ΥΛΙΚΑ ΑΝΑΛΩΣΗΜΑ', datafield: 'name', width: "60%", cellsalign: 'left', editable: false },
-                                { text: '2022-2023', datafield: '2022-2023', width: "20%", cellsalign: 'center', editable: false },
+                                { text: '2022-2023', datafield: '2022-2023', width: "20%", cellsalign: 'center', editable: true },
                                 { text: '2023-2024', datafield: '2023-2024', width: "20%", cellsalign: 'center', editable: true },
                             ]
                         });
@@ -185,11 +185,13 @@ $(document).ready(function () {
 })
 
 function buildFieldsLabsMaterialTable(){
+    const user_id = $("#user_id").html();
+
     jQuery.ajax({
         type: "GET",
         url: "/src/backend/rest_api.php",
         dataType: "json",
-        data: { functionname: "get_fields", arguments: [] },
+        data: { functionname: "get_fields", arguments: [user_id] },
 
         success: function (obj, textstatus) {
             if (!("error" in obj)) {

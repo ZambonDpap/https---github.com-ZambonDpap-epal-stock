@@ -13,7 +13,13 @@ $(document).ready(function () {
       $("#pv_protocol_date_2").text(protocol_date);
 
       var field_item = $("#fields").jqxDropDownList("getSelectedItem");
-      $("#pv_field_name").text(field_item.label);
+      if(field_item.label == "ΕΡΓΑΣΤΗΡΙΑΚΟ ΚΕΝΤΡΟ"){
+        $("#pv_for_who").text("για το ΕΚ");
+        $("#pv_field_name").text("");
+      } else {
+        $("#pv_for_who").text("για τον ΤΟΜΕΑ");
+        $("#pv_field_name").text(field_item.label);
+      }
 
       var lab_item = $("#labs").jqxDropDownList("getSelectedItem");
       $("#pv_lab").text(lab_item.label);
@@ -42,7 +48,9 @@ $(document).ready(function () {
     }
   });
 
-  $("#save").on("click", () => {
+  $("#save").on("click", (event) => {
+    event.preventDefault();
+
     savePDF();
   });
 });
@@ -74,50 +82,73 @@ function savePDF() {
   const payment_method_item = $("#payment_methods").jqxDropDownList("getSelectedItem");
   const payment_method = payment_method_item.value;
   
-  jQuery.ajax({
-    type: "POST",
-    url: "/src/backend/rest_api.php",
-    dataType: "json",
-    data: {
-      functionname: "save_pdf",
-      arguments: [
-        $("#protocol_viewer").html(),
-        academic_year,
-        protocol_date,
-        field_id,
-        lab_id,
-        invoice_no,
-        invoice_date,
-        field_cost,
-        cost,
-        supplier_id,
-        materials_bought,
-        protocol_no,
-        payment_method
-      ],
-    },
+  var pdf_file = $("#invoice_select");
+  var file = pdf_file[0].files[0];
+  if (file.type == "application/pdf") {
+    var invoice_pdf = new FormData();
+    invoice_pdf.append("pdf_file", file);
+    invoice_pdf.append("short_lab", lab_item.originalItem.short_name)
+    invoice_pdf.append("invoice_date", invoice_date)
+    invoice_pdf.append("functionname", "upload_pdf")
 
-    success: function (obj, textstatus) {
-      if (obj === true) {
-        $("#notification_success").html("Το τιμολόγιο αποθηκεύτηκε.");
-        $("#notification_success").jqxNotification("open");
-        $("#notification_success").html("Το πρωτόκολλο αποθηκεύτηκε.");
-        $("#notification_success").jqxNotification("open");
-      } else {
-        $("#notification_success").html("Το τιμολόγιο δεν αποθηκεύτηκε.");
-        $("#notification_success").jqxNotification("open");
-        $("#notification_success").html("Το πρωτόκολλο δεν αποθηκεύτηκε.");
-        $("#notification_success").jqxNotification("open");
+    jQuery.ajax({
+      type: "POST",
+      url: "/src/backend/rest_api.php",
+      dataType: "json",
+      data: invoice_pdf,
+      contentType:false,
+      processData:false,
+      success: function(invoice_pdf_name){
+
+          jQuery.ajax({
+            type: "POST",
+            url: "/src/backend/rest_api.php",
+            dataType: "json",
+            data: {
+              functionname: "save_pdf",
+              arguments: [
+                $("#protocol_viewer").html(),
+                academic_year,
+                protocol_date,
+                field_id,
+                lab_id,
+                invoice_no,
+                invoice_date,
+                field_cost,
+                cost,
+                supplier_id,
+                materials_bought,
+                protocol_no,
+                payment_method,
+                invoice_pdf_name
+                ],
+            },
+        
+            success: function (obj, textstatus) {
+              if (obj === true) {
+                $("#notification_success").html("Το τιμολόγιο αποθηκεύτηκε.");
+                $("#notification_success").jqxNotification("open");
+                $("#notification_success").html("Το πρωτόκολλο αποθηκεύτηκε.");
+                $("#notification_success").jqxNotification("open");
+        
+              } else {
+                $("#notification_success").html("Το τιμολόγιο δεν αποθηκεύτηκε.");
+                $("#notification_success").jqxNotification("open");
+                $("#notification_success").html("Το πρωτόκολλο δεν αποθηκεύτηκε.");
+                $("#notification_success").jqxNotification("open");
+              }
+              clearInvoiceForm();
+              $("#pdf_viewer").hide();
+              $("#protocol_viewer").hide();
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+              alert("Status: " + textStatus);
+              alert("Error: " + errorThrown);
+            },
+          });
       }
-      clearInvoiceForm();
-      $("#pdf_viewer").hide();
-      $("#protocol_viewer").hide();
-    },
-    error: function (XMLHttpRequest, textStatus, errorThrown) {
-      alert("Status: " + textStatus);
-      alert("Error: " + errorThrown);
-    },
-  });
+    });
+  }
 }
 function validateInput() {
   return true;

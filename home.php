@@ -19,6 +19,7 @@
         <script src="/src/frontend/js/suppliers.js"></script>
         <script src="/src/frontend/js/proposal.js"></script>
         <script src="/src/frontend/js/fields_labs_supplies.js"></script>
+        <script src="/src/frontend/js/supplies_book.js"></script>
 
 
         <!-- Add css files-->
@@ -28,6 +29,8 @@
         <link rel="stylesheet" type="text/css" href="./src/frontend/css/invoices.css" />
         <link rel="stylesheet" type="text/css" href="./src/frontend/css/suppliers.css" />
         <link rel="stylesheet" type="text/css" href="./src/frontend/css/fields_labs_supplies.css" />
+        <link rel="stylesheet" type="text/css" href="./src/frontend/css/supplies_book.css" />
+        <link rel="stylesheet" type="text/css" href="./src/frontend/css/user_roles.css" />
     
 
 
@@ -59,6 +62,8 @@
         <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxfileupload.js"></script>
         <script type="text/javascript" src="./libs/jqwidgets_16.0.0/globalization/globalize.js"></script>
         <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxgrid.pager.js"></script> 
+        <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxwindow.js"></script> 
+        <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxtabs.js"></script> 
     </head>
    
    <body>
@@ -66,10 +71,11 @@
             <div id="top_left_menu">
                 <div class="box-left" id="home_btn">Αρχική</div>
                 <div class="box-left" id="new_invoice_btn">Νέο Τιμολόγιο</div>
+                <div class="box-left" id="invoice_list_btn">Τιμολόγια</div>
+                <div class="box-left" id="supplies_book_btn">Βιβλίο Υλικών</div>
                 <?php 
                     if ( $_SESSION['admin_level'] == 2 ){
-                        echo('<div class="box-left" id="invoice_list_btn">Τιμολόγια</div>
-                        <div class="box-left" id="users_list_btn">Καθηγητές/Ρόλοι</div>
+                        echo('<div class="box-left" id="users_list_btn">Καθηγητές/Ρόλοι</div>
                         <div class="box-left" id="fields_labs_list_btn">Τομείς/Εργαστήρια/Υλικά</div>
                         <div class="box-left" id="suppliers_list_btn">Προμηθευτές</div>');
                     }
@@ -78,6 +84,7 @@
             </div>
             <div id="top_right_menu">
                 <div class="box-right" id="username"><?php echo( $_SESSION['fullname'] ) ?></div>
+                <div class="box-right" id="user_id"><?php echo( $_SESSION['id'] ) ?></div>
                 <div class="box-right" id="logout">Sing out</div>
                 <div id="notification_success"></div>
                 <div id="notification_warning"></div>
@@ -93,7 +100,7 @@
             </div>
             <div id="invoice-form-group">
                 <label id="invoice-label" for="invoice_select">Τιμολόγιο</label>
-                <input type="file" id="invoice_select" name="invoice_select">
+                <input type="file" id="invoice_select" name="invoice_select" accept="application/pdf">
             </div>
             <div id="invoice-no-date-form-group">
                 <label id="invoice-no-label" for="invoice_no">Αριθμός Τιμολογίου</label>
@@ -158,6 +165,7 @@
 
             <input id="continue" type="submit" value="Συνέχεια">
             <input id="save" type="submit" value="Αποθήκευση">
+
 
         </div>
 
@@ -226,7 +234,7 @@
                 <span style="font-style:normal;font-weight:normal;font-size:9pt;">συνήλθαν στο 8ο Ε.Κ. Επανομής οι επιτροπές αγοράς &amp; παραλαβής υλικών</span>
             </div>
             <div style="position:absolute;top:36.5%; left: 5%; width:2.04in;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:normal;font-size:10pt;">για τον ΤΟΜΕΑ</span>
+                <span id="pv_for_who" style="font-style:normal;font-weight:normal;font-size:10pt;"></span>
             </div>
             <div style="position:absolute;top:36.5%; left: 20%; width:60%;line-height:0.14in;">
                 <span id="pv_field_name" style="font-style:normal;font-weight:bold;font-size:9pt;"></span>            
@@ -347,12 +355,38 @@
             </div>
             <div style="position:absolute;top:93%; left:57%; width:50%;line-height:0.26in;">
                 <div style="position:relative; left:0.30in;">
-                    <span style="font-style:normal;font-weight:bold;font-size:10pt;">Ο ΑΝ/ΤΗΣ Δ/ΝΤΗΣ</span>
+                    <span style="font-style:normal;font-weight:bold;font-size:10pt;">Ο Δ/ΝΤΗΣ</span>
                     <br />
                 </div>
                 <span style="font-style:normal;font-weight:bold;font-size:10pt;">ΣΤΕΦΑΝΟΣ ΜΕΡΛΙΑΟΥΝΤΑΣ</span>
                 <br />
             </div>
+        </div>
+
+        <!-- SUPPLIES BOOK -->
+        <div id="supplies_book_labs">Υλικά Εργαστηρίου</div>
+        <div id="supplies_book_labs_dropdown"></div>
+        <div id="supplies_book_table">
+            <ul>
+                <li style="margin-left: 30px;">
+                    ΑΝΑΛΩΣΗΜΑ
+                </li>
+                <li>
+                    ΒΡΑΧΕΙΑΣ
+                </li>
+                <li>
+                    ΜΑΚΡΑΣ
+                </li>
+            </ul>
+            <div style="overflow: hidden;">
+                <div style="border:none;" id="grid_cons"></div>
+            </div>
+            <div style="overflow: hidden;">
+                <div style="border:none;" id="grid_sort"></div>
+            </div>  
+            <div style="overflow: hidden;">
+                <div style="border:none;" id="grid_long"></div>
+            </div>  
         </div>
 
         <!-- INVOICES TABLE -->
@@ -364,6 +398,43 @@
         <div id="users_roles_table"></div>
         <div id="add_user"></div>
         <div id="delete_user"></div>
+
+
+        <div id="edit_user_popupwindow">
+            <div>Edit</div>
+            <div style="overflow: hidden;">
+                <table>
+                    <tr>
+                        <td class="edit_roles_td_name" align="right">Ρόλος</td>
+                        <td  align="left"><div class="edit_element" id="edit_user_role"></div></td>
+                    </tr>
+                    <tr>
+                        <td class="edit_roles_td_name" align="right">Τομέας</td>
+                        <td align="left"><div  class="edit_element" id="edit_user_field"></div</td>
+                    </tr>
+                    <tr>
+                        <td class="edit_roles_td_name" align="right">Εργαστήριο</td>
+                        <td align="left"><div  id="edit_user_lab"></div</td>
+                    </tr>
+                    <tr>
+                        <td class="edit_roles_td_name" align="right">Ακάδ έτος</td>
+                        <td align="left"><div  id="edit_user_year"></div></td>
+                    </tr>
+                    <tr>
+                        <td class="edit_roles_td_name" align="right">Ενεργός</td>
+                        <td align="left"><div  id="edit_user_active"></div></td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td style="padding-top: 10px;" align="right">
+                            <input type="button" id="edit_user_save" value="Save" />
+                            <input id="edit_user_cancel" type="button" value="Cancel" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+       </div>
+
 
         <!-- SUPPLIERS TABLE -->
         <div id="suppliers_table"></div>

@@ -1,0 +1,65 @@
+#users_table{
+    position: absolute;
+    top: 6%;
+    left:0%;
+}
+
+#users_roles_table{
+    position: absolute;
+    top: 6%;
+    left:52%;
+}
+
+#addrowbutton{
+    position: absolute;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 13px !important;
+    top: 41%;
+    left:31%;
+    width:20%;
+    cursor: pointer;
+}
+
+#deleterowbutton{
+    position: absolute;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 13px !important;
+    top: 41%;
+    left:53%;
+    width:20%;
+    cursor: pointer;
+}
+
+#updaterowbutton{
+    position: absolute;
+    font-family: Verdana, Arial, sans-serif;
+    font-size: 13px !important;
+    top: 41%;
+    left:75%;
+    width:20%;
+    cursor: pointer;
+}
+
+#edit_user_popupwindow{
+    width: 25% !important;
+}
+
+.edit_roles_td_name{
+    /* border: 1px solid black; */
+    height: 40px;
+    width: 20%;
+    padding-right: 10px;
+}
+
+#edit_user_save{
+    width: 20% !important;
+    margin-right: 5px;
+}
+
+#edit_user_cancel {
+    width: 20% !important;
+}
+
+#edit_user_role, #edit_user_field, #edit_user_lab, #edit_user_year{
+    margin-bottom: 7px;
+}

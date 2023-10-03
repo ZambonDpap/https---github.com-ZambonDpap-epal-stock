@@ -1,11 +1,13 @@
 $(document).ready(function () {
-
   let uploadfile = ""
   let g_fields = {}
   let g_field_labs = {}
 
   //disable everything until an invoice pdf is selected
   disableElements();
+
+  //get user fields and store them in a global
+  getUserFields()
 
   //academic year
   addAcademicYearsToDropdown("#academic_year");
@@ -285,7 +287,7 @@ function invoicePDFSelected() {
       getMaxProtocolId();
 
       //get the suppliers from the db and fill the dropdown
-      addSuppliersToDropdown();
+      addSuppliersToDropdown("");
 
       //get the fields from the db and fill the dropdown
       addFieldsToDropdown();
@@ -311,7 +313,7 @@ function getMaxProtocolId() {
     },
 
     success: function (obj, textstatus) {
-      let max_protocol_id = Number(obj[0]["MAX(protocol_id)"]) + 1;
+      let max_protocol_id = obj;
       $("#protocol_no").val(max_protocol_id);
     },
     error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -321,8 +323,10 @@ function getMaxProtocolId() {
   });
 }
 
-function addFieldsToDropdown() {
+function getUserFields() {
   const user_id = $("#user_id").html();
+  // console.log(user_id);
+
   jQuery.ajax({
     type: "GET",
     url: "/src/backend/rest_api.php",
@@ -330,21 +334,12 @@ function addFieldsToDropdown() {
     data: { functionname: "get_user_fields", arguments: [user_id] },
 
     success: function (obj, textstatus) {
+      // console.log(obj)
       if (!("error" in obj)) {
         g_fields = obj[0];
         g_field_labs = obj[1];
 
-        var source = {
-          localdata: g_fields,
-          datatype: "json",
-        };
-        var dataAdapter = new $.jqx.dataAdapter(source);
-        $("#fields").jqxDropDownList({
-          selectedIndex: -1,
-          source: dataAdapter,
-          displayMember: "name",
-          valueMember: "id",
-        });
+        
       } else {
         console.log(obj.error);
       }
@@ -354,6 +349,21 @@ function addFieldsToDropdown() {
       alert("Error: " + errorThrown);
     },
   });
+}
+
+function addFieldsToDropdown() {
+  var source = {
+    localdata: g_fields,
+    datatype: "json",
+  };
+  var dataAdapter = new $.jqx.dataAdapter(source);
+  $("#fields").jqxDropDownList({
+    selectedIndex: -1,
+    source: dataAdapter,
+    displayMember: "name",
+    valueMember: "id",
+  });
+
 }
 
 function addFieldLabsToDropdown() {
@@ -423,7 +433,7 @@ function addLabsMaterialsToAutocompleteInput() {
   });
 }
 
-function addSuppliersToDropdown() {
+function addSuppliersToDropdown(supplier) {
   jQuery.ajax({
     type: "GET",
     url: "/src/backend/rest_api.php",
@@ -488,7 +498,7 @@ function addNewSupplier(supplier_name) {
           "Ο νέος προμηθευτής καταχωρήθηκε με επιτυχία."
         );
         $("#notification_success").jqxNotification("open");
-        addSuppliersToDropdown();
+        addSuppliersToDropdown("");
       } else if (obj === "exists") {
         $("#notification_info").html(
           "Ο νέος προμηθευτής υπάρχει."
@@ -580,34 +590,67 @@ function setupBoughtMaterialsGrid() {
   });
 }
 
-function clearInvoiceForm() {
-  $("#academic_year").jqxDropDownList("val", "");
-  $("#invoice_select").prop("disabled", true);
-  $("#invoice_select").val("");
-  $("#invoice_no").jqxNumberInput("val", 0);
-  $("#invoice_no").jqxNumberInput({ disabled: true });
-  $("#invoice_date").jqxDateTimeInput({ disabled: true });
-  $("#invoice_date").jqxDateTimeInput("val", 0);
-  $("#protocol_date").jqxDateTimeInput({ disabled: true });
-  $("#protocol_date").jqxDateTimeInput("val", 0);
-  $("#protocol_no").jqxNumberInput("val", 0);
-  $("#protocol_no").jqxNumberInput({disabled: true });
-  $("#suppliers").jqxDropDownList("clear");
-  $("#suppliers").jqxDropDownList({disabled: true });
-  $("#new_supplier").hide();
-  $("#fields").jqxDropDownList("clear");
-  $("#fields").jqxDropDownList({disabled: true });
-  $("#labs").jqxDropDownList("clear");
-  $("#labs").jqxDropDownList({disabled: true });
-  $("#payment_methods").jqxDropDownList("clear");
-  $("#payment_methods").jqxDropDownList({disabled: true });
-  $("#cost").jqxNumberInput("val", 0);
-  $("#cost").jqxNumberInput({ disabled: true });
-  $("#field_cost").jqxNumberInput("val", 0);
-  $("#field_cost").jqxNumberInput({ disabled: true });
-  $("#materials").jqxInput("clear");
-  $("#materials").jqxInput({ disabled: true });
-  $("#new_material").hide();
-  $("#materials_added").jqxGrid("clear");
-  $("#save").hide();
+function clearInvoiceForm(edit_data_record) {
+  let edit_data_record_size = 0;
+  if(edit_data_record != null){
+    edit_data_record_size = Object.keys(edit_data_record).length;
+  }
+
+  if(edit_data_record_size > 0) 
+  {
+
+    //get the suppliers from the db and fill the dropdown
+    addSuppliersToDropdown(edit_data_record["supplier"]);
+    //get the fields from the db and fill the dropdown
+    addFieldsToDropdown();
+    //get the payment methods and fill the dropdown
+    addPaymentMethodsToDropdown();
+
+    console.log(edit_data_record)
+    $("#academic_year").jqxDropDownList("val", edit_data_record["academic_year"]);
+
+    $("#invoice_no").jqxNumberInput("val", edit_data_record["invoice_number"]);
+    $("#invoice_no").jqxNumberInput({ disabled: false });
+
+    $("#invoice_date").jqxDateTimeInput("val", edit_data_record["invoice_date"]);    
+    $("#invoice_date").jqxDateTimeInput({ disabled: false });
+
+    $("#protocol_date").jqxDateTimeInput("val", edit_data_record["protocol_date"]);
+    $("#protocol_date").jqxDateTimeInput({ disabled: false });
+
+    $("#protocol_no").jqxNumberInput("val", edit_data_record["protocol_no"]);
+    $("#protocol_no").jqxNumberInput({disabled: true});
+
+  } else 
+  {
+    $("#academic_year").jqxDropDownList("val", "");
+    $("#invoice_select").prop("disabled", true);
+    $("#invoice_select").val("");
+    $("#invoice_no").jqxNumberInput("val", 0);
+    $("#invoice_no").jqxNumberInput({ disabled: true });
+    $("#invoice_date").jqxDateTimeInput({ disabled: true });
+    $("#invoice_date").jqxDateTimeInput("val", 0);
+    $("#protocol_date").jqxDateTimeInput({ disabled: true });
+    $("#protocol_date").jqxDateTimeInput("val", 0);
+    $("#protocol_no").jqxNumberInput("val", 0);
+    $("#protocol_no").jqxNumberInput({disabled: true });
+    $("#suppliers").jqxDropDownList("clear");
+    $("#suppliers").jqxDropDownList({disabled: true });
+    $("#new_supplier").hide();
+    $("#fields").jqxDropDownList("clear");
+    $("#fields").jqxDropDownList({disabled: true });
+    $("#labs").jqxDropDownList("clear");
+    $("#labs").jqxDropDownList({disabled: true });
+    $("#payment_methods").jqxDropDownList("clear");
+    $("#payment_methods").jqxDropDownList({disabled: true });
+    $("#cost").jqxNumberInput("val", 0);
+    $("#cost").jqxNumberInput({ disabled: true });
+    $("#field_cost").jqxNumberInput("val", 0);
+    $("#field_cost").jqxNumberInput({ disabled: true });
+    $("#materials").jqxInput("clear");
+    $("#materials").jqxInput({ disabled: true });
+    $("#new_material").hide();
+    $("#materials_added").jqxGrid("clear");
+    $("#save").hide();
+  }
 }

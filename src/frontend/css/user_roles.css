@@ -40,7 +40,7 @@
     cursor: pointer;
 }
 
-#edit_user_popupwindow{
+#edit_user_role_popupwindow{
     width: 25% !important;
 }
 
@@ -51,15 +51,22 @@
     padding-right: 10px;
 }
 
-#edit_user_save{
+#update_user_role, #new_user_role{
     width: 20% !important;
     margin-right: 5px;
 }
 
-#edit_user_cancel {
+#cancel_update_user_role {
     width: 20% !important;
 }
 
 #edit_user_role, #edit_user_field, #edit_user_lab, #edit_user_year{
     margin-bottom: 7px;
+}
+
+#add_user_role_div{
+    position: absolute;
+    top:90%;
+    left: 77.5%;
+    cursor: pointer;
 }

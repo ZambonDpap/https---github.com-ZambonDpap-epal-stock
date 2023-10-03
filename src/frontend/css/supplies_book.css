@@ -1,4 +1,4 @@
-#supplies_book_labs{
+#supplies_book_fields{
     display: flex;
     position: absolute;
     top: 8%;
@@ -8,11 +8,28 @@
     padding-top: 0.3%;
     /* border: 1px black solid; */
 }
-#supplies_book_labs_dropdown{
+#supplies_book_fields_dropdown{
+    position: absolute;
+    top: 8.3%;
+    left: 5%;
+}
+
+#supplies_book_labs{
+    display: flex;
     position: absolute;
     top: 8%;
-    left: 9%;
+    left: 37%;
+    width: 40%;
+    height: 3%;
+    padding-top: 0.3%;
+    /* border: 1px red solid; */
 }
+#supplies_book_labs_dropdown{
+    position: absolute;
+    top: 8.3%;
+    left: 47%;
+}
+
 #supplies_book_table{
     position: absolute;
     top: 12%;

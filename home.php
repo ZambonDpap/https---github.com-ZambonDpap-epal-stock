@@ -364,6 +364,8 @@
         </div>
 
         <!-- SUPPLIES BOOK -->
+        <div id="supplies_book_fields">Τομέας</div>
+        <div id="supplies_book_fields_dropdown"></div>
         <div id="supplies_book_labs">Υλικά Εργαστηρίου</div>
         <div id="supplies_book_labs_dropdown"></div>
         <div id="supplies_book_table">
@@ -396,11 +398,9 @@
         <!-- USERS TABLE -->
         <div id="users_table"></div>
         <div id="users_roles_table"></div>
-        <div id="add_user"></div>
-        <div id="delete_user"></div>
+        <div id="add_user_role_div"><input id="add_user_role" value="Νέος Ρόλος"></input></div>
 
-
-        <div id="edit_user_popupwindow">
+        <div id="edit_user_role_popupwindow">
             <div>Edit</div>
             <div style="overflow: hidden;">
                 <table>
@@ -427,12 +427,15 @@
                     <tr>
                         <td align="right"></td>
                         <td style="padding-top: 10px;" align="right">
-                            <input type="button" id="edit_user_save" value="Save" />
-                            <input id="edit_user_cancel" type="button" value="Cancel" />
+                            <input class=user_role_action type="button" id="update_user_role" value="Save" />
+                            <input id="cancel_update_user_role" type="button" value="Cancel" />
                         </td>
                     </tr>
                 </table>
             </div>
+
+            
+
        </div>
 
 

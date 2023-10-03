@@ -57,16 +57,12 @@ if( !isset($_GET['functionname'])){
         $result = get_users($conn, $result);
     } else if ($_GET['functionname'] == "get_user_roles"){
         $result = get_user_roles($conn, $result);
-    } else if ($_GET['functionname'] == "get_roles"){
-        $result = get_roles($conn, $result);
     } else if ($_GET['functionname'] == "get_fields"){
         $result = get_fields($conn, $result);
     } else if ($_GET['functionname'] == "get_labs"){
         $result = get_labs($conn, $result);
     } else if ($_GET['functionname'] == "get_user_fields"){
         $result = get_user_fields($conn, $result);
-    } else if ($_GET['functionname'] == "get_user_fields_and_labs"){
-        $result = get_user_fields_and_labs($conn, $result);
     } else if ($_GET['functionname'] == "get_user_labs"){
         $result = get_user_labs($conn, $result);
     } else if ($_GET['functionname'] == "get_field_labs"){
@@ -141,15 +137,16 @@ function delete_invoice($conn, $result){
     } else
     {
         $arguments = $_POST['arguments'];
-        $invoice_number = $arguments[0];
-        $protocol_pdf = $arguments[1];
-        $invoice_pdf = $arguments[2];
+        $protocol_id = $arguments[0];
+        $invoice_number = $arguments[1];
+        $protocol_pdf = $arguments[2];
+        $invoice_pdf = $arguments[3];
 
         
-        $sql = "DELETE FROM invoice WHERE invoice_number = '$invoice_number'";
+        $sql = "DELETE FROM invoice WHERE protocol_id = $protocol_id";
         $result = mysqli_query($conn,$sql);
 
-        $sql = "DELETE FROM purchace WHERE invoice_id = '$invoice_number'";
+        $sql = "DELETE FROM purchace WHERE invoice_id = $invoice_number";
         $result = mysqli_query($conn,$sql);
 
         $file_to_delete = "pdf_protocols/" . $protocol_pdf;
@@ -289,54 +286,52 @@ function get_user_fields($conn, $result){
         $user_id = $arguments[0];
     }
 
-    $sql = "SELECT field_id, lab_id FROM roles WHERE user_id = $user_id";
+    $sql = "SELECT field_id FROM roles WHERE user_id = $user_id AND role = 'ΥΠΕΥΘΥΝΟΣ ΤΟΜΕΑ'";
     $res = mysqli_query($conn,$sql);
-    $ids = mysqli_fetch_all($res,MYSQLI_ASSOC);
+    $field_ids = mysqli_fetch_all($res);
 
-    $field_ids = array();
-    $lab_ids = array();
-
-    foreach ($ids as $obj ) {
-        if($obj["field_id"] !== "0"){
-            $field_ids[] = $obj["field_id"];
-        }
-        if($obj["lab_id"] !== "0"){
-            $lab_ids[] = $obj["lab_id"];
-        }
-    }
-
+    $sql = "SELECT lab_id FROM roles WHERE user_id = $user_id AND role = 'ΥΠΕΥΘΥΝΟΣ ΕΡΓΑΣΤΗΡΙΟΥ'";
+    $res = mysqli_query($conn,$sql);
+    $lab_ids = mysqli_fetch_all($res);
+    
     $field_labs = array();
     $fields = array();
     $both = array();
     foreach ($field_ids as $field_id ) {
-
-        $sql = "SELECT name, id FROM labs WHERE field_id = $field_id";
+        $sql = "SELECT name, id FROM labs WHERE field_id = $field_id[0]";
         $res = mysqli_query($conn,$sql);
         $labs_data = mysqli_fetch_all($res,MYSQLI_ASSOC);
 
-        $sql1 = "SELECT name FROM fields WHERE id = $field_id";
-        $res1 = mysqli_query($conn,$sql1);
-        $field_name = mysqli_fetch_row($res1);
-
-        $fields[] = ["name"=>$field_name[0], "id"=>$field_id];
-        $options[$field_name[0]] = $labs_data;
-    }    
-
-    foreach ($lab_ids as $lab_id ) {
-        $sql = "SELECT name, id FROM labs WHERE id = $lab_id";
-        $res = mysqli_query($conn,$sql);
-        $labs_data = mysqli_fetch_all($res,MYSQLI_ASSOC);
-
-        $sql1 = "SELECT name,id FROM fields WHERE id = $lab_id";
+        $sql1 = "SELECT name, id FROM fields WHERE id = $field_id[0]";
         $res1 = mysqli_query($conn,$sql1);
         $field_data = mysqli_fetch_row($res1);
 
-        $fields[] = ["name"=>$field_data[0], "id"=>$field_data[1]];
+        $fields[] = ["name"=>$field_data[0], "id"=>$field_data[1] ];
         $options[$field_data[0]] = $labs_data;
-    }
+    }    
 
-    $fields = array_unique_by_key($fields, 'id');
-    sort($fields);
+    foreach ($lab_ids as $lab_id ) {
+        $sql = "SELECT name, id, field_id FROM labs WHERE id = $lab_id[0]";
+        $res = mysqli_query($conn,$sql);
+        $labs_data = mysqli_fetch_row($res);
+
+        $sql1 = "SELECT name,id FROM fields WHERE id = $labs_data[2]";
+        $res1 = mysqli_query($conn,$sql1);
+        $field_data = mysqli_fetch_row($res1);
+
+        $found = false;
+        foreach ($fields as $obj) {
+            // echo ( $obj["name"] . "  =====  " . $field_data[0] . "\n");
+            if ($obj["name"] == $field_data[0]){
+                $found = true;
+            }
+        }
+
+        if($found === false){
+            $fields[] = ["name"=>$field_data[0], "id"=>$field_data[1] ];
+            $options[$field_data[0]] = ["name"=>$labs_data[0], "id"=>$labs_data[1] ];
+        }
+    }
 
     $both[] = $fields;
     $both[] = $options;
@@ -365,23 +360,6 @@ function get_user_labs($conn, $result){
     $res = mysqli_query($conn,$sql);
     $result = mysqli_fetch_all($res,MYSQLI_ASSOC);
 
-    return $result;
-}
-function get_user_fields_and_labs($conn, $result){
-    if( !isset($_GET['arguments']) ) 
-    { 
-        $result['error'] = 'No arguments'; 
-    } else
-    {
-        $arguments = $_GET['arguments'];
-        $field_id = $arguments[0];
-    }
-
-    // $sql = "SELECT name, short_name, id FROM labs WHERE field_id = $field_id";
-    
-    // $res = mysqli_query($conn,$sql);
-    // $result = mysqli_fetch_all($res,MYSQLI_ASSOC);
-    
     return $result;
 }
 function get_field_labs($conn, $result){
@@ -430,6 +408,11 @@ function get_materials($conn, $result){
         $sql = "SELECT * FROM material_stock";
         $res = mysqli_query($conn,$sql);
         $result1 = mysqli_fetch_all($res,MYSQLI_ASSOC);
+
+        $sql = "SELECT * FROM academic_years ORDER BY id ASC";
+        $res = mysqli_query($conn,$sql);
+        $academic_years_asc = mysqli_fetch_all($res,MYSQLI_ASSOC);
+
 
         $sql = "SELECT id, name, type FROM materials WHERE lab_id = $lab_id AND type='ΑΝΑΛΩΣΗΜΑ'";
         $res = mysqli_query($conn,$sql);
@@ -489,14 +472,34 @@ function get_academic_year_max_protocol_id($conn, $result){
         $arguments = $_POST['arguments'];
         $academic_year = $arguments[0];
 
-        $sql = "SELECT MAX(protocol_id) FROM invoice WHERE academic_year = '$academic_year'";
+        $sql = "SELECT protocol_id FROM invoice WHERE academic_year = '$academic_year'";
     
         $res = mysqli_query($conn,$sql);
-        $result = mysqli_fetch_all($res,MYSQLI_ASSOC);
+        $result = mysqli_fetch_all($res);
+
+        $ids = array();
+
+        for($i=0; $i<sizeof($result); $i++){
+            $ids[] = $result[$i][0];
+        }
+
+        if(sizeof($ids) == 0){
+            return 1;
+        } else if (sizeof($ids) > 0 ) {
+            for($i=min($ids); $i<=max($ids); $i++)
+            {
+                if (!in_array($i, $ids)){
+                    return $i;
+                }
+
+                if($i == max($ids)){
+                    return $i+1;
+                }
+            }
+        }
     }
 
-    
-    return $result;
+    return 1;
 }
 function add_new_supplier($conn, $result){
     if( !isset($_POST['arguments']) ) 
@@ -679,12 +682,41 @@ function save_pdf($conn, $result){
 
             if($result) {
                 foreach ($materials_bought as $material) {
+                    //store the purchace
                     $sql = "INSERT INTO purchace (material_id, invoice_id, amount, cost, academic_year) VALUES ($material[id], $invoice_no, $material[amount], 0, '$academic_year')";
                     $result = mysqli_query($conn,$sql);
 
-                    if($result){
+                    //get the total num bought of the material of the year
+                    $sql = "SELECT SUM(amount) FROM purchace WHERE material_id = $material[id] AND academic_year = '$academic_year'";
+                    $result = mysqli_query($conn,$sql);
+                    $year_amount = mysqli_fetch_row($result);
 
+                    //get the id of the academic year
+                    $sql = "SELECT id FROM academic_years WHERE academic_year = '$academic_year'";
+                    $result = mysqli_query($conn,$sql);
+                    $current_year_id = mysqli_fetch_row($result);
+
+                    //set the previous academic year id 
+                    $previous_year_id = $current_year_id[0] - 1;
+
+                    //get the previous academic year 
+                    $sql = "SELECT academic_year FROM academic_years WHERE id = $previous_year_id";
+                    $result = mysqli_query($conn,$sql);
+                    $previous_academic_year = mysqli_fetch_row($result);
+
+                    //get the stock of the previous year 
+                    $sql = "SELECT stock FROM material_stock WHERE material_id = $material[id] AND academic_year = '$previous_academic_year[0]'";
+                    $result = mysqli_query($conn,$sql);
+                    $previous_year_stock = mysqli_fetch_row($result);
+
+                    //add the stock to this year total
+                    $total_amount = $year_amount[0];
+                    if (!is_null($previous_year_stock)){
+                        $total_amount = $total_amount + $previous_year_stock[0];
                     }
+
+                    $sql = "INSERT INTO material_stock (material_id, stock, academic_year) VALUES ($material[id], $total_amount, '$academic_year')";
+                    $result = mysqli_query($conn,$sql);
                 }
             }
         }
@@ -700,7 +732,8 @@ function get_invoices($conn, $result){
         $arguments = $_GET['arguments'];
         $user_id = $arguments[0];
 
-        $sql = "SELECT * FROM invoice WHERE lab_id IN ( SELECT lab_id FROM roles WHERE user_id = $user_id)";
+        $sql = "SELECT * FROM invoice WHERE lab_id IN ( SELECT lab_id FROM roles WHERE user_id = $user_id AND role = 'ΥΠΕΥΘΥΝΟΣ ΕΡΓΑΣΤΗΡΙΟΥ' ) OR field_id IN ( SELECT field_id FROM roles WHERE user_id = $user_id AND role = 'ΥΠΕΥΘΥΝΟΣ ΤΟΜΕΑ' )";
+        // echo $sql;
         $res = mysqli_query($conn,$sql);
         $invs = mysqli_fetch_all($res,MYSQLI_ASSOC);
         // print_r($invs);
@@ -777,13 +810,6 @@ function get_users($conn, $result){
 
     return $users;
 }
-function get_roles($conn, $result){
-    $sql = "SELECT DISTINCT role FROM roles";
-    $res = mysqli_query($conn,$sql);
-    $roles = mysqli_fetch_all($res,MYSQLI_ASSOC);
-
-    return $roles;
-}
 function get_user_roles($conn, $result){
     if( !isset($_GET['arguments']) ) 
     { 
@@ -812,12 +838,6 @@ function get_user_roles($conn, $result){
                 $res = mysqli_query($conn,$sql);
                 $lab_name = mysqli_fetch_assoc($res);
                 $user_role["lab"] = $lab_name["name"];
-            }
-
-            if($user_role["active"] == 1 ) {
-                $user_role["active"] = "ΝΑΙ";
-            } else {
-                $user_role["active"] = "OXI";
             }
 
             $arr[$count] = $user_role;

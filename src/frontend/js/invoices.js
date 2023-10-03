@@ -50,7 +50,6 @@ $(document).ready(function () {
             }
         })
     })
-
     $("#invoices_table").on('click', 'div[id^="pdf_protocol_"]', function() {
         var rowindex = $('#invoices_table').jqxGrid('getselectedrowindex');
         var rowid = $('#invoices_table').jqxGrid('getrowid', rowindex);
@@ -121,7 +120,7 @@ function buildInvoiceTable() {
                             type: "POST",
                             url: "/src/backend/rest_api.php",
                             dataType: "json",
-                            data: { functionname: "delete_invoice", arguments: [data["invoice_number"], data["protocol_pdf"], data["invoice_pdf"] ] },
+                            data: { functionname: "delete_invoice", arguments: [data["protocol_id"], data["invoice_number"], data["protocol_pdf"], data["invoice_pdf"] ] },
                 
                             success: function (obj, textstatus) {
                                 commit(true);
@@ -170,28 +169,29 @@ function buildInvoiceTable() {
                             });
                         },
                         columns: [
-                            { text: 'Α/Α', datafield: 'count', width: "3%", cellsalign: 'center' },
-                            { text: 'ΑΡ. ΤΙΜ.', datafield: 'invoice_number', width: "5%", cellsalign: 'center' },
-                            { text: 'ΗΜ. ΤΙΜ.', datafield: 'invoice_date', width: "6%", cellsalign: 'center' },
-                            { text: 'ΠΟΣΟ', datafield: 'cost', width: "4%", cellsalign: 'center' },
-                            { text: 'ΠΡΟΜΗΘΕΥΤΗΣ', datafield: 'supplier', width: "14%" },
-                            { text: 'ΑΡ. ΠΡΩΤ.', datafield: 'protocol_id', width: "6%", cellsalign: 'center' },
-                            { text: 'ΗΜ. ΠΡΩΤ.', datafield: 'protocol_date', width: "6%", cellsalign: 'center' },
-                            {
-                                text: 'ΠΡΩΤΟΚ', datafield: 'protocol_pdf', width: "3%", cellsrenderer: function (row, columnfield, value, defaulthtml) {
-                                    return '<div id="pdf_protocol_' + row + '" style = "text-align:center" > <img src="http://localhost/src/images/acrobat.png" style="padding-top:15px;width:23px;height:23px;"></div>';
+                            { text: 'Α/Α',         datafield: 'count',          width: "2%", cellsalign: 'center' },
+                            { text: 'ΑΡ. ΤΙΜ.',    datafield: 'invoice_number', width: "4%", cellsalign: 'center' },
+                            { text: 'ΗΜ. ΤΙΜ.',    datafield: 'invoice_date',   width: "6%", cellsalign: 'center' },
+                            { text: 'ΠΟΣΟ',        datafield: 'cost',           width: "3%", cellsalign: 'center' },
+                            { text: 'ΠΡΟΜΗΘΕΥΤΗΣ', datafield: 'supplier',       width: "13%" },
+                            { text: 'ΑΡ. ΠΡΩΤ.',   datafield: 'protocol_id',    width: "6%", cellsalign: 'center' },
+                            { text: 'ΗΜ. ΠΡΩΤ.',   datafield: 'protocol_date',  width: "6%", cellsalign: 'center' },
+                            { text: 'ΠΡΩΤΟΚ',      datafield: 'protocol_pdf',   width: "3%", cellsrenderer: function (row, columnfield, value, defaulthtml) { return '<div id="pdf_protocol_' + row + '" style = "text-align:center" > <img src="http://localhost/src/images/acrobat.png" style="padding-top:15px;width:23px;height:23px;"></div>'; }},
+                            { text: 'ΤΙΜΟΛO',      datafield: 'invoice_pdf',    width: "3%", cellsrenderer: function (row, columnfield, value, defaulthtml) { return '<div id="pdf_invoice_' + row + '" style = "text-align:center" > <img src="http://localhost/src/images/acrobat.png" style="padding-top:15px;width:23px;height:23px;"></div>';}},
+                            { text: 'ΤΟΜΕΑΣ',      datafield: 'field',          width: "16%" },
+                            { text: 'ΕΡΓΑΣΤΗΡΙΟ',  datafield: 'lab',            width: "12%" },
+                            { text: 'ΠΟΣΟ ΤΟΜΕΑ',  datafield: 'field_cost',     width: "7%", cellsalign: 'center' },
+                            { text: 'ΤΡΟΠΟΣ ΠΛΗΡ.',datafield: 'payment_method', width: "8%", cellsalign: 'center' },
+                            { text: 'ΑΚΑΔ. ΕΤΟΣ',  datafield: 'academic_year',  width: "7%", cellsalign: 'center' },
+                            { text: 'Edit',        datafield: 'Edit',           width: "4%", columntype: 'button', 
+                                cellsrenderer: function () { return "Edit"; }, 
+                                buttonclick: function (row) {
+                                    // open the popup window when the user clicks a button.
+                                    editrow = row;
+                                    edit_data_record = $("#invoices_table").jqxGrid('getrowdata', editrow);
+                                    new_edit_invoice(edit_data_record);
                                 }
-                            },
-                            {
-                                text: 'ΤΙΜΟΛO', datafield: 'invoice_pdf', width: "3%", cellsrenderer: function (row, columnfield, value, defaulthtml) {
-                                    return '<div id="pdf_invoice_' + row + '" style = "text-align:center" > <img src="http://localhost/src/images/acrobat.png" style="padding-top:15px;width:23px;height:23px;"></div>';
-                                }
-                            },
-                            { text: 'ΤΟΜΕΑΣ', datafield: 'field', width: "16%" },
-                            { text: 'ΕΡΓΑΣΤΗΡΙΟ', datafield: 'lab', width: "12%" },
-                            { text: 'ΠΟΣΟ ΤΟΜΕΑ', datafield: 'field_cost', width: "7%", cellsalign: 'center' },
-                            { text: 'ΤΡΟΠΟΣ ΠΛΗΡ.', datafield: 'payment_method', width: "8%", cellsalign: 'center' },
-                            { text: 'ΑΚΑΔ. ΕΤΟΣ', datafield: 'academic_year', width: "7%", cellsalign: 'center' }
+                            }
                         ]
                     });
             } else {

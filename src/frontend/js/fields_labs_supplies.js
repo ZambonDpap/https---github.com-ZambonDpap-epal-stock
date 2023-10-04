@@ -1,5 +1,18 @@
+let g_field_id 
+let g_lab_id 
 $(document).ready(function () {
+
+    addAcademicYearsToDropdown("#labs_roles_academic_year");
+
+
     $("#fields_table").on('rowselect', function (event) {
+
+        $("#labs_roles_academic_year").show();
+        let academic_year = $("#labs_roles_academic_year").val();
+        if (academic_year == "") {
+            $("#labs_roles_academic_year").val("2023-2024")
+        }
+
         $("#consumables_materials_table").jqxGrid('clear');
         $("#consumables_materials_table").jqxGrid('clearselection');
         $("#short_term_materials_table").jqxGrid('clear');
@@ -9,13 +22,13 @@ $(document).ready(function () {
         $("#labs_table").jqxGrid('clearselection');
         $("#labs_table").jqxGrid('clear');
 
-        var field_id = event.args.row.id;
+        g_field_id = event.args.row.id;
 
         jQuery.ajax({
             type: "GET",
             url: "/src/backend/rest_api.php",
             dataType: "json",
-            data: { functionname: "get_field_labs", arguments: [field_id] },        
+            data: { functionname: "get_field_labs", arguments: [g_field_id] },        
 
             success: function (obj, textstatus) {
                 if (!("error" in obj)) {
@@ -54,17 +67,33 @@ $(document).ready(function () {
                 }
             }
         })
+        
+        academic_year = $("#labs_roles_academic_year").val();
+        if (academic_year !== "") {
+            jQuery.ajax({
+                type: "GET",
+                url: "/src/backend/rest_api.php",
+                dataType: "json",
+                data: { functionname: "get_field_roles", arguments: [g_field_id, academic_year] },
+
+                success: function (obj, textstatus) {
+                    if (!("error" in obj)) {
+                        build_field_roles_table(obj)
+                    }
+                }
+            })
+        }
     })
 
     $("#labs_table").on('rowselect', function (event) {
-        var lab_id = event.args.row.id;
+        g_lab_id = event.args.row.id;
 
 
         jQuery.ajax({
             type: "GET",
             url: "/src/backend/rest_api.php",
             dataType: "json",
-            data: { functionname: "get_materials", arguments: [lab_id, "SPLIT"] },        
+            data: { functionname: "get_materials", arguments: [g_lab_id, "SPLIT"] },        
 
             success: function (obj, textstatus) {
                 if (!("error" in obj)) {
@@ -181,8 +210,180 @@ $(document).ready(function () {
                 }
             }
         })
+
+        academic_year = $("#labs_roles_academic_year").val();
+        if (academic_year !== "") {
+            jQuery.ajax({
+                type: "GET",
+                url: "/src/backend/rest_api.php",
+                dataType: "json",
+                data: { functionname: "get_lab_roles", arguments: [g_lab_id, academic_year] },
+
+                success: function (obj, textstatus) {
+                    if (!("error" in obj)) {
+                        build_lab_roles_table(obj)
+                    }
+                }
+            })
+        }
+
     })
+
+    $("#labs_roles_academic_year").on("change", function () {
+        const academic_year = $("#academic_year").val();
+        if (academic_year !== "") {
+            jQuery.ajax({
+                type: "GET",
+                url: "/src/backend/rest_api.php",
+                dataType: "json",
+                data: { functionname: "get_labs_roles", arguments: [g_lab_id, academic_year] },
+
+                success: function (obj, textstatus) {
+                    if (!("error" in obj)) {
+                    }
+                }
+            })
+        }
+
+        if (academic_year !== "") {
+            jQuery.ajax({
+                type: "GET",
+                url: "/src/backend/rest_api.php",
+                dataType: "json",
+                data: { functionname: "get_labs_roles", arguments: [g_field_id, academic_year] },
+
+                success: function (obj, textstatus) {
+                    if (!("error" in obj)) {
+                    }
+                }
+            })
+        }
+
+      });
+
+      $("#labs_roles_academic_year").on("change", function () {
+        const academic_year = $("#labs_roles_academic_year").val();
+        if (academic_year !== "") {
+            jQuery.ajax({
+                type: "GET",
+                url: "/src/backend/rest_api.php",
+                dataType: "json",
+                data: { functionname: "get_lab_roles", arguments: [g_lab_id, academic_year] },
+
+                success: function (obj, textstatus) {
+                    if (!("error" in obj)) {
+                        build_lab_roles_table(obj)
+                    }
+                }
+            })
+        }
+
+        if (academic_year !== "") {
+            jQuery.ajax({
+                type: "GET",
+                url: "/src/backend/rest_api.php",
+                dataType: "json",
+                data: { functionname: "get_field_roles", arguments: [g_field_id, academic_year] },
+
+                success: function (obj, textstatus) {
+                    if (!("error" in obj)) {
+                        build_field_roles_table(obj)
+                    }
+                }
+            })
+        }
+      });
 })
+
+function build_field_roles_table(obj)
+{
+    $("#fields_roles_table").show();
+    var source =
+    {
+        datatype: "json",
+        datafields: [
+            { name: 'lastname', type: 'strinf' },
+            { name: 'firstname', type: 'string' },
+            { name: 'role', type: 'string' },
+            { name: 'user_id', type: 'int' },
+            { name: 'field_id', type: 'int' },
+            { name: 'active', type: 'string' },
+            { name: 'academic_year', type: 'string' },
+            { name: 'id', type: 'int' },
+        ],
+        localdata: obj
+    };
+
+    var dataAdapter = new $.jqx.dataAdapter(source);
+    // initialize jqxGrid
+    $("#fields_roles_table").jqxGrid(
+    {
+        width: "40%",
+        height: "12%",
+        source: dataAdapter,    
+        theme: 'energyblue',            
+        sortable: true,
+        altrows: false,
+        enabletooltips: true,
+        editable: false,
+        filterable: true,
+        columnsheight: 45,
+        rowsheight: 45,
+        selectionmode: 'singlerow',
+        showfilterrow: true,
+        columns: [
+            { text: 'Επίθετο', datafield: 'lastname', width: "30%", cellsalign: 'left' },
+            { text: 'Όνομα',   datafield: 'firstname', width: "30%", cellsalign: 'left' },
+            { text: 'Ρόλος',   datafield: 'role',      width: "30%", cellsalign: 'left' },
+            { text: 'Ενεργός', datafield: 'active',    width: "10%", cellsalign: 'left' },
+        ]
+    });
+}
+
+function build_lab_roles_table(obj)
+{
+    $("#labs_roles_table").show();
+    var source =
+    {
+        datatype: "json",
+        datafields: [
+            { name: 'lastname', type: 'string' },
+            { name: 'firstname', type: 'string' },
+            { name: 'role', type: 'string' },
+            { name: 'user_id', type: 'int' },
+            { name: 'field_id', type: 'int' },
+            { name: 'active', type: 'string' },
+            { name: 'academic_year', type: 'string' },
+            { name: 'id', type: 'int' },
+        ],
+        localdata: obj
+    };
+
+    var dataAdapter = new $.jqx.dataAdapter(source);
+    // initialize jqxGrid
+    $("#labs_roles_table").jqxGrid(
+    {
+        width: "40%",
+        height: "26%",
+        source: dataAdapter,    
+        theme: 'energyblue',            
+        sortable: true,
+        altrows: false,
+        enabletooltips: true,
+        editable: false,
+        filterable: true,
+        columnsheight: 45,
+        rowsheight: 45,
+        selectionmode: 'singlerow',
+        showfilterrow: true,
+        columns: [
+            { text: 'Επίθετο', datafield: 'lastname', width: "30%", cellsalign: 'left' },
+            { text: 'Όνομα',   datafield: 'firstname', width: "30%", cellsalign: 'left' },
+            { text: 'Ρόλος',   datafield: 'role',      width: "30%", cellsalign: 'left' },
+            { text: 'Ενεργός', datafield: 'active',    width: "10%", cellsalign: 'left' },
+        ]
+    });
+}
 
 function buildFieldsLabsMaterialTable(){
     const user_id = $("#user_id").html();

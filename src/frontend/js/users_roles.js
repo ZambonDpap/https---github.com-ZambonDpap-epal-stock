@@ -77,7 +77,6 @@ $(document).ready(function () {
 
 
 function buildUsersTable() {
-    console.log("build users table")
     jQuery.ajax({
         type: "GET",
         url: "/src/backend/rest_api.php",

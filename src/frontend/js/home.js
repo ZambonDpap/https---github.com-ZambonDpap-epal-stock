@@ -23,6 +23,9 @@ $(document).ready(function() {
     $("#stock_table").hide();
     $("#proposal").hide();
     $("#edit_user_role_popupwindow").hide();
+    $("#labs_roles_academic_year").hide();
+    $("#fields_roles_table").hide();
+    $("#labs_roles_table").hide();
 
     $("#logout").on('click', ()=>{
         $("#invoice_form").hide();
@@ -47,6 +50,9 @@ $(document).ready(function() {
         $("#stock_table").hide();
         $("#proposal").hide();
         $("#edit_user_role_popupwindow").hide();
+        $("#labs_roles_academic_year").hide();
+        $("#fields_roles_table").hide();
+        $("#labs_roles_table").hide();
         logout();
     })
     
@@ -73,6 +79,9 @@ $(document).ready(function() {
         $("#stock_table").hide();
         $("#proposal").hide();
         $("#edit_user_role_popupwindow").hide();
+        $("#labs_roles_academic_year").hide();
+        $("#fields_roles_table").hide();
+        $("#labs_roles_table").hide();
         changeButtonColor("#home_btn");
     });
 
@@ -103,6 +112,9 @@ $(document).ready(function() {
         $("#stock_table").hide();
         $("#proposal").hide();
         $("#edit_user_role_popupwindow").hide();
+        $("#labs_roles_academic_year").hide();
+        $("#fields_roles_table").hide();
+        $("#labs_roles_table").hide();
         buildInvoiceTable();
         changeButtonColor("#invoice_list_btn");
     })
@@ -130,6 +142,9 @@ $(document).ready(function() {
         $("#stock_table").hide();
         $("#proposal").show();
         $("#edit_user_role_popupwindow").hide();
+        $("#labs_roles_academic_year").hide();
+        $("#fields_roles_table").hide();
+        $("#labs_roles_table").hide();
         buildSuppliesBookDropdowns()
         // buildSuppliesBookTable(g_fields);
         changeButtonColor("#supplies_book_btn");
@@ -163,6 +178,9 @@ $(document).ready(function() {
         $("#stock_table").hide();
         $("#proposal").hide();
         $("#edit_user_role_popupwindow").hide();
+        $("#labs_roles_academic_year").hide();
+        $("#fields_roles_table").hide();
+        $("#labs_roles_table").hide();
         buildUsersTable();
         buildUsersRolesTable();
         changeButtonColor("#users_list_btn");
@@ -190,6 +208,9 @@ $(document).ready(function() {
         $("#stock_table").show();
         $("#proposal").hide();
         $("#edit_user_role_popupwindow").hide();
+        $("#labs_roles_academic_year").hide();
+        $("#fields_roles_table").hide();
+        $("#labs_roles_table").hide();
         buildFieldsLabsMaterialTable();
         changeButtonColor("#fields_labs_list_btn");
     })
@@ -216,6 +237,9 @@ $(document).ready(function() {
         $("#stock_table").hide();
         $("#proposal").hide();
         $("#edit_user_role_popupwindow").hide();
+        $("#labs_roles_academic_year").hide();
+        $("#fields_roles_table").hide();
+        $("#labs_roles_table").hide();
         buildSupplierTable();
         changeButtonColor("#suppliers_list_btn");
     })
@@ -243,6 +267,9 @@ $(document).ready(function() {
         $("#stock_table").hide();
         $("#proposal").show();
         $("#edit_user_role_popupwindow").hide();
+        $("#labs_roles_academic_year").hide();
+        $("#fields_roles_table").hide();
+        $("#labs_roles_table").hide();
         buildProposalTable();
         changeButtonColor("#proposal_btn");
     })
@@ -272,6 +299,9 @@ function new_edit_invoice(edit_data_record)
     $("#stock_table").hide();
     $("#proposal").hide();
     $("#edit_user_role_popupwindow").hide();
+    $("#labs_roles_academic_year").hide();
+    $("#fields_roles_table").hide();
+    $("#labs_roles_table").hide();
     changeButtonColor("#new_invoice_btn");
     clearInvoiceForm(edit_data_record);
 }

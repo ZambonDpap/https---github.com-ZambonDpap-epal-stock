@@ -71,6 +71,10 @@ if( !isset($_GET['functionname'])){
         $result = get_materials($conn, $result);
     } else if ($_GET['functionname'] == "get_academic_years"){
         $result = get_academic_years($conn, $result);
+    }else if ($_GET['functionname'] == "get_lab_roles"){
+       $result = get_lab_roles($conn, $result);
+    }else if ($_GET['functionname'] == "get_field_roles"){
+        $result = get_field_roles($conn, $result);
     } else {
         $result['error'] = 'No function name!'; 
     }
@@ -802,6 +806,60 @@ function get_academic_years($conn, $result){
     $years = mysqli_fetch_all($res,MYSQLI_ASSOC);
 
     return $years;
+}
+function get_lab_roles($conn, $result){
+    if( !isset($_GET['arguments']) ) 
+    { 
+        $result['error'] = 'No arguments'; 
+    } else 
+    {
+        $arguments     = $_GET['arguments'];
+        $lab_id      = $arguments[0];
+        $academic_year = $arguments[1];
+
+        $sql = "SELECT * FROM roles WHERE lab_id = $lab_id AND academic_year = '$academic_year' ";
+        $res = mysqli_query($conn,$sql);
+        $lab_roles = mysqli_fetch_all($res,MYSQLI_ASSOC);
+
+        for($i=0; $i<sizeof($lab_roles); $i++){
+            $id = $lab_roles[$i]['user_id'];
+            $sql1 = "SELECT id, lastname, firstname FROM users WHERE id =$id";
+            $res1 = mysqli_query($conn,$sql1);
+            $user_data = mysqli_fetch_all($res1,MYSQLI_ASSOC);
+
+            $lab_roles[$i]["firstname"] = $user_data[0]["firstname"];
+            $lab_roles[$i]["lastname"] = $user_data[0]["lastname"];
+            $lab_roles[$i]["user_id"] = $user_data[0]["id"];
+        }
+    }
+    return  $lab_roles;
+}
+function get_field_roles($conn, $result){
+    if( !isset($_GET['arguments']) ) 
+    { 
+        $result['error'] = 'No arguments'; 
+    } else 
+    {
+        $arguments     = $_GET['arguments'];
+        $field_id      = $arguments[0];
+        $academic_year = $arguments[1];
+
+        $sql = "SELECT * FROM roles WHERE field_id = $field_id AND academic_year = '$academic_year' ";
+        $res = mysqli_query($conn,$sql);
+        $field_roles = mysqli_fetch_all($res,MYSQLI_ASSOC);
+
+        for($i=0; $i<sizeof($field_roles); $i++){
+            $id = $field_roles[$i]['user_id'];
+            $sql1 = "SELECT id, lastname, firstname FROM users WHERE id =$id";
+            $res1 = mysqli_query($conn,$sql1);
+            $user_data = mysqli_fetch_all($res1,MYSQLI_ASSOC);
+
+            $field_roles[$i]["firstname"] = $user_data[0]["firstname"];
+            $field_roles[$i]["lastname"] = $user_data[0]["lastname"];
+            $field_roles[$i]["user_id"] = $user_data[0]["id"];
+        }
+    }
+    return $field_roles;
 }
 function get_users($conn, $result){
     $sql = "SELECT * FROM users";

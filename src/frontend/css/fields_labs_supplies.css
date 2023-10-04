@@ -27,3 +27,21 @@
     top: 55%;
     left:57%;
 }
+
+#labs_roles_academic_year{
+    position: absolute;
+    top: 6%;
+    left:57%;
+}
+
+#fields_roles_table{
+    position: absolute;
+    top: 10%;
+    left:57%;
+}
+
+#labs_roles_table{
+    position: absolute;
+    top: 25%;
+    left:57%;
+}

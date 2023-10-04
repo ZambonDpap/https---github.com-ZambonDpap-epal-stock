@@ -434,7 +434,7 @@
                 </table>
             </div>
 
-            
+
 
        </div>
 
@@ -449,6 +449,9 @@
         <div id="fields_table"></div>
         <div id="labs_table"></div>
         <div id="consumables_materials_table"></div>
+        <div id="labs_roles_academic_year"></div>
+        <div id="fields_roles_table"></div>
+        <div id="labs_roles_table"></div>
         <div id="add_consumable"></div>
         <div id="delete_consumable"></div>
         <div id="short_term_materials_table"></div>

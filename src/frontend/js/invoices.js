@@ -5,7 +5,7 @@ $(document).ready(function () {
 
         jQuery.ajax({
             type: "GET",
-            url: "/src/backend/rest_api.php",
+            url: "./src/backend/rest_api.php",
             dataType: "json",
             data: { functionname: "get_purchace", arguments: [invoice_no, academic_year] },
 
@@ -65,7 +65,7 @@ $(document).ready(function () {
 })
 
 function downloadPDF(mode, pdf){
-    const url = "/src/backend/pdf_" + mode + "/" + pdf;
+    const url = "./src/backend/pdf_" + mode + "/" + pdf;
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
     xhr.responseType = 'blob';
@@ -86,7 +86,7 @@ function buildInvoiceTable() {
 
     jQuery.ajax({
         type: "GET",
-        url: "/src/backend/rest_api.php",
+        url: "./src/backend/rest_api.php",
         dataType: "json",
         data: { functionname: "get_invoices", arguments: [user_id] },
 
@@ -118,7 +118,7 @@ function buildInvoiceTable() {
                         var data = $('#invoices_table').jqxGrid('getrowdatabyid', rowid);
                         jQuery.ajax({
                             type: "POST",
-                            url: "/src/backend/rest_api.php",
+                            url: "./src/backend/rest_api.php",
                             dataType: "json",
                             data: { functionname: "delete_invoice", arguments: [data["protocol_id"], data["invoice_number"], data["protocol_pdf"], data["invoice_pdf"] ] },
                 

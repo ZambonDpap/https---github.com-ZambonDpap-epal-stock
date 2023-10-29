@@ -46,12 +46,12 @@ function prepareSuppliesBookTables(lab_id) {
 
     jQuery.ajax({
         type: "GET",
-        url: "/src/backend/rest_api.php",
+        url: "./src/backend/rest_api.php",
         dataType: "json",
         data: { functionname: "get_materials", arguments: [lab_id, "SPLIT"] },
 
         success: function (obj, textstatus) {
-            initGrid("Αναλώσημα", obj["ΑΝΑΛΩΣΗΜΑ"]);
+            initGrid("Αναλώσημα", obj["ΑΝΑΛΩΣΙΜΑ"]);
             initGrid("Βραχείας", obj["ΒΡΑΧΕΙΑΣ"]);
             initGrid("Μακράς", obj["ΜΑΚΡΑΣ"]);
         },

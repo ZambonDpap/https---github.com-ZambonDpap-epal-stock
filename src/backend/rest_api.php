@@ -290,13 +290,30 @@ function get_user_fields($conn, $result){
         $user_id = $arguments[0];
     }
 
-    $sql = "SELECT field_id FROM roles WHERE user_id = $user_id AND role = 'ΥΠΕΥΘΥΝΟΣ ΤΟΜΕΑ'";
+    $sql = "SELECT admin_level FROM users WHERE id = $user_id";
     $res = mysqli_query($conn,$sql);
-    $field_ids = mysqli_fetch_all($res);
+    $admin_lvl =  mysqli_fetch_row($res);
+    $admin_level = $admin_lvl[0];
 
-    $sql = "SELECT lab_id FROM roles WHERE user_id = $user_id AND role = 'ΥΠΕΥΘΥΝΟΣ ΕΡΓΑΣΤΗΡΙΟΥ'";
-    $res = mysqli_query($conn,$sql);
-    $lab_ids = mysqli_fetch_all($res);
+    $field_ids = [];
+    $lab_ids = [];
+    if($admin_level == 2){
+        $sql = "SELECT id FROM fields";
+        $res = mysqli_query($conn,$sql);
+        $field_ids = mysqli_fetch_all($res);
+
+        $sql = "SELECT id FROM labs";
+        $res = mysqli_query($conn,$sql);
+        $lab_ids = mysqli_fetch_all($res);
+    } else {
+        $sql = "SELECT field_id FROM roles WHERE user_id = $user_id AND role = 'ΥΠΕΥΘΥΝΟΣ ΤΟΜΕΑ'";
+        $res = mysqli_query($conn,$sql);
+        $field_ids = mysqli_fetch_all($res);
+
+        $sql = "SELECT lab_id FROM roles WHERE user_id = $user_id AND role = 'ΥΠΕΥΘΥΝΟΣ ΕΡΓΑΣΤΗΡΙΟΥ'";
+        $res = mysqli_query($conn,$sql);
+        $lab_ids = mysqli_fetch_all($res);
+    }
     
     $field_labs = array();
     $fields = array();
@@ -418,7 +435,7 @@ function get_materials($conn, $result){
         $academic_years_asc = mysqli_fetch_all($res,MYSQLI_ASSOC);
 
 
-        $sql = "SELECT id, name, type FROM materials WHERE lab_id = $lab_id AND type='ΑΝΑΛΩΣΗΜΑ'";
+        $sql = "SELECT id, name, type FROM materials WHERE lab_id = $lab_id AND type='ΑΝΑΛΩΣΙΜΑ'";
         $res = mysqli_query($conn,$sql);
         $result = mysqli_fetch_all($res,MYSQLI_ASSOC);
 
@@ -431,7 +448,7 @@ function get_materials($conn, $result){
             }
             $new_result1[] = $material;
         }
-        $arr["ΑΝΑΛΩΣΗΜΑ"] = $new_result1;
+        $arr["ΑΝΑΛΩΣΙΜΑ"] = $new_result1;
 
         $sql = "SELECT id, name, type FROM materials WHERE lab_id = $lab_id AND type='ΒΡΑΧΕΙΑΣ'";
         $res = mysqli_query($conn,$sql);
@@ -736,7 +753,17 @@ function get_invoices($conn, $result){
         $arguments = $_GET['arguments'];
         $user_id = $arguments[0];
 
-        $sql = "SELECT * FROM invoice WHERE lab_id IN ( SELECT lab_id FROM roles WHERE user_id = $user_id AND role = 'ΥΠΕΥΘΥΝΟΣ ΕΡΓΑΣΤΗΡΙΟΥ' ) OR field_id IN ( SELECT field_id FROM roles WHERE user_id = $user_id AND role = 'ΥΠΕΥΘΥΝΟΣ ΤΟΜΕΑ' )";
+        $sql = "SELECT admin_level FROM users WHERE id = $user_id";
+        $res = mysqli_query($conn,$sql);
+        $admin_lvl =  mysqli_fetch_row($res);
+        $admin_level = $admin_lvl[0];
+
+        $sql = "";
+        if($admin_level == 2){
+            $sql = "SELECT * FROM invoice";
+        } else {
+            $sql = "SELECT * FROM invoice WHERE lab_id IN ( SELECT lab_id FROM roles WHERE user_id = $user_id AND role = 'ΥΠΕΥΘΥΝΟΣ ΕΡΓΑΣΤΗΡΙΟΥ' ) OR field_id IN ( SELECT field_id FROM roles WHERE user_id = $user_id AND role = 'ΥΠΕΥΘΥΝΟΣ ΤΟΜΕΑ' )";
+        }
         // echo $sql;
         $res = mysqli_query($conn,$sql);
         $invs = mysqli_fetch_all($res,MYSQLI_ASSOC);

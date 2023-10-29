@@ -60,7 +60,7 @@ $(document).ready(function () {
 
         jQuery.ajax({
             type: "GET",
-            url: "/src/backend/rest_api.php",
+            url: "./src/backend/rest_api.php",
             dataType: "json",
             data: { functionname: "get_user_roles", arguments: [user_id] },
 
@@ -79,7 +79,7 @@ $(document).ready(function () {
 function buildUsersTable() {
     jQuery.ajax({
         type: "GET",
-        url: "/src/backend/rest_api.php",
+        url: "./src/backend/rest_api.php",
         dataType: "json",
         data: { functionname: "get_users", arguments: [] },
 
@@ -148,7 +148,7 @@ function buildUsersRolesTable(obj){
 
             jQuery.ajax({
                 type: "POST",
-                url: "/src/backend/rest_api.php",
+                url: "./src/backend/rest_api.php",
                 dataType: "json",
                 data: { functionname: "delete_user_role", arguments: [role_id] },
 
@@ -171,7 +171,7 @@ function buildUsersRolesTable(obj){
 
             jQuery.ajax({
                 type: "POST",
-                url: "/src/backend/rest_api.php",
+                url: "./src/backend/rest_api.php",
                 dataType: "json",
                 data: { functionname: "update_user_role", arguments: [role_id, newdata.academic_year, newdata.active, newdata.field, newdata.lab, newdata.role ] },
 
@@ -191,7 +191,7 @@ function buildUsersRolesTable(obj){
         addrow: function (rowid, rowdata, position, commit) {
             jQuery.ajax({
                 type: "POST",
-                url: "/src/backend/rest_api.php",
+                url: "./src/backend/rest_api.php",
                 dataType: "json",
                 data: { functionname: "add_user_role", arguments: [rowdata.user_id, rowdata.academic_year, rowdata.active, rowdata.field, rowdata.lab, rowdata.role ] },
 
@@ -294,7 +294,7 @@ function addActiveToDropdown() {
 function addLabsToEditDropdown() {
     jQuery.ajax({
         type: "GET",
-        url: "/src/backend/rest_api.php",
+        url: "./src/backend/rest_api.php",
         dataType: "json",
         data: { functionname: "get_labs" },
 
@@ -322,7 +322,7 @@ function addLabsToEditDropdown() {
 function addFieldsToEditDropdown() {
     jQuery.ajax({
       type: "GET",
-      url: "/src/backend/rest_api.php",
+      url: "./src/backend/rest_api.php",
       dataType: "json",
       data: { functionname: "get_fields", arguments: [] },
   

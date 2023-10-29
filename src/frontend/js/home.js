@@ -26,6 +26,12 @@ $(document).ready(function() {
     $("#labs_roles_academic_year").hide();
     $("#fields_roles_table").hide();
     $("#labs_roles_table").hide();
+    $("#add_lab_roles_div").hide();
+    $("#add_field_roles_div").hide();
+    $("#edit_field_roles_popupwindow").hide();
+    $("#edit_lab_roles_popupwindow").hide();
+    $("#edit_lab_roles_div").hide();
+    $("#edit_field_roles_div").hide();
 
     $("#logout").on('click', ()=>{
         $("#invoice_form").hide();
@@ -53,6 +59,12 @@ $(document).ready(function() {
         $("#labs_roles_academic_year").hide();
         $("#fields_roles_table").hide();
         $("#labs_roles_table").hide();
+        $("#add_lab_roles_div").hide();
+        $("#add_field_roles_div").hide();
+        $("#edit_field_roles_popupwindow").hide();
+        $("#edit_lab_roles_popupwindow").hide();
+        $("#edit_lab_roles_div").hide();
+        $("#edit_field_roles_div").hide();
         logout();
     })
     
@@ -82,6 +94,12 @@ $(document).ready(function() {
         $("#labs_roles_academic_year").hide();
         $("#fields_roles_table").hide();
         $("#labs_roles_table").hide();
+        $("#add_lab_roles_div").hide();
+        $("#add_field_roles_div").hide();
+        $("#edit_field_roles_popupwindow").hide();
+        $("#edit_lab_roles_popupwindow").hide();
+        $("#edit_lab_roles_div").hide();
+        $("#edit_field_roles_div").hide();
         changeButtonColor("#home_btn");
     });
 
@@ -115,6 +133,12 @@ $(document).ready(function() {
         $("#labs_roles_academic_year").hide();
         $("#fields_roles_table").hide();
         $("#labs_roles_table").hide();
+        $("#add_lab_roles_div").hide();
+        $("#add_field_roles_div").hide();
+        $("#edit_field_roles_popupwindow").hide();
+        $("#edit_lab_roles_popupwindow").hide();
+        $("#edit_lab_roles_div").hide();
+        $("#edit_field_roles_div").hide();
         buildInvoiceTable();
         changeButtonColor("#invoice_list_btn");
     })
@@ -145,6 +169,12 @@ $(document).ready(function() {
         $("#labs_roles_academic_year").hide();
         $("#fields_roles_table").hide();
         $("#labs_roles_table").hide();
+        $("#add_lab_roles_div").hide();
+        $("#add_field_roles_div").hide();
+        $("#edit_field_roles_popupwindow").hide();
+        $("#edit_lab_roles_popupwindow").hide();
+        $("#edit_lab_roles_div").hide();
+        $("#edit_field_roles_div").hide();
         buildSuppliesBookDropdowns()
         // buildSuppliesBookTable(g_fields);
         changeButtonColor("#supplies_book_btn");
@@ -181,11 +211,21 @@ $(document).ready(function() {
         $("#labs_roles_academic_year").hide();
         $("#fields_roles_table").hide();
         $("#labs_roles_table").hide();
+        $("#add_lab_roles_div").hide();
+        $("#add_field_roles_div").hide();
+        $("#edit_field_roles_popupwindow").hide();
+        $("#edit_lab_roles_popupwindow").hide();
+        $("#edit_lab_roles_div").hide();
+        $("#edit_field_roles_div").hide();
         buildUsersTable();
         buildUsersRolesTable();
         changeButtonColor("#users_list_btn");
     })
     $("#fields_labs_list_btn").on('click', ()=>{
+
+        $("#fields_table").jqxGrid('clearselection');
+        $("#labs_table").jqxGrid('clearselection');
+
         $("#invoice_form").hide();
         $("#pdf_viewer").hide();
         $("#protocol_viewer").hide();
@@ -201,16 +241,22 @@ $(document).ready(function() {
         $("#add_user_role_div").hide();
         $("#suppliers_table").hide();
         $("#fields_table").show();
-        $("#labs_table").show();
-        $("#consumables_materials_table").show();
-        $("#long_term_materials_table").show();
-        $("#short_term_materials_table").show();
+        $("#labs_table").hide();
+        $("#consumables_materials_table").hide();
+        $("#long_term_materials_table").hide();
+        $("#short_term_materials_table").hide();
         $("#stock_table").show();
         $("#proposal").hide();
         $("#edit_user_role_popupwindow").hide();
         $("#labs_roles_academic_year").hide();
         $("#fields_roles_table").hide();
         $("#labs_roles_table").hide();
+        $("#add_lab_roles_div").hide();
+        $("#add_field_roles_div").hide();
+        $("#edit_field_roles_popupwindow").hide();
+        $("#edit_lab_roles_popupwindow").hide();
+        $("#edit_lab_roles_div").hide();
+        $("#edit_field_roles_div").hide();
         buildFieldsLabsMaterialTable();
         changeButtonColor("#fields_labs_list_btn");
     })
@@ -240,6 +286,12 @@ $(document).ready(function() {
         $("#labs_roles_academic_year").hide();
         $("#fields_roles_table").hide();
         $("#labs_roles_table").hide();
+        $("#add_lab_roles_div").hide();
+        $("#add_field_roles_div").hide();
+        $("#edit_field_roles_popupwindow").hide();
+        $("#edit_lab_roles_popupwindow").hide();
+        $("#edit_lab_roles_div").hide();
+        $("#edit_field_roles_div").hide();
         buildSupplierTable();
         changeButtonColor("#suppliers_list_btn");
     })
@@ -270,6 +322,12 @@ $(document).ready(function() {
         $("#labs_roles_academic_year").hide();
         $("#fields_roles_table").hide();
         $("#labs_roles_table").hide();
+        $("#add_lab_roles_div").hide();
+        $("#add_field_roles_div").hide();
+        $("#edit_field_roles_popupwindow").hide();
+        $("#edit_lab_roles_popupwindow").hide();
+        $("#edit_lab_roles_div").hide();
+        $("#edit_field_roles_div").hide();
         buildProposalTable();
         changeButtonColor("#proposal_btn");
     })
@@ -302,6 +360,12 @@ function new_edit_invoice(edit_data_record)
     $("#labs_roles_academic_year").hide();
     $("#fields_roles_table").hide();
     $("#labs_roles_table").hide();
+    $("#add_lab_roles_div").hide();
+    $("#add_field_roles_div").hide();
+    $("#edit_lab_roles_div").hide();
+    $("#edit_field_roles_div").hide();
+    $("#edit_field_roles_popupwindow").hide();
+    $("#edit_lab_roles_popupwindow").hide();
     changeButtonColor("#new_invoice_btn");
     clearInvoiceForm(edit_data_record);
 }
@@ -323,11 +387,11 @@ function changeButtonColor(button_name) {
 function logout(button_name) {
     jQuery.ajax({
         type: "POST",
-        url: "/src/backend/rest_api.php",
+        url: "./src/backend/rest_api.php",
         dataType: "json",
         data: { functionname: "logout", arguments: [] },
             success: function (obj, textstatus) {
-                window.location = '/index.html';
+                window.location = './index.html';
             }
     })
 }

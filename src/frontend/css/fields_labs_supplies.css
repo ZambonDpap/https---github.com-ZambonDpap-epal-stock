@@ -7,7 +7,7 @@
 #labs_table{
     position: absolute;
     top: 6%;
-    left:28%;
+    left:22%;
 }
 
 #consumables_materials_table{
@@ -19,29 +19,78 @@
 #short_term_materials_table{
     position: absolute;
     top: 55%;
-    left:28%;
+    left:18%;
 }
 
 #long_term_materials_table{
     position: absolute;
     top: 55%;
-    left:57%;
+    left:36%;
 }
 
 #labs_roles_academic_year{
     position: absolute;
     top: 6%;
-    left:57%;
+    left:44.2%;
 }
 
 #fields_roles_table{
     position: absolute;
-    top: 10%;
-    left:57%;
+    top: 19%;
+    left:44.2%;
 }
 
 #labs_roles_table{
     position: absolute;
-    top: 25%;
-    left:57%;
+    top: 46%;
+    left:44.2%;
+}
+
+#edit_field_roles_div{
+    position: absolute;
+    top: 13%;
+    left:44.2%
+}
+#add_field_roles_div{
+    position: absolute;
+    top: 13%;
+    left:55.6%;
+}
+#edit_lab_roles_div{
+    position: absolute;
+    top: 40%;
+    left:44.2%;
+}
+#add_lab_roles_div{
+    position: absolute;
+    top: 40%;
+    left:55.6%;
+}
+
+#add_lab_roles, #add_field_roles, #edit_lab_roles, #edit_field_roles{
+    cursor: pointer;
+}
+
+#edit_field_roles_popupwindow{
+    width: 25% !important;
+}
+
+#update_field_role, #new_field_role{
+    width: 20% !important;
+    margin-right: 5px;
+}
+
+.edit_field_roles_td{
+    /* border: 1px solid black; */
+    height: 40px;
+    width: 20%;
+    padding-right: 10px;
+}
+
+#cancel_update_field_role {
+    width: 20% !important;
+}
+
+#edit_field_role, #edit_field_role_active{
+    margin-bottom: 7px;
 }

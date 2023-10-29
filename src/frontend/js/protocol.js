@@ -93,7 +93,7 @@ function savePDF() {
 
     jQuery.ajax({
       type: "POST",
-      url: "/src/backend/rest_api.php",
+      url: "./src/backend/rest_api.php",
       dataType: "json",
       data: invoice_pdf,
       contentType:false,
@@ -102,7 +102,7 @@ function savePDF() {
 
           jQuery.ajax({
             type: "POST",
-            url: "/src/backend/rest_api.php",
+            url: "./src/backend/rest_api.php",
             dataType: "json",
             data: {
               functionname: "save_pdf",
@@ -157,7 +157,7 @@ function validateInput() {
 function getLabBuyers(lab_id, academic_year) {
   jQuery.ajax({
     type: "GET",
-    url: "/src/backend/rest_api.php",
+    url: "./src/backend/rest_api.php",
     dataType: "json",
     data: {
       functionname: "get_lab_buyers",
@@ -179,7 +179,7 @@ function getLabBuyers(lab_id, academic_year) {
 function getLabManager(lab_id, academic_year) {
   jQuery.ajax({
     type: "GET",
-    url: "/src/backend/rest_api.php",
+    url: "./src/backend/rest_api.php",
     dataType: "json",
     data: {
       functionname: "get_lab_manager",
@@ -199,7 +199,7 @@ function getLabManager(lab_id, academic_year) {
 function getLabReceivers(lab_id, academic_year) {
   jQuery.ajax({
     type: "GET",
-    url: "/src/backend/rest_api.php",
+    url: "./src/backend/rest_api.php",
     dataType: "json",
     data: {
       functionname: "get_lab_receivers",

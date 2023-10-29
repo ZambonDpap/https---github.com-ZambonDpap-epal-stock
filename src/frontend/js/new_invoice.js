@@ -158,12 +158,20 @@ function disableElements() {
     height: "35px",
     disabled: true,
   });
-  $("#suppliers").jqxDropDownList({
-    theme: 'energyblue',
-    itemHeight: 40,
+  // $("#suppliers").jqxDropDownList({
+  $("#suppliers").jqxInput({
+    // theme: 'energyblue',
+    // itemHeight: 40,
+    // height: 35,
+    // width: 445,
+    // disabled: true,
+
+    placeHolder: "Επιλογή προμηθευτή",
     height: 35,
     width: 445,
-    disabled: true,
+    minLength: 1,
+    items: 9,
+    disabled: true
   });
   $("#new_supplier").hide();
   $("#fields").jqxDropDownList({
@@ -192,7 +200,7 @@ function disableElements() {
     height: "35px",
     theme: "energyblue",
     spinButtons: false,
-    symbol: "€ ",
+    symbol: "€",
     min: 0.01,
     inputMode: "simple",
     disabled: true,
@@ -202,7 +210,7 @@ function disableElements() {
     height: "35px",
     theme: "energyblue",
     spinButtons: false,
-    symbol: "€ ",
+    symbol: "€",
     min: 0.01,
     inputMode: "simple",
     disabled: true,
@@ -231,7 +239,7 @@ function enableElements() {
   $("#invoice_date").jqxDateTimeInput({ disabled: false });
   //   $("#protocol_no").jqxNumberInput({ disabled: false });
   $("#protocol_date").jqxDateTimeInput({ disabled: false });
-  $("#suppliers").jqxDropDownList({ disabled: false });
+  $("#suppliers").jqxInput({ disabled: false });
   $("#new_supplier").show();
   $("#fields").jqxDropDownList({ disabled: false });
   $("#payment_methods").jqxDropDownList({ disabled: false });
@@ -243,7 +251,7 @@ function enableElements() {
 function addAcademicYearsToDropdown(element) {
   jQuery.ajax({
     type: "GET",
-    url: "/src/backend/rest_api.php",
+    url: "./src/backend/rest_api.php",
     dataType: "json",
     data: { functionname: "get_academic_years", arguments: [] },
 
@@ -305,7 +313,7 @@ function getMaxProtocolId() {
 
   jQuery.ajax({
     type: "POST",
-    url: "/src/backend/rest_api.php",
+    url: "./src/backend/rest_api.php",
     dataType: "json",
     data: {
       functionname: "get_academic_year_max_protocol_id",
@@ -328,8 +336,7 @@ function getUserFields() {
   // console.log(user_id);
 
   jQuery.ajax({
-    type: "GET",
-    url: "/src/backend/rest_api.php",
+    url: "./src/backend/rest_api.php",
     dataType: "json",
     data: { functionname: "get_user_fields", arguments: [user_id] },
 
@@ -397,7 +404,7 @@ function addLabsMaterialsToAutocompleteInput() {
     if (lab !== null) {
       jQuery.ajax({
         type: "GET",
-        url: "/src/backend/rest_api.php",
+        url: "./src/backend/rest_api.php",
         dataType: "json",
         data: { functionname: "get_materials", arguments: [lab.value, ""] },
 
@@ -436,7 +443,7 @@ function addLabsMaterialsToAutocompleteInput() {
 function addSuppliersToDropdown(supplier) {
   jQuery.ajax({
     type: "GET",
-    url: "/src/backend/rest_api.php",
+    url: "./src/backend/rest_api.php",
     dataType: "json",
     data: { functionname: "get_suppliers", arguments: [] },
 
@@ -447,11 +454,17 @@ function addSuppliersToDropdown(supplier) {
           datatype: "json",
         };
         var dataAdapter = new $.jqx.dataAdapter(source);
-        $("#suppliers").jqxDropDownList({
-          selectedIndex: -1,
+        // $("#suppliers").jqxDropDownList({
+        //   selectedIndex: -1,
+        //   source: dataAdapter,
+        //   displayMember: "name",
+        //   valueMember: "id",
+        // });
+        $("#suppliers").jqxInput({
           source: dataAdapter,
           displayMember: "name",
           valueMember: "id",
+          disabled: false,
         });
       } else {
         console.log(obj.error);
@@ -465,7 +478,7 @@ function addSuppliersToDropdown(supplier) {
 }
 
 function addMaterialTypesToDropdown() {
-  var source = ["ΑΝΑΛΩΣΗΜΑ", "ΒΡΑΧΕΙΑΣ", "ΜΑΚΡΑΣ"];
+  var source = ["ΑΝΑΛΩΣΙΜΑ", "ΒΡΑΧΕΙΑΣ", "ΜΑΚΡΑΣ"];
   $("#new_added_material_type").jqxDropDownList({
     source: source,
     placeHolder: "Τύπος Υλικού",
@@ -488,7 +501,7 @@ function addPaymentMethodsToDropdown() {
 function addNewSupplier(supplier_name) {
   jQuery.ajax({
     type: "POST",
-    url: "/src/backend/rest_api.php",
+    url: "./src/backend/rest_api.php",
     dataType: "json",
     data: { functionname: "add_new_supplier", arguments: [supplier_name] },
 
@@ -523,9 +536,18 @@ function addNewMaterial(name, type, amount) {
   var lab_id = $("#labs").jqxDropDownList("getSelectedItem").value;
   var field_id = $("#fields").jqxDropDownList("getSelectedItem").value;
 
+  console.log(name + " " + type + " " + amount);
+
+  if(name == "" || type == "" || amount == ""){
+    $("#notification_warning").html("Σφάλμα στοιχεία κατά της καταχώρηση.");
+    $("#notification_warning").jqxNotification("open");    
+    $("#new_material_popover").jqxPopover("close");
+    return;
+  }
+
   jQuery.ajax({
     type: "POST",
-    url: "/src/backend/rest_api.php",
+    url: "./src/backend/rest_api.php",
     dataType: "json",
     data: { functionname: "add_new_material", arguments: [name, type, lab_id, field_id] },
 
@@ -540,10 +562,13 @@ function addNewMaterial(name, type, amount) {
         $("#notification_info").html("Tο νέο υλικό υπάρχει.");
         $("#notification_info").jqxNotification("open");
       } else {
-        $("#notification_warning").html("Σφάλμα κατα της καταχώρηση.");
+        $("#notification_warning").html("Σφάλμα κατά της καταχώρηση.");
         $("#notification_warning").jqxNotification("open");
         console.log(obj.error);
       }
+      $("#new_added_material_name").val("");
+      $("#new_added_material_type").jqxDropDownList({selectedIndex: -1});
+      $("#new_added_material_number").val("");
       $("#new_material_popover").jqxPopover("close");
     },
     error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -634,8 +659,10 @@ function clearInvoiceForm(edit_data_record) {
     $("#protocol_date").jqxDateTimeInput("val", 0);
     $("#protocol_no").jqxNumberInput("val", 0);
     $("#protocol_no").jqxNumberInput({disabled: true });
-    $("#suppliers").jqxDropDownList("clear");
-    $("#suppliers").jqxDropDownList({disabled: true });
+    // $("#suppliers").jqxDropDownList("clear");
+    // $("#suppliers").jqxDropDownList({disabled: true });
+    $("#suppliers").jqxInput("clear");
+    $("#suppliers").jqxInput({disabled: true });
     $("#new_supplier").hide();
     $("#fields").jqxDropDownList("clear");
     $("#fields").jqxDropDownList({disabled: true });

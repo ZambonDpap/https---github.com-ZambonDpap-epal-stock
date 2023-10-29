@@ -2,17 +2,43 @@ let g_field_id
 let g_lab_id 
 $(document).ready(function () {
 
+    $("#edit_field_role").jqxDropDownList({ theme: 'energyblue', width: "250px", height: 40 });
+    // $("#edit_field_role_active").jqxInput({
+    //     placeHolder: "Επιλογή Υλικών",
+    //     height: 35,
+    //     width: 445,
+    //     minLength: 1,
+    //     items: 9,
+    //     disabled: true,
+    //   });
+
+    $("#edit_lab_roles").jqxButton({ width: 150, height: 40,  theme: 'energyblue' });
+    $("#edit_field_roles").jqxButton({ width: 150, height: 40,  theme: 'energyblue' });
+    $("#add_lab_roles").jqxButton({ width: 150, height: 40,  theme: 'energyblue' });
+    $("#add_field_roles").jqxButton({ width: 150, height: 40,  theme: 'energyblue' });
+    $("#labs_roles_academic_year").jqxDropDownList({ theme: 'energyblue', itemHeight: 40, height: 53, width: 100, disabled: false, });
+    $("#edit_field_roles_popupwindow").jqxWindow({resizable: false, isModal: true, autoOpen: false, cancelButton: $("#cancel_update_field_role"), modalOpacity: 0.01});
     addAcademicYearsToDropdown("#labs_roles_academic_year");
 
 
+    $("#edit_field_roles").on('click', function(){
+        $("#edit_field_roles_popupwindow").jqxWindow('open');
+    })
+    $("#edit_lab_roles").on('click', function(){
+        console.log("lala")
+    })
+
     $("#fields_table").on('rowselect', function (event) {
 
-        $("#labs_roles_academic_year").show();
         let academic_year = $("#labs_roles_academic_year").val();
         if (academic_year == "") {
             $("#labs_roles_academic_year").val("2023-2024")
         }
 
+        $("#labs_roles_academic_year").show();
+        $("#edit_field_roles_div").show();
+        $("#add_field_roles_div").show();
+        $("#labs_table").show();
         $("#consumables_materials_table").jqxGrid('clear');
         $("#consumables_materials_table").jqxGrid('clearselection');
         $("#short_term_materials_table").jqxGrid('clear');
@@ -26,7 +52,7 @@ $(document).ready(function () {
 
         jQuery.ajax({
             type: "GET",
-            url: "/src/backend/rest_api.php",
+            url: "./src/backend/rest_api.php",
             dataType: "json",
             data: { functionname: "get_field_labs", arguments: [g_field_id] },        
 
@@ -45,7 +71,7 @@ $(document).ready(function () {
                     var dataAdapter = new $.jqx.dataAdapter(source);
                     $("#labs_table").jqxGrid(
                         {
-                            width: "25%",
+                            width: "21%",
                             height: "45%",
                             source: dataAdapter,    
                             theme: 'energyblue',            
@@ -72,7 +98,7 @@ $(document).ready(function () {
         if (academic_year !== "") {
             jQuery.ajax({
                 type: "GET",
-                url: "/src/backend/rest_api.php",
+                url: "./src/backend/rest_api.php",
                 dataType: "json",
                 data: { functionname: "get_field_roles", arguments: [g_field_id, academic_year] },
 
@@ -86,12 +112,19 @@ $(document).ready(function () {
     })
 
     $("#labs_table").on('rowselect', function (event) {
+
+        $("#edit_lab_roles_div").show();
+        $("#add_lab_roles_div").show();
+        $("#consumables_materials_table").show();
+        $("#long_term_materials_table").show();
+        $("#short_term_materials_table").show();
+
         g_lab_id = event.args.row.id;
 
 
         jQuery.ajax({
             type: "GET",
-            url: "/src/backend/rest_api.php",
+            url: "./src/backend/rest_api.php",
             dataType: "json",
             data: { functionname: "get_materials", arguments: [g_lab_id, "SPLIT"] },        
 
@@ -103,16 +136,16 @@ $(document).ready(function () {
                         datafields: [
                             { name: 'id', type: 'string' },
                             { name: 'name', type: 'string' },
-                            { name: '2022-2023', type: 'int' },
-                            { name: '2023-2024', type: 'int' }
+                            // { name: '2022-2023', type: 'int' },
+                            // { name: '2023-2024', type: 'int' }
                         ],
-                        localdata: obj["ΑΝΑΛΩΣΗΜΑ"]
+                        localdata: obj["ΑΝΑΛΩΣΙΜΑ"]
                     }
 
                     var dataAdapter = new $.jqx.dataAdapter(source);
                     $("#consumables_materials_table").jqxGrid(
                         {
-                            width: "25%",
+                            width: "17%",
                             height: "40%",
                             source: dataAdapter,    
                             theme: 'energyblue',            
@@ -126,9 +159,9 @@ $(document).ready(function () {
                             selectionmode: 'singlerow',
                             showfilterrow: true,
                             columns: [
-                                { text: 'ΥΛΙΚΑ ΑΝΑΛΩΣΗΜΑ', datafield: 'name', width: "60%", cellsalign: 'left', editable: false },
-                                { text: '2022-2023', datafield: '2022-2023', width: "20%", cellsalign: 'center', editable: true },
-                                { text: '2023-2024', datafield: '2023-2024', width: "20%", cellsalign: 'center', editable: true },
+                                { text: 'ΥΛΙΚΑ ΑΝΑΛΩΣΙΜΑ', datafield: 'name', width: "100%", cellsalign: 'left', editable: false },
+                                // { text: '2022-2023', datafield: '2022-2023', width: "20%", cellsalign: 'center', editable: true },
+                                // { text: '2023-2024', datafield: '2023-2024', width: "20%", cellsalign: 'center', editable: true },
                             ]
                         });
 
@@ -157,7 +190,7 @@ $(document).ready(function () {
                     var dataAdapter = new $.jqx.dataAdapter(source);
                     $("#short_term_materials_table").jqxGrid(
                         {
-                            width: "25%",
+                            width: "17%",
                             height: "40%",
                             source: dataAdapter,    
                             theme: 'energyblue',            
@@ -188,7 +221,7 @@ $(document).ready(function () {
                     var dataAdapter = new $.jqx.dataAdapter(source);
                     $("#long_term_materials_table").jqxGrid(
                         {
-                            width: "25%",
+                            width: "17%",
                             height: "40%",
                             source: dataAdapter,    
                             theme: 'energyblue',            
@@ -215,7 +248,7 @@ $(document).ready(function () {
         if (academic_year !== "") {
             jQuery.ajax({
                 type: "GET",
-                url: "/src/backend/rest_api.php",
+                url: "./src/backend/rest_api.php",
                 dataType: "json",
                 data: { functionname: "get_lab_roles", arguments: [g_lab_id, academic_year] },
 
@@ -234,7 +267,7 @@ $(document).ready(function () {
         if (academic_year !== "") {
             jQuery.ajax({
                 type: "GET",
-                url: "/src/backend/rest_api.php",
+                url: "./src/backend/rest_api.php",
                 dataType: "json",
                 data: { functionname: "get_labs_roles", arguments: [g_lab_id, academic_year] },
 
@@ -248,7 +281,7 @@ $(document).ready(function () {
         if (academic_year !== "") {
             jQuery.ajax({
                 type: "GET",
-                url: "/src/backend/rest_api.php",
+                url: "./src/backend/rest_api.php",
                 dataType: "json",
                 data: { functionname: "get_labs_roles", arguments: [g_field_id, academic_year] },
 
@@ -266,7 +299,7 @@ $(document).ready(function () {
         if (academic_year !== "") {
             jQuery.ajax({
                 type: "GET",
-                url: "/src/backend/rest_api.php",
+                url: "./src/backend/rest_api.php",
                 dataType: "json",
                 data: { functionname: "get_lab_roles", arguments: [g_lab_id, academic_year] },
 
@@ -281,7 +314,7 @@ $(document).ready(function () {
         if (academic_year !== "") {
             jQuery.ajax({
                 type: "GET",
-                url: "/src/backend/rest_api.php",
+                url: "./src/backend/rest_api.php",
                 dataType: "json",
                 data: { functionname: "get_field_roles", arguments: [g_field_id, academic_year] },
 
@@ -318,8 +351,8 @@ function build_field_roles_table(obj)
     // initialize jqxGrid
     $("#fields_roles_table").jqxGrid(
     {
-        width: "40%",
-        height: "12%",
+        width: "55%",
+        height: "20%",
         source: dataAdapter,    
         theme: 'energyblue',            
         sortable: true,
@@ -363,8 +396,8 @@ function build_lab_roles_table(obj)
     // initialize jqxGrid
     $("#labs_roles_table").jqxGrid(
     {
-        width: "40%",
-        height: "26%",
+        width: "55%",
+        height: "50%",
         source: dataAdapter,    
         theme: 'energyblue',            
         sortable: true,
@@ -390,7 +423,7 @@ function buildFieldsLabsMaterialTable(){
 
     jQuery.ajax({
         type: "GET",
-        url: "/src/backend/rest_api.php",
+        url: "./src/backend/rest_api.php",
         dataType: "json",
         data: { functionname: "get_fields", arguments: [user_id] },
 
@@ -410,7 +443,7 @@ function buildFieldsLabsMaterialTable(){
               // initialize jqxGrid
               $("#fields_table").jqxGrid(
               {
-                  width: "25%",
+                  width: "21%",
                   height: "45%",
                   source: dataAdapter,    
                   theme: 'energyblue',            

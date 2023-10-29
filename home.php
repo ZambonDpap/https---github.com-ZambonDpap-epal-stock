@@ -11,15 +11,15 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
         <!-- Add external js files-->
-        <script src="/src/frontend/js/new_invoice.js"></script>
-        <script src="/src/frontend/js/protocol.js"></script>
-        <script src="/src/frontend/js/home.js"></script>
-        <script src="/src/frontend/js/invoices.js"></script>
-        <script src="/src/frontend/js/users_roles.js"></script>
-        <script src="/src/frontend/js/suppliers.js"></script>
-        <script src="/src/frontend/js/proposal.js"></script>
-        <script src="/src/frontend/js/fields_labs_supplies.js"></script>
-        <script src="/src/frontend/js/supplies_book.js"></script>
+        <script src="./src/frontend/js/new_invoice.js"></script>
+        <script src="./src/frontend/js/protocol.js"></script>
+        <script src="./src/frontend/js/home.js"></script>
+        <script src="./src/frontend/js/invoices.js"></script>
+        <script src="./src/frontend/js/users_roles.js"></script>
+        <script src="./src/frontend/js/suppliers.js"></script>
+        <script src="./src/frontend/js/proposal.js"></script>
+        <script src="./src/frontend/js/fields_labs_supplies.js"></script>
+        <script src="./src/frontend/js/supplies_book.js"></script>
 
 
         <!-- Add css files-->
@@ -112,7 +112,8 @@
             </div>
             <div id="supplier-form-group">
                 <label id="supplier-label" for="suppliers">Προμηθευτής</label>
-                <div id="suppliers"></div>
+                <!-- <div id="suppliers"></div> -->
+                <input type="text" id="suppliers">
             </div>
             <button class="add_new_supplier" id="new_supplier"><img src="http://localhost/src/images/add_16.png"></button>  
             <div id="new_supplier_popover">
@@ -371,7 +372,7 @@
         <div id="supplies_book_table">
             <ul>
                 <li style="margin-left: 30px;">
-                    ΑΝΑΛΩΣΗΜΑ
+                    ΑΝΑΛΩΣΙΜΑ
                 </li>
                 <li>
                     ΒΡΑΧΕΙΑΣ
@@ -433,9 +434,6 @@
                     </tr>
                 </table>
             </div>
-
-
-
        </div>
 
 
@@ -461,6 +459,82 @@
         <div id="add_long_term"></div>
         <div id="delete_long_term"></div>
         <div id="stock_table"></div>
+        
+
+        <div id="edit_lab_roles_div"><input id="edit_lab_roles" value="Άλλαγή ρόλων εργαστ."></input></div>
+        <div id="edit_field_roles_div"><input id="edit_field_roles" value="Αλλαγή ρόλων τομέα"></input></div>
+        <div id="add_lab_roles_div"><input id="add_lab_roles" value="Νέοι ρόλοι εργαστ."></input></div>
+        <div id="add_field_roles_div"><input id="add_field_roles" value="Νέοι ρόλοι τομέα"></input></div>
+
+        <div id="edit_field_roles_popupwindow">
+            <div></div>
+            <div style="overflow: hidden;">
+                <table>
+                    <tr>
+                        <td class="edit_field_roles_td" align="right">Υπευθυνος Τομέα</td>
+                        <td  align="left"><div class="edit_element" id="edit_field_role"></div></td>
+                    </tr>
+                    <tr>
+                        <td class="edit_field_roles_td" align="right">Ενεργός</td>
+                        <td align="left"><div  id="edit_field_role_active"></div></td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td style="padding-top: 10px;" align="right">
+                            <input class=field_role_action type="button" id="update_field_role" value="Save" />
+                            <input id="cancel_update_field_role" type="button" value="Cancel" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+       </div>
+
+       <div id="edit_lab_roles_popupwindow">
+            <div></div>
+            <div style="overflow: hidden;">
+                <table>
+                    <tr>
+                        <td class="edit_lab_roles_td" align="right">Υπευθυνος Εργαστηρίου</td>
+                        <td  align="left"><div class="edit_element" id="edit_lab_manager_role"></div></td>
+                    </tr>
+                    <tr>
+                        <td class="edit_lab_roles_td" align="right">Επιτροπη αγοράς 1</td>
+                        <td align="left"><div  id="edit_user_active"></div></td>
+                    </tr>
+                    <tr>
+                        <td class="edit_lab_roles_td" align="right">Επιτροπη αγοράς 2</td>
+                        <td align="left"><div  id="edit_user_active"></div></td>
+                    </tr>
+                    <tr>
+                        <td class="edit_lab_roles_td" align="right">Επιτροπη αγοράς 3</td>
+                        <td align="left"><div  id="edit_user_active"></div></td>
+                    </tr>
+                    <tr>
+                        <td class="edit_lab_roles_td" align="right">Επιτροπη παραλαβής 1</td>
+                        <td align="left"><div  id="edit_user_active"></div></td>
+                    </tr>
+                    <tr>
+                        <td class="edit_lab_roles_td" align="right">Επιτροπη παραλαβής 2</td>
+                        <td align="left"><div  id="edit_user_active"></div></td>
+                    </tr>
+                    <tr>
+                        <td class="edit_lab_roles_td" align="right">Επιτροπη παραλαβής 3</td>
+                        <td align="left"><div  id="edit_user_active"></div></td>
+                    </tr>
+                    <tr>
+                        <td class="edit_lab_roles_td" align="right">Ενεργός</td>
+                        <td align="left"><div  id="edit_user_active"></div></td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td style="padding-top: 10px;" align="right">
+                            <input class=lab_role_action type="button" id="update_lab_role" value="Save" />
+                            <input id="cancel_update_lab_role" type="button" value="Cancel" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+       </div>
 
         <!-- PURCHACE PROPOSAL TABLE -->
         <div id="proposal"></div>

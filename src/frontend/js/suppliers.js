@@ -1,7 +1,7 @@
 function buildSupplierTable() {
   jQuery.ajax({
     type: "GET",
-    url: "/src/backend/rest_api.php",
+    url: "./src/backend/rest_api.php",
     dataType: "json",
     data: { functionname: "get_suppliers", arguments: [] },
 
@@ -18,7 +18,7 @@ function buildSupplierTable() {
             console.log(data);
             jQuery.ajax({
               type: "POST",
-              url: "/src/backend/rest_api.php",
+              url: "./src/backend/rest_api.php",
               dataType: "json",
               data: {
                 functionname: "delete_supplier",

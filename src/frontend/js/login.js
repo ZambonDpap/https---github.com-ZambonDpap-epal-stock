@@ -11,15 +11,14 @@ $(document).ready(function() {
             data: {functionname: 'validate_user', arguments: [username, password]},
         
             success: function (obj, textstatus) {
-                console.log(obj)
-                          if( ('success' in obj) ) {
-                            window.location = './home.php';
-                          }
-                          else {
-                                alert("Λάθος στοιχεία!"); 
-                                console.log(obj.error);
-                          }
-                    },
+                // console.log(obj)
+                if( ('success' in obj) ) {
+                    window.location = './home.php';
+                } else {
+                    alert("Λάθος στοιχεία!"); 
+                    console.log(obj.error);
+                }
+            },
             error: function(XMLHttpRequest, textStatus, errorThrown) { 
                 alert("Status: " + textStatus); alert("Error: " + errorThrown); 
             }

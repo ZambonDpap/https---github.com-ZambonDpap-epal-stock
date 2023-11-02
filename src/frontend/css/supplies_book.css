@@ -35,3 +35,9 @@
     top: 12%;
     left: 1%;
 }
+
+#supplies_destroys_table{
+    position: absolute;
+    top: 65%;
+    left: 1%;
+}

@@ -1,8 +1,16 @@
 <?php
    include('./src/backend/session.php');
+
+   $image_path = "";
+
+   if ( $_SERVER['HTTP_HOST'] == "stefanos.work")
+   {
+        $image_path = "https://stefanos.work/ektimologia/srcimages/";
+   } else if ( $_SERVER['HTTP_HOST'] == "localhost") {
+        $image_path = "http://localhost/src/images/";
+   }
 ?>
 <html>
-   
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 
     <head>
@@ -64,6 +72,12 @@
         <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxgrid.pager.js"></script> 
         <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxwindow.js"></script> 
         <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxtabs.js"></script> 
+        <style>
+		.cellcolor {
+            background-color: rgb(255, 158, 158) !important;
+			color: white !important;
+		}
+	</style>
     </head>
    
    <body>
@@ -115,7 +129,7 @@
                 <!-- <div id="suppliers"></div> -->
                 <input type="text" id="suppliers">
             </div>
-            <button class="add_new_supplier" id="new_supplier"><img src="http://localhost/src/images/add_16.png"></button>  
+            <button class="add_new_supplier" id="new_supplier"><img src="<?php echo( $image_path ) ?>add_16.png"></button>  
             <div id="new_supplier_popover">
                 <div id="new_added_supplier_name_label">Όνομα Προμηθευτή</div><input type="text" id="new_added_supplier_name">
                 <button div id="add_new_supplier">ΟΚ</button>
@@ -158,11 +172,11 @@
                 <div id="new_added_material_number_label">Ποσότητα αγοράς</div><input type="number" id="new_added_material_number">
                 <button div id="add_new_material">ΟΚ</button>
             </div>
-            <button id="new_material"><img src="http://localhost/src/images/add_16.png"></button>
+            <button id="new_material"><img src="<?php echo( $image_path ) ?>add_16.png"></button>
 
             <div id="materials_added">
             </div>
-            <button id="delete_added_material"><img src="http://localhost/src/images/delete_16.png"></button>
+            <button id="delete_added_material"><img src="<?php echo( $image_path ) ?>delete_16.png"></button>
 
             <input id="continue" type="submit" value="Συνέχεια">
             <input id="save" type="submit" value="Αποθήκευση">
@@ -177,33 +191,32 @@
 
         <!-- PROTOCOL VIEWER -->
         <div id="protocol_viewer">
-
-            <img style="position:absolute;top:3%; left:25%; width:8%; height:6%" src="http://localhost/src/images/ri_1.png" />
-
-            <div style="position:absolute; top:8.7%; left:15%; width:40%; line-height:0.15in;">
-                <span style="font-style:normal;font-weight:bold;font-size:1em;">ΕΛΛΗΝΙΚΗ ΔΗΜΟΚΡΑΤΙΑ</span>
-                <br />
-            </div>
-             <div style="position:absolute; top:11%; left:21.3%; width:20%; line-height:0.12in;">
-                <span style="font-style:normal;font-weight:bold;font-size:8pt;">ΥΠΟΥΡΓΕΙΟ ΠΑΙΔΕΙΑΣ</span>
-                <br />
-            </div>
-            <div style="position:absolute;top:13%; left:21.5%; width:20%;line-height:0.12in;">
-                <span style="font-style:normal;font-weight:bold;font-size:8pt;">ΚΑΙ ΘΡΗΣΚΕΥΜΑΤΩΝ</span>
-                <br />
-            </div>
-            <div style="position:absolute;top:16%; left:5%; width:70%;line-height:0.16in;">
-                <span style="font-style:normal;font-weight:bold;font-size:7pt;">ΠΕΡΙΦΕΡΕΙΑΚΗ Δ/ΝΣΗ Α/ΘΜΙΑΣ ΚΑΙ Β/ΘΜΙΑΣ ΕΚΠ/ΣΗΣ ΚΕΝΤΡ. ΜΑΚΕΔΟΝΙΑΣ</span>
-                <br />
-            </div>
-            <div style="position:absolute;top:18%; left:14%; width:45%;line-height:0.16in;">
-                <span style="font-style:normal;font-weight:bold;font-size:7pt;">Δ/ΝΣΗ Β/ΘΜΙΑΣ ΕΚΠ/ΣΗΣ ΑΝΑΤ.ΘΕΣΣΑΛΟΝΙΚΗΣ</span>
-                <br />
-            </div>
-            <div style="position:absolute;top:20%; left:21%; width:20%;line-height:0.15in;">
-                <span style="font-style:normal;font-weight:bold;font-size:10pt;">8ο Ε.Κ.ΕΠΑΝΟΜΗΣ </span>
-            </div>
-
+            <table style="position:absolute;top:3%; left:5%;">
+                <tr>
+                    <td style="text-align: center"><img style="width:16%; height:5%" src="<?php echo( $image_path ) ?>ri_1.png" /></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;font-style:normal;font-weight:bold;font-size:1em;">ΕΛΛΗΝΙΚΗ ΔΗΜΟΚΡΑΤΙΑ</td>   
+                </tr>
+                <tr>
+                    <td style="text-align: center;font-style:normal;font-weight:bold;font-size:8pt;">ΥΠΟΥΡΓΕΙΟ ΠΑΙΔΕΙΑΣ, ΘΡΗΣΚΕΥΜΑΤΩΝ</td>   
+                </tr>
+                <tr>
+                    <td style="text-align: center;font-style:normal;font-weight:bold;font-size:8pt;">ΚΑΙ ΑΘΛΗΤΙΣΜΟΥ</td>   
+                </tr>
+                <tr>
+                    <td style="height:15px"></td>   
+                </tr>
+                <tr>
+                    <td style="text-align: center;font-style:normal;font-weight:bold;font-size:7pt;">ΠΕΡΙΦΕΡΕΙΑΚΗ Δ/ΝΣΗ Α/ΘΜΙΑΣ ΚΑΙ Β/ΘΜΙΑΣ ΕΚΠ/ΣΗΣ ΚΕΝΤΡ. ΜΑΚΕΔΟΝΙΑΣ</td>   
+                </tr>
+                <tr>
+                    <td style="text-align: center;font-style:normal;font-weight:bold;font-size:7pt;">Δ/ΝΣΗ Β/ΘΜΙΑΣ ΕΚΠ/ΣΗΣ ΑΝΑΤ.ΘΕΣΣΑΛΟΝΙΚΗΣ</td>   
+                </tr>
+                <tr>
+                    <td style="text-align: center;font-style:normal;font-weight:bold;font-size:10pt;">8ο Ε.Κ.ΕΠΑΝΟΜΗΣ</td>   
+                </tr>
+            </table>
 
             <table style="position:absolute; top:4%; left:60%; width: 30%; border: 1px solid black;" >
                 <tr style="line-height:180%; border: 1px solid black;">
@@ -350,18 +363,12 @@
                 </tr>
             </table>
 
-            <div style="position:absolute;top:89%;left: 63%;width:0.84in;line-height:0.16in;">
-                <span style="font-style:normal;font-weight:bold;font-size:10pt;">ΘΕΩΡΗΘΗΚΕ</span>
-                <br />
-            </div>
-            <div style="position:absolute;top:93%; left:57%; width:50%;line-height:0.26in;">
-                <div style="position:relative; left:0.30in;">
-                    <span style="font-style:normal;font-weight:bold;font-size:10pt;">Ο Δ/ΝΤΗΣ</span>
-                    <br />
-                </div>
-                <span style="font-style:normal;font-weight:bold;font-size:10pt;">ΣΤΕΦΑΝΟΣ ΜΕΡΛΙΑΟΥΝΤΑΣ</span>
-                <br />
-            </div>
+            <table style="position:absolute;top:89%;left: 63%;">
+                <tr><td style="text-align: center"><span style="font-style:normal;font-weight:bold;font-size:10pt;">ΘΕΩΡΗΘΗΚΕ</span></td></tr>
+                <tr><td style="height:20px"></td></tr>
+                <tr><td style="text-align: center"><span style="font-style:normal;font-weight:bold;font-size:10pt;">Ο Δ/ΝΤΗΣ</span></td></tr>
+                <tr><td style="text-align: center"><span style="font-style:normal;font-weight:bold;font-size:10pt;">ΣΤΕΦΑΝΟΣ ΜΕΡΛΙΑΟΥΝΤΑΣ</span></td></tr>
+            </table>
         </div>
 
         <!-- SUPPLIES BOOK -->
@@ -391,6 +398,7 @@
                 <div style="border:none;" id="grid_long"></div>
             </div>  
         </div>
+        <div id="supplies_destroys_table"></div>
 
         <!-- INVOICES TABLE -->
         <div id="invoices_table"></div>

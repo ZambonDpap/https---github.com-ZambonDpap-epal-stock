@@ -41,8 +41,11 @@ $(document).ready(function () {
       const field_cost = $("#field_cost").val();
       $("#pv_invoice_amount").text(field_cost);
 
-      var supplier_item = $("#suppliers").jqxDropDownList("getSelectedItem");
-      $("#pv_supplier").text(supplier_item.label);
+      let supplier_name = $("#suppliers").val();
+      if (Object.prototype.toString.call(supplier_name) === '[object Object]'){
+        supplier_name = supplier_name.label
+      }
+      $("#pv_supplier").text(supplier_name);
 
       $("#save").show();
     }
@@ -73,8 +76,10 @@ function savePDF() {
   const field_cost = $("#field_cost").val();
   const cost = $("#cost").val();
 
-  const supplier_item = $("#suppliers").jqxDropDownList("getSelectedItem");
-  const supplier_id = supplier_item.value;
+  let supplier_name = $("#suppliers").val();
+  if (Object.prototype.toString.call(supplier_name) === '[object Object]'){
+    supplier_name = supplier_name.label
+  }
 
   const materials_bought = $("#materials_added").jqxGrid("getrows");
   const protocol_no = $("#protocol_no").val();
@@ -116,7 +121,7 @@ function savePDF() {
                 invoice_date,
                 field_cost,
                 cost,
-                supplier_id,
+                supplier_name,
                 materials_bought,
                 protocol_no,
                 payment_method,

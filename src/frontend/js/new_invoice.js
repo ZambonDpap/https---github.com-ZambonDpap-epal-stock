@@ -1,8 +1,8 @@
-$(document).ready(function () {
-  let uploadfile = ""
-  let g_fields = {}
-  let g_field_labs = {}
+let uploadfile = ""
+let g_fields = {}
+let g_field_labs = {}
 
+$(document).ready(function () {
   //disable everything until an invoice pdf is selected
   disableElements();
 
@@ -158,14 +158,8 @@ function disableElements() {
     height: "35px",
     disabled: true,
   });
-  // $("#suppliers").jqxDropDownList({
   $("#suppliers").jqxInput({
-    // theme: 'energyblue',
-    // itemHeight: 40,
-    // height: 35,
-    // width: 445,
-    // disabled: true,
-
+    theme: 'energyblue',
     placeHolder: "Επιλογή προμηθευτή",
     height: 35,
     width: 445,
@@ -216,6 +210,7 @@ function disableElements() {
     disabled: true,
   });
   $("#materials").jqxInput({
+    theme: 'energyblue',
     placeHolder: "Επιλογή Υλικών",
     height: 35,
     width: 445,
@@ -415,6 +410,7 @@ function addLabsMaterialsToAutocompleteInput() {
             obj[i]["id"] = obj[i]["id"] + "|-|" + obj[i]["type"];
           }
 
+          console.log(obj)
           if (!("error" in obj)) {
             var source = {
               localdata: obj,
@@ -448,18 +444,13 @@ function addSuppliersToDropdown(supplier) {
     data: { functionname: "get_suppliers", arguments: [] },
 
     success: function (obj, textstatus) {
+      console.log(obj)
       if (!("error" in obj)) {
         var source = {
           localdata: obj,
           datatype: "json",
         };
         var dataAdapter = new $.jqx.dataAdapter(source);
-        // $("#suppliers").jqxDropDownList({
-        //   selectedIndex: -1,
-        //   source: dataAdapter,
-        //   displayMember: "name",
-        //   valueMember: "id",
-        // });
         $("#suppliers").jqxInput({
           source: dataAdapter,
           displayMember: "name",
@@ -659,8 +650,6 @@ function clearInvoiceForm(edit_data_record) {
     $("#protocol_date").jqxDateTimeInput("val", 0);
     $("#protocol_no").jqxNumberInput("val", 0);
     $("#protocol_no").jqxNumberInput({disabled: true });
-    // $("#suppliers").jqxDropDownList("clear");
-    // $("#suppliers").jqxDropDownList({disabled: true });
     $("#suppliers").jqxInput("clear");
     $("#suppliers").jqxInput({disabled: true });
     $("#new_supplier").hide();

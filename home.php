@@ -5,7 +5,7 @@
 
    if ( $_SERVER['HTTP_HOST'] == "stefanos.work")
    {
-        $image_path = "https://stefanos.work/ektimologia/srcimages/";
+        $image_path = "https://stefanos.work/ektimologia/src/images/";
    } else if ( $_SERVER['HTTP_HOST'] == "localhost") {
         $image_path = "http://localhost/src/images/";
    }
@@ -505,7 +505,7 @@
                         <td class="edit_lab_roles_td" align="right">Υπευθυνος Εργαστηρίου</td>
                         <td  align="left"><div class="edit_element" id="edit_lab_manager_role"></div></td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td class="edit_lab_roles_td" align="right">Επιτροπη αγοράς 1</td>
                         <td align="left"><div  id="edit_user_active"></div></td>
                     </tr>
@@ -532,7 +532,7 @@
                     <tr>
                         <td class="edit_lab_roles_td" align="right">Ενεργός</td>
                         <td align="left"><div  id="edit_user_active"></div></td>
-                    </tr>
+                    </tr> -->
                     <tr>
                         <td align="right"></td>
                         <td style="padding-top: 10px;" align="right">

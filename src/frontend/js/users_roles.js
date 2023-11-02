@@ -285,10 +285,7 @@ function addRolesToDropdown() {
       $("#edit_user_role").jqxDropDownList({source: source });
 }
 function addActiveToDropdown() {
-    var source = [
-        "ΝΑΙ",
-        "ΟΧΙ",
-    ];
+    var source = [ "ΝΑΙ", "ΟΧΙ" ];
     $("#edit_user_active").jqxDropDownList({ source: source });
 }
 function addLabsToEditDropdown() {

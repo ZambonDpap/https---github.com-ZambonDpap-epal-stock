@@ -13,12 +13,14 @@
   #invoice_form {
     position: absolute;
     width: 50%;
-    height: 94%;
-    top: 6%;
+    height: 91%;
+    top: 9%;
     border-right: 1px solid #cccccc;
   }
-  #invoice-select{
+  #academic_year{
+    position: absolute;
     height: 35px;
+    left: 105px;
   }
 
   #academic-year-form-group {
@@ -30,104 +32,145 @@
 
   #invoice-form-group{
     position: absolute;
+    display: flex;
     align-items: center;
     left: 2%;
     top: 7%;
   }
+  #invoice_select{
+    position: absolute;
+    height: 35px;
+    left: 105px;
+    width: 530%;
+    /* top: 10% !important; */
+  }
+
   #invoice-no-date-form-group{
     position: absolute;
     display: flex;
     align-items: center;
     left: 2%;
-    top: 13.5%;
+    top: 13%;
     width: 90%;
     /* border: 1px solid black; */
   }
+  #invoice_no{
+    position: absolute;
+    left: 105px;
+  }
+
   #invoice-date-form-group{
     position: absolute;
     display: flex;
     align-items: center;
-    left: 35%;
+    left: 52%;
   }
   #supplier-form-group{
     position: absolute;
     display: flex;
     align-items: center;
     left: 2%;
-    top: 20%;
+    top: 19.3%;
   }
   #new_supplier{
     position: absolute;
-    top: 20%;
-    left: 80%;
+    display: flex;
+    top: 18%;
+    left: 92%;
     border: none;
     background-color: white;
   }
+  #suppliers{
+    position: absolute;
+    left: 105px;
+  }
+
+
   #protocol-no-date-form-group{
     position: absolute;
     display: flex;
     align-items: center;
     left: 2%;
-    top: 26.8%;
+    top: 26%;
     width: 90%;
     /* border: 1px solid black; */
+  }
+  #protocol_no{
+    position: absolute;
+    height: 35px;
+    left: 105px;
   }
   #protocol-date-form-group{
     position: absolute;
     display: flex;
     align-items: center;
-    left: 38%;
+    left: 30%;
   }
   #fields-form-group{
     position: absolute;
     display: flex;
     align-items: center;
     left: 2%;
-    top: 33.5%;
+    top: 32.8%;
     width: 90%;
     /* border: 1px solid black; */
     text-align: center;
   }
+  #fields{
+    position: absolute;
+    left: 105px;
+  }
+
   #labs-form-group{
     position: absolute;
     display: flex;
     align-items: center;
     left: 2%;
-    top: 40.6%;
+    top: 39.6%;
     width: 90%;
     /* border: 1px solid black; */
     text-align: center;
   }
+  #labs{
+    position: absolute;
+    left: 105px;
+  }
+
+
   #payment-methods-form-group{
     position: absolute;
     display: flex;
     align-items: center;
     left: 2%;
-    top: 48%;
+    top: 46.3%;
     width: 90%;
     /* border: 1px solid black; */
     text-align: center;
   }
-  #costs-form-group {
+  #payment_methods{
     position: absolute;
-    display: flex;
-    align-items: center;
-    left: 2%;
-    top: 55%;
-    width: 90%;
-    /* border: 1px solid black; */
-    text-align: center;
+    left: 105px;
   }
 
-  #field-cost-form-group {
+  #cost-label{
     position: absolute;
     display: flex;
-    align-items: center;
-    left: 23%;
+    left: 50%;
   }
-
+  #cost{
+    position: absolute;
+    display: flex;
+    left: 57%;
+  }
   #field-cost-label{
-    width: 100px;
+    position: absolute;
+    display: flex;
+    left: 74%
+  }
+  #field_cost{
+    position: absolute;
+    display: flex;
+    left: 88%;
   }
 
   #materials-form-group {
@@ -135,10 +178,14 @@
     display: flex;
     align-items: center;
     left: 2%;
-    top: 62%;
+    top: 53%;
     width: 90%;
     /* border: 1px solid black; */
     text-align: center;
+  }
+  #materials{
+    position: absolute;
+    left: 105px;
   }
 
   input {
@@ -175,8 +222,8 @@
 
   #new_material{
     position: absolute;
-    top: 61.5%;
-    left: 72%;
+    top: 51.5%;
+    left: 92%;
     border: none;
     background-color: white;
   }
@@ -189,7 +236,13 @@
     position: absolute;
     overflow-y: auto;
     left: 15px;
-    top: 68%;
+    top: 57%;
+  }
+  #comments{
+    position: absolute;
+    overflow-y: auto;
+    left: 15px;
+    top: 83%;
   }
 
   #new_added_material_name_label, #new_added_supplier_name_label{
@@ -264,7 +317,7 @@
 
   #delete_added_material{
     position: absolute;
-    top: 85%;
+    top: 77%;
     left: 92%;
     background-color: white;
     border: none;

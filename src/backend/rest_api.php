@@ -84,14 +84,10 @@ if( !isset($_GET['functionname'])){
         $result = get_current_academic_year($conn, $result);
     }else if ($_GET['functionname'] == "get_previous_academic_year"){
         $result = get_previous_academic_year($conn, $result);
-    }else if ($_GET['functionname'] == "get_material_stock"){
-        $result = get_material_stock($conn, $result);
-    }else if ($_GET['functionname'] == "get_current_material_stock"){
-        $result = get_current_material_stock($conn, $result);
-    }else if ($_GET['functionname'] == "get_previous_material_stock"){
-        $result = get_previous_material_stock($conn, $result);
     }else if ($_GET['functionname'] == "get_material_destroys"){
         $result = get_material_destroys($conn, $result);
+    }else if ($_GET['functionname'] == "get_praxis"){
+        $result = get_praxis($conn, $result);
     } else {
         $result['error'] = 'No function name!'; 
     }
@@ -162,17 +158,31 @@ function delete_invoice($conn, $result){
         $invoice_number = $arguments[1];
         $protocol_pdf = $arguments[2];
         $invoice_pdf = $arguments[3];
+        $folder = $arguments[4];
         
         $sql = "DELETE FROM invoice WHERE protocol_id = $protocol_id";
         $result = mysqli_query($conn,$sql);
 
-        $sql = "DELETE FROM purchace WHERE invoice_id = $invoice_number";
+        $sql = "SELECT * FROM purchace WHERE invoice_number = '$invoice_number'";
+        $result = mysqli_query($conn,$sql);
+        $purchaces = mysqli_fetch_all($result,MYSQLI_ASSOC);
+
+        foreach ($purchaces as $purchace){
+            $material_id = $purchace["material_id"];
+            $amount = $purchace["amount"];
+            $academic_year = $purchace["academic_year"];
+
+            $sql = "UPDATE material_stock SET stock = stock - $amount WHERE material_id = $material_id AND academic_year = '$academic_year'";
+            $result = mysqli_query($conn,$sql);
+        }
+
+        $sql = "DELETE FROM purchace WHERE invoice_number = '$invoice_number'";
         $result = mysqli_query($conn,$sql);
 
-        $file_to_delete = "pdf_protocols/" . $protocol_pdf;
+        $file_to_delete = "Πρωτόκολλα/" . $folder . $protocol_pdf;
         unlink($file_to_delete);
 
-        $file_to_delete = "pdf_invoices/" . $invoice_pdf;
+        $file_to_delete = "Τιμολόγια/" . $folder . $invoice_pdf;
         unlink($file_to_delete);
 
         return $result;
@@ -303,27 +313,30 @@ function destroy_material($conn, $result){
         $sqlDate = $arguments[3];
         $academic_year = current_academic_year($conn);
 
-        $current_material_amount = material_stock($conn, $material_id);
+        $material_stocks = material_stock($conn, $material_id);
+        $current_material_stock = $material_stocks[0] + $material_stocks[1];
 
-        // echo ( intval($current_material_amount) . " " . intval($amount));
+        if( intval($current_material_stock) >= intval($amount)){
+            $sql = "UPDATE material_stock SET stock = stock - $amount WHERE material_id = $material_id AND academic_year = '$academic_year'";
+            $result = mysqli_query($conn,$sql);
 
-        if( intval($current_material_amount) >= intval($amount)){
             $sql = "INSERT INTO destroy (material_id, amount, user_id, date, academic_year) VALUES ($material_id, $amount, $user_id, '$sqlDate', '$academic_year')";
             mysqli_query($conn,$sql);
-            
-            $destroy["current_amount"] = intval($current_material_amount) - intval($amount);
-
             $sql = "SELECT MAX(id) AS MaxID FROM destroy WHERE user_id = $user_id";
             $res = mysqli_query($conn,$sql);
             $destroys = mysqli_fetch_assoc($res);
 
+            $material_stocks = material_stock($conn, $material_id);
+            $current_material_stock = $material_stocks[0] + $material_stocks[1];
+
+            $destroy["current_amount"] = $current_material_stock;
             $destroy["destroy_id"] = $destroys["MaxID"];
 
             $sql = "SELECT lastname, firstname FROM users WHERE id = $user_id";
             $res = mysqli_query($conn,$sql);
             $user_name = mysqli_fetch_assoc($res);
             $destroy["user_name"] = $user_name["lastname"] . " " . $user_name["firstname"];
-            
+    
             $destroy["material_id"] = $material_id;
             $destroy["academic_year"] = $academic_year;
             $destroy["amount"] = $amount;
@@ -348,6 +361,18 @@ function delete_destroy_material($conn, $result){
     {
         $arguments     = $_POST['arguments'];
         $destroy_id    = $arguments[0];
+
+
+        $sql = "SELECT * FROM destroy WHERE id = '$destroy_id'";
+        $result = mysqli_query($conn,$sql);
+        $destroy = mysqli_fetch_all($result,MYSQLI_ASSOC);
+
+        $amount = $destroy[0]["amount"];
+        $material_id = $destroy[0]["material_id"];
+        $academic_year = $destroy[0]["academic_year"];
+
+        $sql = "UPDATE material_stock SET stock = stock + $amount WHERE material_id = $material_id AND academic_year = $academic_year";
+        $result = mysqli_query($conn,$sql);
 
         $sql = "DELETE FROM destroy WHERE id = $destroy_id";
         $result = mysqli_query($conn,$sql);
@@ -520,9 +545,8 @@ function get_materials($conn, $result){
         $new_result1 = array();
         foreach ($result as $material) {
             $material_stock = material_stock($conn, $material["id"]);
-            $previous_material_stock = get_previous_material_stock($conn, $material["id"]);
-            $material[$current_academic_year] = $material_stock;
-            $material[$previous_academic_year] = $previous_material_stock;
+            $material[$current_academic_year] = $material_stock[0] + $material_stock[1];
+            $material[$previous_academic_year] = $material_stock[1];
             $material["destroy"] = 0;
             $new_result1[] = $material;
         }
@@ -536,9 +560,8 @@ function get_materials($conn, $result){
         $new_result2 = array();
         foreach ($result as $material) {
             $material_stock = material_stock($conn, $material["id"]);
-            $previous_material_stock = get_previous_material_stock($conn, $material["id"]);
-            $material[$current_academic_year] = $material_stock;
-            $material[$previous_academic_year] = $previous_material_stock;
+            $material[$current_academic_year] = $material_stock[0] + $material_stock[1];
+            $material[$previous_academic_year] = $material_stock[1];
             $material["destroy"] = 0;
             $new_result2[] = $material;
         }
@@ -551,9 +574,8 @@ function get_materials($conn, $result){
         $new_result3 = array();
         foreach ($result as $material) {
             $material_stock = material_stock($conn, $material["id"]);
-            $previous_material_stock = get_previous_material_stock($conn, $material["id"]);
-            $material[$current_academic_year] = $material_stock;
-            $material[$previous_academic_year] = $previous_material_stock;
+            $material[$current_academic_year] = $material_stock[0] + $material_stock[1];
+            $material[$previous_academic_year] = $material_stock[1];
             $material["destroy"] = 0;
             $new_result3[] = $material;
         }
@@ -737,7 +759,7 @@ function save_pdf($conn, $result){
         $protocol_date    = $arguments[2];
         $field_id         = $arguments[3];
         $lab_id           = $arguments[4];
-        $invoice_no       = $arguments[5];
+        $invoice_number   = $arguments[5];
         $invoice_date     = $arguments[6];
         $field_cost       = $arguments[7];
         $cost             = $arguments[8];
@@ -746,6 +768,7 @@ function save_pdf($conn, $result){
         $protocol_no      = $arguments[11];
         $payment_method   = $arguments[12];
         $invoice_pdf_name = $arguments[13];
+        $comments         = $arguments[14];
 
         // instantiate dompdf class
 
@@ -765,9 +788,28 @@ function save_pdf($conn, $result){
 
         // write pdf to a file
         $pdf = $dompdf->output();
-        $date = str_replace("/", "_", $protocol_date); 
-        $protocol_pdf_name = $date . "_" . $protocol_no . ".pdf";
-        $output_name = "pdf_protocols/" . $protocol_pdf_name;
+
+        $protocol_sql_date = DateTime::createFromFormat("d/m/Y", $protocol_date);
+        $new_protocol_date =  $protocol_sql_date->format("M-Y");
+        $array = explode("-", $new_protocol_date);
+        $greek_month = get_greek_month($array[0]);
+
+        $folder = $greek_month . "_" . $array[1] . "/";
+
+        $target_dir = "Πρωτόκολλα/" . $folder;
+
+        if (!is_dir($target_dir)) {
+            mkdir($target_dir, 0755, true);
+        }
+
+        $sql = "SELECT short_name FROM labs WHERE id = $lab_id";
+        $res = mysqli_query($conn,$sql);
+        $val = mysqli_fetch_row($res);
+        $lab_short_name = $val[0];
+
+        $protocol_pdf_name = $protocol_no . "_" . $lab_short_name . ".pdf";
+        $output_name = $target_dir . $protocol_pdf_name;
+
         if (file_put_contents($output_name, $pdf) !== false) {
 
             $invoice_sql_date = DateTime::createFromFormat("d/m/Y", $invoice_date);
@@ -780,14 +822,26 @@ function save_pdf($conn, $result){
             $res = mysqli_query($conn,$sql);
             $supplier_id = mysqli_fetch_row($res);
 
-            $sql = "INSERT INTO invoice (protocol_id, invoice_number, invoice_date, protocol_date, supplier_id, field_id, lab_id, cost, field_cost, protocol_pdf, invoice_pdf, payment_method, academic_year) SELECT $protocol_no, $invoice_no, '$new_invoice_date', '$new_protocol_date', $supplier_id[0], $field_id, $lab_id, $cost, $field_cost, '$protocol_pdf_name', '$invoice_pdf_name', '$payment_method', '$academic_year' FROM DUAL WHERE NOT EXISTS ( SELECT * FROM invoice WHERE protocol_id=$protocol_no AND academic_year = '$academic_year')";
+            $sql = "INSERT INTO invoice (protocol_id, invoice_number, invoice_date, protocol_date, supplier_id, field_id, lab_id, cost, field_cost, protocol_pdf, invoice_pdf, comments, payment_method, academic_year, folder) SELECT $protocol_no, '$invoice_number', '$new_invoice_date', '$new_protocol_date', $supplier_id[0], $field_id, $lab_id, $cost, $field_cost, '$protocol_pdf_name', '$invoice_pdf_name', '$comments', '$payment_method', '$academic_year', '$folder' FROM DUAL WHERE NOT EXISTS ( SELECT * FROM invoice WHERE protocol_id=$protocol_no AND academic_year = '$academic_year')";
             $result = mysqli_query($conn,$sql);
 
             if($result) {
                 foreach ($materials_bought as $material) {
                     //store the purchace
-                    $sql = "INSERT INTO purchace (material_id, invoice_id, amount, cost, academic_year) VALUES ($material[id], $invoice_no, $material[amount], 0, '$academic_year')";
+                    $sql = "INSERT INTO purchace (material_id, invoice_number, amount, cost, academic_year) VALUES ($material[id], '$invoice_number', $material[amount], 0, '$academic_year')";
                     $result = mysqli_query($conn,$sql);
+
+                    $sql = "SELECT id FROM material_stock WHERE material_id = $material[id] AND academic_year = '$academic_year'";
+                    $res = mysqli_query($conn,$sql);
+                    $exists = mysqli_fetch_row($res);
+
+                    if(is_null($exists)){
+                        $sql = "INSERT INTO material_stock (material_id, stock, academic_year) VALUES ($material[id], $material[amount], '$academic_year')";
+                        $result = mysqli_query($conn,$sql);
+                    }else{
+                        $sql = "UPDATE material_stock SET stock = stock + $material[amount] WHERE material_id = $material[id] AND academic_year = '$academic_year'";
+                        $result = mysqli_query($conn,$sql);
+                    }
                 }
             }
         }
@@ -851,10 +905,10 @@ function get_purchace($conn, $result){
     } else 
     {
         $arguments     = $_GET['arguments'];
-        $incoive_id    = $arguments[0];
+        $invoice_number    = $arguments[0];
         $academic_year = $arguments[1];
 
-        $sql = "SELECT * FROM purchace WHERE invoice_id = $incoive_id AND academic_year = '$academic_year'";
+        $sql = "SELECT * FROM purchace WHERE invoice_number = '$invoice_number' AND academic_year = '$academic_year'";
         $res = mysqli_query($conn,$sql);
         $pers = mysqli_fetch_all($res,MYSQLI_ASSOC);
 
@@ -989,13 +1043,41 @@ function get_user_roles($conn, $result){
     return $arr;
 }
 function upload_pdf($conn, $result){
-    $target_dir = "pdf_invoices/";
-    $lab_short = $_POST['short_lab'];
+    $lab_id = $_POST['lab_id'];
+    $field_id = $_POST['field_id'];
+    $field_cost = $_POST['field_cost'];
+    $invoice_number = $_POST['invoice_number'];
+    $supplier_name  = $_POST['supplier_name'];
 
     $invoice_sql_date = DateTime::createFromFormat("d/m/Y", $_POST['invoice_date']);
-    $new_invoice_date =  $invoice_sql_date->format("Y-m-d");
+    $new_invoice_date =  $invoice_sql_date->format("M-Y");
 
-    $invoice_pdf_name = $lab_short . "_" . $new_invoice_date . ".pdf";
+    $sql = "SELECT short_name FROM fields WHERE id = $field_id";
+    $res = mysqli_query($conn,$sql);
+    $val = mysqli_fetch_row($res);
+    $field_short_name = $val[0];
+
+    $sql = "SELECT short_name FROM labs WHERE id = $lab_id";
+    $res = mysqli_query($conn,$sql);
+    $val = mysqli_fetch_row($res);
+    $lab_short_name = $val[0];
+
+    if (strlen($supplier_name) > 6) { // check if the string length is greater than 6
+        $short_supplier_name = mb_substr($supplier_name, 0, 6, "UTF-8"); // get the first 6 characters
+    }
+
+    $invoice_pdf_name = $field_short_name . "_" . $lab_short_name . "_" . $short_supplier_name . "_" . $field_cost . ".pdf";
+
+    $array = explode("-", $new_invoice_date);
+    $greek_month = get_greek_month($array[0]);
+
+    $folder_dir = $greek_month . "_" . $array[1] . "/";
+    $target_dir = "Τιμολόγια/" . $folder_dir;
+
+    if (!is_dir($target_dir)) {
+        mkdir($target_dir, 0755, true);
+    }
+
     $target_file = $target_dir . $invoice_pdf_name;
     $file_type = $_FILES["pdf_file"]["type"];
 
@@ -1006,30 +1088,6 @@ function upload_pdf($conn, $result){
     }
 
     return $invoice_pdf_name;
-}
-function get_material_stock($conn, $result){
-    if( !isset($_GET['arguments']) ) 
-    { 
-        $result['error'] = 'No arguments'; 
-    } else 
-    {
-        $arguments   = $_GET['arguments'];
-        $material_id = $arguments[0];
-        $result = material_stock($conn, $material_id);
-    }
-    return  $return;
-}
-function get_current_material_stock($conn, $material_id){
-    $current_academic_year = current_academic_year($conn);
-    $bought = number_of_material_purchaces_in_academic_year($conn, $material_id, $current_academic_year);
-    $destroyed = number_of_material_destroy_in_academic_year($conn, $material_id, $current_academic_year);
-    return $bought[0] - $destroyed[0];
-}
-function get_previous_material_stock($conn, $material_id){
-    $previous_academic_year = previous_academic_year($conn);
-    $bought = number_of_material_purchaces_in_academic_year($conn, $material_id, $previous_academic_year);
-    $destroyed = number_of_material_destroy_in_academic_year($conn, $material_id, $previous_academic_year);
-    return $bought[0] - $destroyed[0];
 }
 function get_material_destroys($conn, $result){
     if( !isset($_GET['material_id']) ) 
@@ -1060,31 +1118,36 @@ function get_material_destroys($conn, $result){
     }
     return  $result;
 }
+function get_praxis($conn, $result){
+    $current_academic_year = current_academic_year($conn);
+    $sql = "SELECT praxis FROM academic_years WHERE academic_year = '$current_academic_year'";
+    $res = mysqli_query($conn,$sql);
+    $praxis = mysqli_fetch_row($res);
+
+    return $praxis[0];
+}
 
 function material_stock($conn, $material_id){
+    $current_stock = 0;
+    $previous_stock = 0;
     $current_academic_year = current_academic_year($conn);
-    $bought = number_of_material_purchaces_in_academic_year($conn, $material_id, $current_academic_year);
-    $destroyed = number_of_material_destroy_in_academic_year($conn, $material_id, $current_academic_year);
-    $current_stock = $bought[0] - $destroyed[0];
+    $sql = "SELECT stock FROM material_stock WHERE material_id = $material_id AND academic_year = '$current_academic_year'";
+    $result = mysqli_query($conn,$sql);
+    $current_stock_res = mysqli_fetch_row($result);
 
     $previous_academic_year = previous_academic_year($conn);
-    $bought = number_of_material_purchaces_in_academic_year($conn, $material_id, $previous_academic_year);
-    $destroyed = number_of_material_destroy_in_academic_year($conn, $material_id, $previous_academic_year);
-    $previous_stock = $bought[0] - $destroyed[0];
+    $sql = "SELECT stock FROM material_stock WHERE material_id = $material_id AND academic_year = '$previous_academic_year'";
+    $result = mysqli_query($conn,$sql);
+    $previous_stock_res = mysqli_fetch_row($result);
+    
+    if($current_stock_res != null){
+        $current_stock = $current_stock_res[0];
+    }
+    if($previous_stock_res != null){
+        $previous_stock = $previous_stock_res[0];
+    }
 
-    return  $current_stock - $previous_stock;
-}
-function number_of_material_purchaces_in_academic_year($conn, $material_id, $academic_year){
-    //get the total num of the material bought in the year
-    $sql = "SELECT SUM(amount) FROM purchace WHERE material_id = $material_id AND academic_year = '$academic_year'";
-    $result = mysqli_query($conn,$sql);
-    return mysqli_fetch_row($result);
-}
-function number_of_material_destroy_in_academic_year($conn, $material_id, $academic_year){
-    //get the total num of the material destroyed in the year
-    $sql = "SELECT SUM(amount) FROM destroy WHERE material_id = $material_id AND academic_year = '$academic_year'";
-    $result = mysqli_query($conn,$sql);
-    return  mysqli_fetch_row($result);
+    return  [$current_stock, $previous_stock];
 }
 function current_academic_year($conn){
     $sql = "SELECT academic_year FROM academic_years WHERE id = (SELECT MAX(id) FROM academic_years)";
@@ -1101,5 +1164,48 @@ function previous_academic_year($conn){
     $res = mysqli_query($conn,$sql);
     $previous_academic_year = mysqli_fetch_row($res);
     return $previous_academic_year[0];
+}
+function get_greek_month($month){
+    switch ($month) {
+        case "Jan":
+            return "ΙΑΝ";
+            break;  
+        case "Feb":
+            return "ΦΕΒ";
+            break;
+        case "Mar":
+            return "ΜΑΡ";
+            break;
+        case "Apr":
+            return "ΑΠΡ";
+            break;
+        case "May":
+            return "ΜΑΙ";
+            break;
+        case "Jun":
+            return "ΙΟΥΝ";
+            break;
+        case "Jul":
+            return "ΙΟΥΛ";
+            break;
+        case "Aug":
+            return "ΑΥΓ";
+            break;
+        case "Sep":
+            return "ΣΕΠ";
+            break;
+        case "Oct":
+            return "ΟΚΤ";
+            break;
+        case "Nov":
+            return "ΝΟΕ";
+            break;
+        case "Dec":
+            return "ΔΕΚ";
+            break;
+        default:
+            return "NULL";
+        break;
+    }
 }
 ?>

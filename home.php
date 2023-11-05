@@ -72,6 +72,8 @@
         <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxgrid.pager.js"></script> 
         <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxwindow.js"></script> 
         <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxtabs.js"></script> 
+        <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxtextarea.js"></script>
+        <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxvalidator.js"></script>
         <style>
 		.cellcolor {
             background-color: rgb(255, 158, 158) !important;
@@ -109,7 +111,7 @@
         <!-- INVOICE FORM -->
         <div id="invoice_form">
             <div id="academic-year-form-group">
-                <label id="academic-year-label" for="academic_year">Ακαδημαϊκό Έτος</label>
+                <label id="academic-year-label" for="academic_year">Ακαδ. Έτος</label>
                 <div id="academic_year"></div>
             </div>
             <div id="invoice-form-group">
@@ -117,16 +119,15 @@
                 <input type="file" id="invoice_select" name="invoice_select" accept="application/pdf">
             </div>
             <div id="invoice-no-date-form-group">
-                <label id="invoice-no-label" for="invoice_no">Αριθμός Τιμολογίου</label>
-                <input type="number" id="invoice_no" name="invoice_no" required>
+                <label id="invoice-no-label" for="invoice_no">Αρ. Τιμολ.</label>
+                <input id="invoice_no" name="invoice_no" required>
                 <div id="invoice-date-form-group">
-                    <label id="invoice-date-label" for="invoice_date">Ημερομηνία Τιμολογίου</label>
+                    <label id="invoice-date-label" for="invoice_date">Ημ. Τιμολ.</label>
                     <input id="invoice_date" name="invoice_date" required>
                 </div>
             </div>
             <div id="supplier-form-group">
                 <label id="supplier-label" for="suppliers">Προμηθευτής</label>
-                <!-- <div id="suppliers"></div> -->
                 <input type="text" id="suppliers">
             </div>
             <button class="add_new_supplier" id="new_supplier"><img src="<?php echo( $image_path ) ?>add_16.png"></button>  
@@ -135,10 +136,10 @@
                 <button div id="add_new_supplier">ΟΚ</button>
             </div>
             <div id="protocol-no-date-form-group">
-                <label id="protocol-no-label" for="protocol_no">Αριθμός πρωτοκόλλου</label>
+                <label id="protocol-no-label" for="protocol_no">Αρ. πρωτοκ.</label>
                 <input type="number" id="protocol_no" name="protocol_no" required>
                 <div id="protocol-date-form-group">
-                    <label id="protocol-date-label" for="protocol_date">Ημερομηνία πρωτοκόλλου</label>
+                    <label id="protocol-date-label" for="protocol_date">Ημ. πρωτοκ.</label>
                     <input id="protocol_date" name="protocol_date" required>
                 </div>
             </div>
@@ -151,16 +152,14 @@
                 <div id="labs"></div>
             </div>
             <div id="payment-methods-form-group">
-                <label for="payment_method">Τρόπος Πληρωμής</label>
+                <label for="payment_method">Πληρωμή</label>
                 <div id="payment_methods"></div>
-            </div>
-            <div id="costs-form-group">
-                <label for="cost">Ποσό</label>
+
+                <label id="cost-label" for="cost">Ποσό</label>
                 <input type="number" id="cost" name="cost" required>
-                <div id="field-cost-form-group">
-                    <label id="field-cost-label" for="field_cost">Ποσό Τομέα</label>
-                    <input type="number" id="field_cost" name="field_cost" required>
-                </div>
+
+                <label id="field-cost-label" for="field_cost">Ποσό Τομέα</label>
+                <input type="number" id="field_cost" name="field_cost" required>
             </div>
             <div id="materials-form-group">
                 <label for="materials">Υλικά:</label>
@@ -174,14 +173,13 @@
             </div>
             <button id="new_material"><img src="<?php echo( $image_path ) ?>add_16.png"></button>
 
-            <div id="materials_added">
-            </div>
+            <div id="materials_added"></div>
             <button id="delete_added_material"><img src="<?php echo( $image_path ) ?>delete_16.png"></button>
+
+            <textarea id="comments"></textarea>
 
             <input id="continue" type="submit" value="Συνέχεια">
             <input id="save" type="submit" value="Αποθήκευση">
-
-
         </div>
 
         <!-- PDF VIEWER -->
@@ -260,7 +258,7 @@
                 <span style="font-style:normal;font-weight:normal;font-size:10pt;">με την υπ’ αριθμ.</span>
             </div>
             <div style="position:absolute;top:39%; left: 22%; width:2.04in;line-height:0.14in;">
-                <span style="font-style:normal;font-weight:bold;font-size:10pt;">1 - 5/10/2021</span>
+                <span id="pv_praxis" style="font-style:normal;font-weight:bold;font-size:10pt;"></span>
             </div>
             <div style="position:absolute;top:39%; left: 36%; width:70%;line-height:0.14in;">
                 <span style="font-style:normal;font-weight:normal;font-size:10pt;">του Συλ. Διδ/ντων του 8ου Ε.Κ. Επανομής αποτελούμενες από τους:</span>            
@@ -322,7 +320,7 @@
 
 
             <div style="position:absolute; top:71%; left:5%; width:70%; line-height:0.14in;">
-                <span style="font-style:normal;font-weight:normal;font-size:10pt;">Παραλαμβάνει &amp; παραδίδει στον Υπεύθυνο του Εργαστηρίου:</span>
+                <span id="pv_delivers_to" style="font-style:normal;font-weight:normal;font-size:10pt;"></span>
                 <br />
             </div>
             <div style="position:absolute; top:71% ;left: 63%; width:60% ;line-height:0.15in;">

@@ -185,7 +185,7 @@ function initGrid(name, data, page) {
                                 dataType: "json",
                                 data: { functionname: "destroy_material", arguments: [material_id, amount, user_id, sqlDate] },
 
-                                success: async function (obj, textstatus) {
+                                success: function (obj, textstatus) {
                                     if(obj == "LARGER"){
                                         $("#notification_warning").html("Σφάλμα. Η ποσότητα καταστροφής είναι μεγαλύτερη του αποθέματος.");
                                         $("#notification_warning").jqxNotification("open");

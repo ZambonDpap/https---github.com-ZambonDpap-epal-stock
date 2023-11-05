@@ -126,16 +126,11 @@ function disableElements() {
     width: 100,
     disabled: false,
   });
-  $("#invoice_no").jqxNumberInput({
-    width: "50px",
+  $("#invoice_no").jqxInput({
+    width: "30%",
     height: "35px",
     theme: "energyblue",
-    spinButtons: false,
-    symbol: "",
-    min: 1,
-    inputMode: "simple",
-    decimalDigits: 0,
-    disabled: true,
+    disabled: true
   });
   $("#invoice_date").jqxDateTimeInput({
     width: "110px",
@@ -162,7 +157,7 @@ function disableElements() {
     theme: 'energyblue',
     placeHolder: "Επιλογή προμηθευτή",
     height: 35,
-    width: 445,
+    width: "530%",
     minLength: 1,
     items: 9,
     disabled: true
@@ -172,14 +167,14 @@ function disableElements() {
     theme: 'energyblue',
     itemHeight: 40,
     height: 35,
-    width: 445,
+    width: "83.3%",
     disabled: true,
   });
   $("#labs").jqxDropDownList({
     theme: 'energyblue',
     itemHeight: 40,
     height: 35,
-    width: 445,
+    width: "83.3%",
     disabled: true,
   });
   $("#payment_methods").jqxDropDownList({
@@ -213,7 +208,7 @@ function disableElements() {
     theme: 'energyblue',
     placeHolder: "Επιλογή Υλικών",
     height: 35,
-    width: 445,
+    width: "83.3%",
     minLength: 1,
     items: 9,
     disabled: true,
@@ -222,17 +217,22 @@ function disableElements() {
     theme: 'energyblue',
     itemHeight: 40,
     height: 35,
-    width: 200,
+    width: "200",
     popupZIndex: 999999,
     disabled: false,
   });
   $("#new_material").hide();
+  $('#comments').jqxTextArea({ 
+    placeHolder: 'Παρατηρήσεις', 
+    width: "89.3%",
+    height: "10%",
+    theme: 'energyblue' 
+  });
 }
 
 function enableElements() {
-  $("#invoice_no").jqxNumberInput({ disabled: false });
+  $("#invoice_no").jqxInput({ disabled: false });
   $("#invoice_date").jqxDateTimeInput({ disabled: false });
-  //   $("#protocol_no").jqxNumberInput({ disabled: false });
   $("#protocol_date").jqxDateTimeInput({ disabled: false });
   $("#suppliers").jqxInput({ disabled: false });
   $("#new_supplier").show();
@@ -410,7 +410,6 @@ function addLabsMaterialsToAutocompleteInput() {
             obj[i]["id"] = obj[i]["id"] + "|-|" + obj[i]["type"];
           }
 
-          console.log(obj)
           if (!("error" in obj)) {
             var source = {
               localdata: obj,
@@ -444,7 +443,6 @@ function addSuppliersToDropdown(supplier) {
     data: { functionname: "get_suppliers", arguments: [] },
 
     success: function (obj, textstatus) {
-      console.log(obj)
       if (!("error" in obj)) {
         var source = {
           localdata: obj,
@@ -526,8 +524,6 @@ function addNewMaterial(name, type, amount) {
 
   var lab_id = $("#labs").jqxDropDownList("getSelectedItem").value;
   var field_id = $("#fields").jqxDropDownList("getSelectedItem").value;
-
-  console.log(name + " " + type + " " + amount);
 
   if(name == "" || type == "" || amount == ""){
     $("#notification_warning").html("Σφάλμα στοιχεία κατά της καταχώρηση.");
@@ -621,12 +617,10 @@ function clearInvoiceForm(edit_data_record) {
     addFieldsToDropdown();
     //get the payment methods and fill the dropdown
     addPaymentMethodsToDropdown();
-
-    console.log(edit_data_record)
     $("#academic_year").jqxDropDownList("val", edit_data_record["academic_year"]);
 
-    $("#invoice_no").jqxNumberInput("val", edit_data_record["invoice_number"]);
-    $("#invoice_no").jqxNumberInput({ disabled: false });
+    $("#invoice_no").jqxInput("val", edit_data_record["invoice_number"]);
+    $("#invoice_no").jqxInput({ disabled: false });
 
     $("#invoice_date").jqxDateTimeInput("val", edit_data_record["invoice_date"]);    
     $("#invoice_date").jqxDateTimeInput({ disabled: false });
@@ -642,8 +636,7 @@ function clearInvoiceForm(edit_data_record) {
     $("#academic_year").jqxDropDownList("val", "");
     $("#invoice_select").prop("disabled", true);
     $("#invoice_select").val("");
-    $("#invoice_no").jqxNumberInput("val", 0);
-    $("#invoice_no").jqxNumberInput({ disabled: true });
+    $("#invoice_no").jqxInput({ disabled: true });
     $("#invoice_date").jqxDateTimeInput({ disabled: true });
     $("#invoice_date").jqxDateTimeInput("val", 0);
     $("#protocol_date").jqxDateTimeInput({ disabled: true });

@@ -15,7 +15,6 @@ function buildSupplierTable() {
           ],
           deleterow: function (rowid, commit) {
             var data = $("#suppliers_table").jqxGrid("getrowdatabyid", rowid);
-            console.log(data);
             jQuery.ajax({
               type: "POST",
               url: "./src/backend/rest_api.php",

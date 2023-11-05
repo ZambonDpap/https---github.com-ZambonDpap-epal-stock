@@ -1,13 +1,13 @@
 $(document).ready(function () {
     $("#invoices_table").on('rowselect', function (event) {
-        var invoice_no = event.args.row.invoice_number;
+        var invoice_number = event.args.row.invoice_number;
         var academic_year = event.args.row.academic_year;
 
         jQuery.ajax({
             type: "GET",
             url: "./src/backend/rest_api.php",
             dataType: "json",
-            data: { functionname: "get_purchace", arguments: [invoice_no, academic_year] },
+            data: { functionname: "get_purchace", arguments: [invoice_number, academic_year] },
 
             success: function (obj, textstatus) {
                 if (!("error" in obj)) {
@@ -54,18 +54,24 @@ $(document).ready(function () {
         var rowindex = $('#invoices_table').jqxGrid('getselectedrowindex');
         var rowid = $('#invoices_table').jqxGrid('getrowid', rowindex);
         var data = $('#invoices_table').jqxGrid('getrowdatabyid', rowid);
-        downloadPDF("protocols", data.protocol_pdf)
+        downloadPDF("protocols", data.protocol_pdf, data.folder)
     });
     $("#invoices_table").on('click', 'div[id^="pdf_invoice_"]', function() {
         var rowindex = $('#invoices_table').jqxGrid('getselectedrowindex');
         var rowid = $('#invoices_table').jqxGrid('getrowid', rowindex);
         var data = $('#invoices_table').jqxGrid('getrowdatabyid', rowid);
-        downloadPDF("invoices", data.invoice_pdf)
+        downloadPDF("invoices", data.invoice_pdf, data.folder)
     });
 })
 
-function downloadPDF(mode, pdf){
-    const url = "./src/backend/pdf_" + mode + "/" + pdf;
+function downloadPDF(mode, pdf, folder){
+    let url = ""
+    if(mode === "protocols") {
+        url = "./src/backend/Πρωτόκολλα/" + folder + pdf;
+    } else if (mode === "invoices") {
+        url = "./src/backend/Τιμολόγια/" + folder + pdf;
+    }
+
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
     xhr.responseType = 'blob';
@@ -98,7 +104,7 @@ function buildInvoiceTable() {
                     datafields: [
                         { name: 'count', type: 'int' },
                         { name: 'protocol_id', type: 'int' },
-                        { name: 'invoice_number', type: 'int' },
+                        { name: 'invoice_number', type: 'string' },
                         { name: 'invoice_date', type: 'string' },
                         { name: 'protocol_date', type: 'string' },
                         { name: 'supplier_id', type: 'int' },
@@ -112,7 +118,8 @@ function buildInvoiceTable() {
                         { name: 'academic_year', type: 'string' },
                         { name: 'supplier', type: 'string' },
                         { name: 'field', type: 'string' },
-                        { name: 'lab', type: 'string' }
+                        { name: 'lab', type: 'string' },
+                        { name: 'folder', type: 'string' }
                     ],
                     deleterow: function (rowid, commit) {
                         var data = $('#invoices_table').jqxGrid('getrowdatabyid', rowid);
@@ -120,7 +127,7 @@ function buildInvoiceTable() {
                             type: "POST",
                             url: "./src/backend/rest_api.php",
                             dataType: "json",
-                            data: { functionname: "delete_invoice", arguments: [data["protocol_id"], data["invoice_number"], data["protocol_pdf"], data["invoice_pdf"] ] },
+                            data: { functionname: "delete_invoice", arguments: [data["protocol_id"], data["invoice_number"], data["protocol_pdf"], data["invoice_pdf"], data["folder"] ] },
                 
                             success: function (obj, textstatus) {
                                 commit(true);
@@ -176,8 +183,8 @@ function buildInvoiceTable() {
                             { text: 'ΠΡΟΜΗΘΕΥΤΗΣ', datafield: 'supplier',       width: "13%" },
                             { text: 'ΑΡ. ΠΡΩΤ.',   datafield: 'protocol_id',    width: "6%", cellsalign: 'center' },
                             { text: 'ΗΜ. ΠΡΩΤ.',   datafield: 'protocol_date',  width: "6%", cellsalign: 'center' },
-                            { text: 'ΠΡΩΤΟΚ',      datafield: 'protocol_pdf',   width: "3%", cellsrenderer: function (row, columnfield, value, defaulthtml) { return '<div id="pdf_protocol_' + row + '" style = "text-align:center" > <img src="http://localhost/src/images/acrobat.png" style="padding-top:15px;width:23px;height:23px;"></div>'; }},
-                            { text: 'ΤΙΜΟΛO',      datafield: 'invoice_pdf',    width: "3%", cellsrenderer: function (row, columnfield, value, defaulthtml) { return '<div id="pdf_invoice_' + row + '" style = "text-align:center" > <img src="http://localhost/src/images/acrobat.png" style="padding-top:15px;width:23px;height:23px;"></div>';}},
+                            { text: 'ΠΡΩΤΟΚ',      datafield: 'protocol_pdf',   width: "3%", cellsrenderer: function (row, columnfield, value, defaulthtml) { return '<div id="pdf_protocol_' + row + '" style = "text-align:center" > <img src="https://stefanos.work/ektimologia/src/images/acrobat.png" style="padding-top:15px;width:23px;height:23px;"></div>'; }},
+                            { text: 'ΤΙΜΟΛO',      datafield: 'invoice_pdf',    width: "3%", cellsrenderer: function (row, columnfield, value, defaulthtml) { return '<div id="pdf_invoice_' + row + '" style = "text-align:center" > <img src="https://stefanos.work/ektimologia/src/images/acrobat.png" style="padding-top:15px;width:23px;height:23px;"></div>';}},
                             { text: 'ΤΟΜΕΑΣ',      datafield: 'field',          width: "18%" },
                             { text: 'ΕΡΓΑΣΤΗΡΙΟ',  datafield: 'lab',            width: "14%" },
                             { text: 'ΠΟΣΟ ΤΟΜΕΑ',  datafield: 'field_cost',     width: "7%", cellsalign: 'center' },

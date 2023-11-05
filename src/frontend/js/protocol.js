@@ -1,7 +1,53 @@
 $(document).ready(function () {
   //when the button "συνεχεια" ia pressed. set pdf viewer to inactive and activate the protocol viewer
+  $('#invoice_form').jqxValidator({
+    rules: [
+           { input: '#invoice_no',     message: 'Ο αριθμός τιμολογίου είναι υποχρεωτικός!', action: 'keyup', rule: 'required' },
+           { input: '#invoice_date',   message: 'H ημερ. τιμολογίου ειναι υποχρεωτική!', action: 'keyup', rule: 'required' },
+           { input: '#suppliers',      message: 'Ο προμηθευτής είναι υποχρεωτικός!', action: 'keyup', rule: 'required' },
+           { input: '#invoice_date',   message: 'H ημερ. πρωτοκόλλου ειναι υποχρεωτική!', action: 'valuechanged', rule: 'required' },
+           { input: '#fields',         message: 'Ο τομέας είναι υποχρεωτικός!', action: 'change', 
+              rule: function () {
+                var item = $('#fields').jqxDropDownList('getSelectedItem')
+                if (item == null) {
+                  return false;
+                } else {
+                  return true;
+                }
+              }
+          },
+           { input: '#labs',           message: 'Tο εργαστήριο είναι υποχρεωτικό!', action: 'change',
+             rule: function () {
+              var item = $('#fields').jqxDropDownList('getSelectedItem')
+              if (item == null) {
+                return false;
+              } else {
+                return true;
+              }
+            }
+           },
+           { input: '#payment_methods',message: 'Ο τρόπος πληρωμής είναι υποχρεωτικός!', action: 'change', 
+             rule: function () {
+              var item = $('#payment_methods').jqxDropDownList('getSelectedItem')
+              if (item == null) {
+                return false;
+              } else {
+                return true;
+              }
+            }
+           },
+           { input: '#materials_added',message: 'Οι αγορές είναι υποχρεωτικές!', action: 'change', 
+              rule: function () {
+                var buys = $('#materials_added').jqxGrid('getRows');
+                var result = buys.length > 0;
+                return result;
+              }
+            }
+          ]
+  });
   $("#continue").on("click", () => {
-    if (validateInput()) {
+    $('#invoice_form').jqxValidator('validate');
+    if (validateInput() == true) {
       $("#pdf_viewer").hide();
       $("#protocol_viewer").show();
 
@@ -16,9 +62,11 @@ $(document).ready(function () {
       if(field_item.label == "ΕΡΓΑΣΤΗΡΙΑΚΟ ΚΕΝΤΡΟ"){
         $("#pv_for_who").text("για το ΕΚ");
         $("#pv_field_name").text("");
+        $("#pv_delivers_to").text("Παραλαμβάνει &amp; παραδίδει στον Δ/ντή του:");
       } else {
         $("#pv_for_who").text("για τον ΤΟΜΕΑ");
         $("#pv_field_name").text(field_item.label);
+        $("#pv_delivers_to").text("Παραλαμβάνει και παραδίδει στον Υπεύθυνο του Εργαστηρίου:");
       }
 
       var lab_item = $("#labs").jqxDropDownList("getSelectedItem");
@@ -32,8 +80,10 @@ $(document).ready(function () {
 
       getLabManager(lab_item.value, academic_year.label);
 
-      const invoice_no = $("#invoice_no").val();
-      $("#pv_invoice_id").text(invoice_no);
+      getPraxis();
+
+      const invoice_number = $("#invoice_no").val();
+      $("#pv_invoice_id").text(invoice_number);
 
       const invoice_date = $("#invoice_date").val();
       $("#pv_invoice_date").text(invoice_date);
@@ -61,29 +111,22 @@ $(document).ready(function () {
 function savePDF() {
   const academic_year_item = $("#academic_year").jqxDropDownList("getSelectedItem");
   const academic_year = academic_year_item.value;
-
   const protocol_date = $("#protocol_date").val();
-
   const field_item = $("#fields").jqxDropDownList("getSelectedItem");
   const field_id = field_item.value;
-
   const lab_item = $("#labs").jqxDropDownList("getSelectedItem");
   const lab_id = lab_item.value;
-
-  const invoice_no = $("#invoice_no").val();
+  const invoice_number = $("#invoice_no").val();
   const invoice_date = $("#invoice_date").val();
-
   const field_cost = $("#field_cost").val();
   const cost = $("#cost").val();
-
+  const comments = $("#comments").val();
   let supplier_name = $("#suppliers").val();
   if (Object.prototype.toString.call(supplier_name) === '[object Object]'){
     supplier_name = supplier_name.label
   }
-
   const materials_bought = $("#materials_added").jqxGrid("getrows");
   const protocol_no = $("#protocol_no").val();
-
   const payment_method_item = $("#payment_methods").jqxDropDownList("getSelectedItem");
   const payment_method = payment_method_item.value;
   
@@ -92,8 +135,13 @@ function savePDF() {
   if (file.type == "application/pdf") {
     var invoice_pdf = new FormData();
     invoice_pdf.append("pdf_file", file);
-    invoice_pdf.append("short_lab", lab_item.originalItem.short_name)
+    invoice_pdf.append("lab_id", lab_item.originalItem.id)
+    invoice_pdf.append("field_id", field_item.originalItem.id)
     invoice_pdf.append("invoice_date", invoice_date)
+    invoice_pdf.append("supplier_name", supplier_name);
+    invoice_pdf.append("field_cost", field_cost);
+    invoice_pdf.append("invoice_number", invoice_number);
+    invoice_pdf.append("comments", comments);
     invoice_pdf.append("functionname", "upload_pdf")
 
     jQuery.ajax({
@@ -117,7 +165,7 @@ function savePDF() {
                 protocol_date,
                 field_id,
                 lab_id,
-                invoice_no,
+                invoice_number,
                 invoice_date,
                 field_cost,
                 cost,
@@ -125,7 +173,8 @@ function savePDF() {
                 materials_bought,
                 protocol_no,
                 payment_method,
-                invoice_pdf_name
+                invoice_pdf_name,
+                comments
                 ],
             },
         
@@ -156,7 +205,16 @@ function savePDF() {
   }
 }
 function validateInput() {
-  return true;
+
+  var buys = $('#materials_added').jqxGrid('getRows');
+
+  if( $("#invoice_no").val() != "" && $("#invoice_date").val() != "" && $("#suppliers").val() != "" 
+  && $("#protocol_no").val() != "" && $("#invoice_date").val() != "" && $("#fields").val() != "" 
+  && $("#labs").val() != "" && $("#payment_methods").val() != "" && buys.length > 0 ){
+    return true;
+  }else{
+    return false;
+  }
 }
 
 function getLabBuyers(lab_id, academic_year) {
@@ -220,4 +278,24 @@ function getLabReceivers(lab_id, academic_year) {
       alert("Error: " + errorThrown);
     },
   });
+}
+
+function getPraxis() {
+  jQuery.ajax({
+    type: "GET",
+    url: "./src/backend/rest_api.php",
+    dataType: "json",
+    data: {
+      functionname: "get_praxis",
+      arguments: [],
+    },
+
+    success: function (obj, textstatus) {
+      $("#pv_praxis").text(obj);
+    },
+    error: function (XMLHttpRequest, textStatus, errorThrown) {
+      alert("Status: " + textStatus);
+      alert("Error: " + errorThrown);
+    },
+  });  
 }

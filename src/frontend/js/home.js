@@ -1,6 +1,38 @@
 g_current_page = ""
 $(document).ready(function() {
 
+    $('#eventWindow').on('close', function (event) {
+        if (event.type === 'close') {
+            const title = $('#eventWindow').jqxWindow('title'); 
+            if (event.args.dialogResult.OK) {
+                if (title === "Διαγραφή Καταστροφής/Μεταφοράς"){
+                    delete_destroy_material();
+                } else if (title === "Διαγραφή Τιμολογίου") {
+                    delete_invoice();
+                } else if (title === "Διαγραφή Ρόλου") {
+                    delete_user_role();
+                }
+            }
+        }
+    });
+
+    $('#eventWindow').jqxWindow({
+        position: { x: "45%", y: "30%"} ,
+        height: 188, width: 430,
+        showCloseButton: false,
+        resizable: false, 
+        isModal: true, 
+        modalOpacity: 0.3,
+        okButton: $('#ok'), 
+        autoOpen: false,
+        cancelButton: $('#cancel'),
+        initContent: function () {
+            $('#ok').jqxButton({ width: '190px' });
+            $('#cancel').jqxButton({ width: '190px' });
+            $('#cancel').focus();
+        }
+    });
+
     $("#user_id").hide();
     $("#invoice_form").hide();
     $("#pdf_viewer").hide();
@@ -142,7 +174,6 @@ $(document).ready(function() {
         $("#edit_field_roles_popupwindow").hide();
         $("#edit_lab_roles_popupwindow").hide();
         changeButtonColor("#new_invoice_btn");
-        clearInvoiceForm(edit_data_record);
     });
 
     $("#invoice_list_btn").on('click', ()=>{
@@ -386,17 +417,17 @@ $(document).ready(function() {
 })
 
 function changeButtonColor(button_name) {
-    $("#home_btn").css ("background-color", "rgb(213, 213, 213)");
-    $("#new_invoice_btn").css ("background-color", "rgb(213, 213, 213)");
-    $("#invoice_list_btn").css ("background-color", "rgb(213, 213, 213)");
-    $("#supplies_book_btn").css ("background-color", "rgb(213, 213, 213)");
-    $("#users_list_btn").css ("background-color", "rgb(213, 213, 213)");
-    $("#fields_labs_list_btn").css ("background-color", "rgb(213, 213, 213)");
-    $("#suppliers_list_btn").css ("background-color", "rgb(213, 213, 213)");
-    $("#supplies_list_btn").css ("background-color", "rgb(213, 213, 213)");
-    $("#proposal_btn").css ("background-color", "rgb(213, 213, 213)");
+    $("#home_btn").css ("background-color", "rgb(50, 54, 57)");
+    $("#new_invoice_btn").css ("background-color", "rgb(50, 54, 57)");
+    $("#invoice_list_btn").css ("background-color", "rgb(50, 54, 57)");
+    $("#supplies_book_btn").css ("background-color", "rgb(50, 54, 57)");
+    $("#users_list_btn").css ("background-color", "rgb(50, 54, 57)");
+    $("#fields_labs_list_btn").css ("background-color", "rgb(50, 54, 57)");
+    $("#suppliers_list_btn").css ("background-color", "rgb(50, 54, 57)");
+    $("#supplies_list_btn").css ("background-color", "rgb(50, 54, 57)");
+    $("#proposal_btn").css ("background-color", "rgb(50, 54, 57)");
 
-    $(button_name).css ("background-color", "rgb(189, 189, 189)");
+    $(button_name).css ("background-color", "rgb(82, 86, 89)");
 }
 
 function logout(button_name) {

@@ -24,10 +24,38 @@
     padding-top: 0.3%;
     /* border: 1px red solid; */
 }
+
 #supplies_book_labs_dropdown{
+    display: flex;
     position: absolute;
     top: 8.3%;
     left: 47%;
+}
+
+#lab_materials_book_button{
+    display: flex;
+    position: absolute;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+    padding-left: 2%;
+    padding-right: 2%;
+    top: 8.3%;
+    left:73.5%;
+    width: 160px;
+    cursor: pointer;
+}
+
+#lab_materials_book_overview_button{
+    display: flex;
+    position: absolute;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+    padding-left: 2%;
+    padding-right: 2%;
+    top: 8.3%;
+    left:85%;
+    width: 200px;
+    cursor: pointer;
 }
 
 #supplies_book_table{

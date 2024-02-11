@@ -113,7 +113,7 @@ $(document).ready(function () {
 
     $("#labs_table").on('rowselect', function (event) {
         g_lab_id = event.args.row.id;
-        prepareSuppliesBookTables(g_lab_id, "fields_labs_supplies");
+        // prepareSuppliesBookTables(g_lab_id, "fields_labs_supplies");
 
         $("#edit_lab_roles_div").show();
         $("#add_lab_roles_div").show();

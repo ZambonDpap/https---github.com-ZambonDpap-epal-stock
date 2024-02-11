@@ -256,15 +256,15 @@ function buildUsersRolesTable(obj){
                     }
                 },
                 { text: 'Delete',       datafield: 'Delete', width: "8%", columntype: 'button', 
-                cellsrenderer: function () {
-                    return "Delete";
-                }, 
-                buttonclick: function (row) {
-                    selectedrowindex = $("#users_roles_table").jqxGrid("getselectedrowindex");
-                    var rowid = $("#users_roles_table").jqxGrid("getrowid", selectedrowindex);
-                    $("#users_roles_table").jqxGrid("deleterow", rowid);       
+                    cellsrenderer: function () {
+                        return "Delete";
+                    }, 
+                    buttonclick: function (row) {
+
+                        $('#eventWindow').jqxWindow('title','Διαγραφή Ρόλου');
+                        $('#eventWindow').jqxWindow('open'); 
+                    }
                 }
-            }
             ]
     });
 
@@ -344,4 +344,10 @@ function addFieldsToEditDropdown() {
         alert("Error: " + errorThrown);
       },
     });
+}
+
+function delete_user_role(){
+    selectedrowindex = $("#users_roles_table").jqxGrid("getselectedrowindex");
+    var rowid = $("#users_roles_table").jqxGrid("getrowid", selectedrowindex);
+    $("#users_roles_table").jqxGrid("deleterow", rowid);
 }

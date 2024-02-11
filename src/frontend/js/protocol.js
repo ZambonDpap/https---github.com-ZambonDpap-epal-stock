@@ -72,8 +72,7 @@ $(document).ready(function () {
       var lab_item = $("#labs").jqxDropDownList("getSelectedItem");
       $("#pv_lab").text(lab_item.label);
 
-      var academic_year =
-        $("#academic_year").jqxDropDownList("getSelectedItem");
+      var academic_year = $("#academic_year").jqxDropDownList("getSelectedItem");
       getLabBuyers(lab_item.value, academic_year.label);
 
       getLabReceivers(lab_item.value, academic_year.label);

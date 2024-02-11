@@ -3,8 +3,7 @@
 
    $image_path = "";
 
-   if ( $_SERVER['HTTP_HOST'] == "stefanos.work")
-   {
+   if ( $_SERVER['HTTP_HOST'] == "stefanos.work"){
         $image_path = "https://stefanos.work/ektimologia/src/images/";
    } else if ( $_SERVER['HTTP_HOST'] == "localhost") {
         $image_path = "http://localhost/src/images/";
@@ -74,6 +73,9 @@
         <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxtabs.js"></script> 
         <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxtextarea.js"></script>
         <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxvalidator.js"></script>
+        <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxpanel.js"></script>
+        <script type="text/javascript" src="./libs/jqwidgets_16.0.0/jqxcombobox.js"></script>
+
         <style>
 		.cellcolor {
             background-color: rgb(255, 158, 158) !important;
@@ -92,7 +94,7 @@
                 <?php 
                     if ( $_SESSION['admin_level'] == 2 ){
                         echo('<div class="box-left" id="users_list_btn">Καθηγητές/Ρόλοι</div>
-                        <div class="box-left" id="fields_labs_list_btn">Τομείς/Εργαστήρια/Υλικά</div>
+                        <div class="box-left" id="fields_labs_list_btn">Τομείς/Εργαστ./Υλικά</div>
                         <div class="box-left" id="suppliers_list_btn">Προμηθευτές</div>');
                     }
                 ?>
@@ -105,6 +107,7 @@
                 <div id="notification_success"></div>
                 <div id="notification_warning"></div>
                 <div id="notification_info"></div>
+                <div id="notification_error"></div>
             </div>
         </div>
 
@@ -396,6 +399,8 @@
                 <div style="border:none;" id="grid_long"></div>
             </div>  
         </div>
+        <button id="lab_materials_book_button">ΒΙΒΛΙΟ ΥΛΙΚΩΝ</button>
+        <button id="lab_materials_book_overview_button">ΒΙΒΛΙΟ ΥΛΙΚΩΝ ΣΥΓΚ.</button>
         <div id="supplies_destroys_table"></div>
 
         <!-- INVOICES TABLE -->
@@ -544,5 +549,20 @@
 
         <!-- PURCHACE PROPOSAL TABLE -->
         <div id="proposal"></div>
+
+        <!-- CONFIRM WINDOW -->
+        <!-- <div style="visibility: hidden;" id="confirmWindow"> -->
+            <div id="eventWindow">
+                <div></div>
+                <div>
+                    <div style="margin-left: 7px; margin-top: 15px;" >Είστε σίγουροι για την διαγραφή;</div>
+                    <div style="margin-left: 7px; margin-top: 30px;">
+                        <input type="button" id="ok" value="ΝΑΙ" style="margin-right: 10px" />
+                        <input type="button" id="cancel" value="ΑΚΥΡΟ" />
+                    </div>
+                </div>
+            </div>
+        <!-- </div> -->
+
     </body>
 </html>

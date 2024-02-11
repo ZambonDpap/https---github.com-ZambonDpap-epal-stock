@@ -11,7 +11,6 @@ $(document).ready(function() {
             data: {functionname: 'validate_user', arguments: [username, password]},
         
             success: function (obj, textstatus) {
-                // console.log(obj)
                 if( ('success' in obj) ) {
                     window.location = './home.php';
                 } else {

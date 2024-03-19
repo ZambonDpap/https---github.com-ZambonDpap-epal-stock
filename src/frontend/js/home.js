@@ -66,6 +66,8 @@ $(document).ready(function() {
     $("#edit_lab_roles_popupwindow").hide();
     $("#edit_lab_roles_div").hide();
     $("#edit_field_roles_div").hide();
+    $("#lab_materials_book_button").hide();
+    $("#lab_materials_book_overview_button").hide();
 
     $("#logout").on('click', ()=>{
         $("#invoice_form").hide();
@@ -100,6 +102,8 @@ $(document).ready(function() {
         $("#edit_lab_roles_popupwindow").hide();
         $("#edit_lab_roles_div").hide();
         $("#edit_field_roles_div").hide();
+        $("#lab_materials_book_button").hide();
+        $("#lab_materials_book_overview_button").hide();
         logout();
     })
     
@@ -136,6 +140,8 @@ $(document).ready(function() {
         $("#edit_lab_roles_popupwindow").hide();
         $("#edit_lab_roles_div").hide();
         $("#edit_field_roles_div").hide();
+        $("#lab_materials_book_button").hide();
+        $("#lab_materials_book_overview_button").hide();
         changeButtonColor("#home_btn");
     });
 
@@ -173,6 +179,8 @@ $(document).ready(function() {
         $("#edit_field_roles_div").hide();
         $("#edit_field_roles_popupwindow").hide();
         $("#edit_lab_roles_popupwindow").hide();
+        $("#lab_materials_book_button").hide();
+        $("#lab_materials_book_overview_button").hide();
         changeButtonColor("#new_invoice_btn");
     });
 
@@ -210,6 +218,8 @@ $(document).ready(function() {
         $("#edit_lab_roles_popupwindow").hide();
         $("#edit_lab_roles_div").hide();
         $("#edit_field_roles_div").hide();
+        $("#lab_materials_book_button").hide();
+        $("#lab_materials_book_overview_button").hide();
         buildInvoiceTable();
         changeButtonColor("#invoice_list_btn");
     })
@@ -248,8 +258,9 @@ $(document).ready(function() {
         $("#edit_lab_roles_popupwindow").hide();
         $("#edit_lab_roles_div").hide();
         $("#edit_field_roles_div").hide();
+        $("#lab_materials_book_button").hide();
+        $("#lab_materials_book_overview_button").hide();
         buildSuppliesBookDropdowns()
-        // buildSuppliesBookTable(g_fields);
         changeButtonColor("#supplies_book_btn");
     })
 
@@ -292,6 +303,8 @@ $(document).ready(function() {
         $("#edit_lab_roles_popupwindow").hide();
         $("#edit_lab_roles_div").hide();
         $("#edit_field_roles_div").hide();
+        $("#lab_materials_book_button").hide();
+        $("#lab_materials_book_overview_button").hide();
         buildUsersTable();
         buildUsersRolesTable();
         changeButtonColor("#users_list_btn");
@@ -334,6 +347,8 @@ $(document).ready(function() {
         $("#edit_lab_roles_popupwindow").hide();
         $("#edit_lab_roles_div").hide();
         $("#edit_field_roles_div").hide();
+        $("#lab_materials_book_button").hide();
+        $("#lab_materials_book_overview_button").hide();
         buildFieldsLabsMaterialTable();
         changeButtonColor("#fields_labs_list_btn");
     })
@@ -372,6 +387,8 @@ $(document).ready(function() {
         $("#edit_lab_roles_popupwindow").hide();
         $("#edit_lab_roles_div").hide();
         $("#edit_field_roles_div").hide();
+        $("#lab_materials_book_button").hide();
+        $("#lab_materials_book_overview_button").hide();
         buildSupplierTable();
         changeButtonColor("#suppliers_list_btn");
     })
@@ -411,6 +428,8 @@ $(document).ready(function() {
         $("#edit_lab_roles_popupwindow").hide();
         $("#edit_lab_roles_div").hide();
         $("#edit_field_roles_div").hide();
+        $("#lab_materials_book_button").hide();
+        $("#lab_materials_book_overview_button").hide();
         buildProposalTable();
         changeButtonColor("#proposal_btn");
     })

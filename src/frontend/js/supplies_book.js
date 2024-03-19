@@ -33,6 +33,8 @@ $(document).ready(async function () {
             });
         } else {
             $("#supplies_book_labs_dropdown").jqxDropDownList("clear")
+            $("#lab_materials_book_button").hide();
+            $("#lab_materials_book_overview_button").hide();
         }
     });
 
@@ -45,6 +47,10 @@ $(document).ready(async function () {
              $ ('#grid_long').jqxGrid ('clear');
              $ ('#supplies_destroys_table').jqxGrid ('clear');
             prepareSuppliesBookTables(lab.value, "supplies_book")
+            $("#lab_materials_book_button").show();
+            $("#lab_materials_book_overview_button").show();
+        } else {
+
         }
     })
 

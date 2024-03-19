@@ -1,5 +1,6 @@
 $(document).ready(function () {
   //when the button "συνεχεια" ia pressed. set pdf viewer to inactive and activate the protocol viewer
+  
   $('#invoice_form').jqxValidator({
     rules: [
            { input: '#invoice_no',     message: 'Ο αριθμός τιμολογίου είναι υποχρεωτικός!', action: 'keyup', rule: 'required' },
@@ -49,7 +50,8 @@ $(document).ready(function () {
     $('#invoice_form').jqxValidator('validate');
     if (validateInput() == true) {
       $("#pdf_viewer").hide();
-      $("#protocol_viewer").show();
+      // prepareProtocolViewer();
+      prepareProtocolViewer()
 
       const protocol_no = $("#protocol_no").val();
       $("#pv_protocol_id").text(protocol_no);
@@ -99,7 +101,6 @@ $(document).ready(function () {
       $("#save").show();
     }
   });
-
   $("#save").on("click", (event) => {
     event.preventDefault();
 
@@ -297,4 +298,166 @@ function getPraxis() {
       alert("Error: " + errorThrown);
     },
   });  
+}
+function prepareProtocolViewer(){
+  let host = window.location.host;
+  let image_path = "";
+  if(host === "localhost"){
+    image_path = "http://localhost/src/images/";
+  } else if(host === "stefanos.work"){
+    image_path = "https://stefanos.work/ektimologia/src/images/";
+  }
+
+  let html  = "<table style='position:absolute;top:3%;left:5%;'> \
+                <tr><td style='text-align: center'><img style='width:16%; height:5%' src='" + image_path + "ri_1.png' /></td></tr> \
+                <tr><td style='text-align: center;font-style:normal;font-weight:bold;font-size:1em;'>ΕΛΛΗΝΙΚΗ ΔΗΜΟΚΡΑΤΙΑ</td></tr> \
+                <tr><td style='text-align: center;font-style:normal;font-weight:bold;font-size:8pt;'>ΥΠΟΥΡΓΕΙΟ ΠΑΙΔΕΙΑΣ, ΘΡΗΣΚΕΥΜΑΤΩΝ</td></tr> \
+                <tr><td style='text-align: center;font-style:normal;font-weight:bold;font-size:8pt;'>ΚΑΙ ΑΘΛΗΤΙΣΜΟΥ</td></tr> \
+                <tr><td style='height:15px'></td></tr> \
+                <tr><td style='text-align: center;font-style:normal;font-weight:bold;font-size:7pt;'>ΠΕΡΙΦΕΡΕΙΑΚΗ Δ/ΝΣΗ Α/ΘΜΙΑΣ ΚΑΙ Β/ΘΜΙΑΣ ΕΚΠ/ΣΗΣ ΚΕΝΤΡ. ΜΑΚΕΔΟΝΙΑΣ</td></tr> \
+                <tr><td style='text-align: center;font-style:normal;font-weight:bold;font-size:7pt;'>Δ/ΝΣΗ Β/ΘΜΙΑΣ ΕΚΠ/ΣΗΣ ΑΝΑΤ.ΘΕΣΣΑΛΟΝΙΚΗΣ</td></tr> \
+                <tr><td style='text-align: center;font-style:normal;font-weight:bold;font-size:10pt;'>8ο Ε.Κ.ΕΠΑΝΟΜΗΣ</td></tr> \
+              </table> \
+              <table style='position:absolute; top:4%; left:60%; width: 30%; border: 1px solid black;' > \
+                <tr style='line-height:180%; border: 1px solid black;'> \
+                    <td style='font-style:normal;font-weight:normal;font-size:9pt;'>Αρ. Πρωτ. :</td> \
+                    <td id = 'pv_protocol_id' style='text-align: center;font-style:normal;font-weight:normal;font-size:9pt;'></td> \
+                </tr> \
+                <tr> \
+                  <td style='font-style:normal;font-weight:normal;font-size:9pt;'>Ημερομηνία:</td> \
+                  <td id='pv_protocol_date_1' style='text-align: center;font-style:normal;font-weight:normal;font-size:9pt;'></td> \
+                </tr> \
+              </table> \
+              <div style='position:absolute;top:26%; left: 34%; width:2.04in;line-height:0.22in;'> \
+                <span style='font-style:normal;font-weight:bold;font-size:14pt;letter-spacing:10px'>ΠΡΩΤΟΚΟΛΛΟ </span> \
+                <br> \
+              </div> \
+              <div style='position:absolute;top:28.5%; left: 35%; width:40%;line-height:0.19in;'> \
+                <span style='font-style:normal;font-weight:bold;font-size:9.5pt;'>ΠΑΡΑΛΑΒΗΣ ΥΛΙΚΩΝ &amp; ΕΡΓΑΣΙΩΝ</span> \
+                <br> \
+              </div> \
+              <div style='position:absolute;top:34%; left: 5%; width:2.04in;line-height:0.14in;'> \
+                <span style='font-style:normal;font-weight:normal;font-size:10pt;'>Σήμερα </span> \
+              </div> \
+              <div style='position:absolute;top:34%; left: 14%; width:2.04in;line-height:0.14in;'> \
+                <span id='pv_protocol_date_2' style='font-style:normal;font-weight:bold;font-size:10pt;'></span> \
+              </div> \
+              <div style='position:absolute;top:34%; left: 33%; width:70%;line-height:0.14in;'> \
+                <span style='font-style:normal;font-weight:normal;font-size:9pt;'>συνήλθαν στο 8ο Ε.Κ. Επανομής οι επιτροπές αγοράς &amp; παραλαβής υλικών</span> \
+              </div> \
+              <div style='position:absolute;top:36.5%; left: 5%; width:2.04in;line-height:0.14in;'> \
+                <span id='pv_for_who' style='font-style:normal;font-weight:normal;font-size:10pt;'></span> \
+              </div> \
+              <div style='position:absolute;top:36.5%; left: 20%; width:60%;line-height:0.14in;'> \
+                <span id='pv_field_name' style='font-style:normal;font-weight:bold;font-size:9pt;'></span> \
+              </div> \
+              <div style='position:absolute;top:36.5%; left: 65%; width:2.04in;line-height:0.14in;'> \
+                <span style='font-style:normal;font-weight:normal;font-size:10pt;'>όπως αυτές ορίσθηκαν</span> \
+              </div> \
+              <div style='position:absolute;top:39%; left: 5%; width:2.04in;line-height:0.14in;'> \
+                <span style='font-style:normal;font-weight:normal;font-size:10pt;'>με την υπ’ αριθμ.</span> \
+              </div> \
+              <div style='position:absolute;top:39%; left: 22%; width:2.04in;line-height:0.14in;'> \
+                <span id='pv_praxis' style='font-style:normal;font-weight:bold;font-size:10pt;'></span> \
+              </div> \
+              <div style='position:absolute;top:39%; left: 36%; width:70%;line-height:0.14in;'> \
+                <span style='font-style:normal;font-weight:normal;font-size:10pt;'>του Συλ. Διδ/ντων του 8ου Ε.Κ. Επανομής αποτελούμενες από τους:</span> \
+                <br /> \
+              </div> \
+              <div style='position:absolute;top:44.7%; left: 5%; width:40%;line-height:0.14in;'> \
+                <span style='font-style:normal;font-weight:bold;font-size:10pt;'><u>ΕΠΙΤΡΟΠΗ ΑΓΟΡΑΣ</u></span> \
+                <br /> \
+              </div> \
+              <div style='position:absolute;top:49%; left: 6%; width:0.09in;line-height:0.14in;'> \
+                <span style='font-style:normal;font-weight:normal;font-size:10pt;'>1.</span> \
+                <br /> \
+              </div> \
+              <div style='position:absolute; top:48.5%; left: 8%;width:30%;line-height:0.21in;'> \
+                <span id='pv_buyer_1' style='font-style:normal;font-weight:normal;font-size:10pt;'></span> \
+              </div> \
+              <div style='position:absolute;top:52.3%; left: 6%; ;width:0.09in;line-height:0.14in;'> \
+                <span style='font-style:normal;font-weight:normal;font-size:10pt;'>2.</span> \
+                <br /> \
+              </div> \
+              <div style='position:absolute; top:51.8%; left: 8%;width:30%;line-height:0.21in;'> \
+                <span id='pv_buyer_2' style='font-style:normal;font-weight:normal;font-size:10pt;'></span> \
+              </div> \
+              <div style='position:absolute;top:55.5%; left: 6%; ;width:0.09in;line-height:0.14in;'> \
+                <span style='font-style:normal;font-weight:normal;font-size:10pt;'>3.</span> \
+                <br /> \
+              </div> \
+              <div style='position:absolute;top:55%;left: 8%;width:30%;line-height:0.21in;'> \
+                <span id='pv_buyer_3' style='font-style:normal;font-weight:normal;font-size:10pt;'></span> \
+              </div> \
+              <div style='position:absolute;top:59.3%; left: 5%; width:40%;line-height:0.14in;'> \
+                <span style='font-style:normal;font-weight:bold;font-size:10pt;'><u>ΕΠΙΤΡΟΠΗ ΠΑΡΑΛΑΒΗΣ</u></span> \
+                <br /> \
+              </div> \
+              <div style='position:absolute;top:64%; left: 6%; ;width:30%;line-height:0.14in;'> \
+                <span style='font-style:normal;font-weight:normal;font-size:10pt;'>1.</span> \
+                <br /> \
+              </div> \
+              <div style='position:absolute;top:64%;left: 8%;width:30%;line-height:0.14in;'> \
+                <span id='pv_receiver_1' style='font-style:normal;font-weight:normal;font-size:10pt;'></span> \
+                <br /> \
+              </div> \
+              <div style='position:absolute;top:67.5%; left: 6%; ;width:0.09in;line-height:0.14in;'> \
+                <span style='font-style:normal;font-weight:normal;font-size:10pt;'>2.</span> \
+                <br /> \
+              </div> \
+              <div style='position:absolute;top:67.5%;left: 8%;width:30%;line-height:0.14in;'> \
+                <span id='pv_receiver_2' style='font-style:normal;font-weight:normal;font-size:10pt;'></span> \
+                <br /> \
+              </div> \
+              <div style='position:absolute; top:71%; left:5%; width:70%; line-height:0.14in;'> \
+                <span id='pv_delivers_to' style='font-style:normal;font-weight:normal;font-size:10pt;'></span> \
+                <br /> \
+              </div> \
+              <div style='position:absolute; top:71% ;left: 63%; width:60% ;line-height:0.15in;'> \
+                <span id='pv_lab' style='font-style:normal;font-weight:bold;font-size:10pt;'></span> \
+                <br /> \
+              </div> \
+              <div style='position:absolute;top:75%; left: 5%; ;width:0.09in;line-height:0.14in;'> \
+                <span style='font-style:normal;font-weight:normal;font-size:10pt;'>κ.</span> \
+                <br /> \
+              </div> \
+              <div style='position:absolute; top:75%; left:8%; width:30%;line-height:0.14in;'> \
+                <span id='pv_lab_manager' style='font-style:normal;font-weight:normal;font-size:10pt;'></span> \
+                <br /> \
+              </div> \
+              <div style='position:absolute;top:75%; left:47%; width:0.59in;line-height:0.14in;'> \
+                <span style='font-style:normal;font-weight:normal;font-size:10pt;'>Υπογραφή:</span> \
+                <br /> \
+              </div> \
+              <div style='position:absolute;top:80%; left: 5%; width:80%; line-height:0.14in;'> \
+                <span style='font-style:normal;font-weight:normal;font-size:10pt;'>τα υλικά/εργασίες που αναφέρονται στα παρακάτω παραστατικά:</span> \
+                <br /> \
+              </div> \
+              \
+              <table style='position:absolute; top:83%; left:4.6%; width: 90%; border: 1px solid black;' > \
+                <tr style='text-align: center;border: 1px solid black;'> \
+                  <th style='width:5%;font-weight:bold;font-size:9pt;border-bottom: 1px solid black;'>Α/Α</th> \
+                  <th style='width:15%;font-weight:bold;font-size:9pt;border-bottom: 1px solid black;'>ΑΡΙΘΜΟΣ</th> \
+                  <th style='width:15%;font-weight:bold;font-size:9pt;border-bottom: 1px solid black;'>ΗΜ/ΝΙΑ</th> \
+                  <th style='width:10%;font-weight:bold;font-size:9pt;border-bottom: 1px solid black;'>ΠΟΣΟ</th> \
+                  <th style='width:55%;font-weight:bold;font-size:9pt;border-bottom: 1px solid black;'>ΠΡΟΜΗΘΕΥΤΗΣ</th> \
+                </tr> \
+                <tr style='text-align: center;'> \
+                  <td style='width:5%;'>1</td> \
+                  <td id = 'pv_invoice_id'     style='width:15%;font-size:9pt;'></td> \
+                  <td id = 'pv_invoice_date'   style='width:15%;font-size:9pt;'></td> \
+                  <td id = 'pv_invoice_amount' style='width:10%;font-size:9pt;'></td> \
+                  <td id = 'pv_supplier'       style='width:55%;font-size:9pt;'></td> \
+                </tr> \
+              </table> \
+              \
+              <table style='position:absolute;top:89%;left: 63%;'> \
+                <tr><td style='text-align: center'><span style='font-style:normal;font-weight:bold;font-size:10pt;'>ΘΕΩΡΗΘΗΚΕ</span></td></tr> \
+                <tr><td style='height:20px'></td></tr> \
+                <tr><td style='text-align: center'><span style='font-style:normal;font-weight:bold;font-size:10pt;'>Ο Δ/ΝΤΗΣ</span></td></tr> \
+                <tr><td style='text-align: center'><span style='font-style:normal;font-weight:bold;font-size:10pt;'>ΣΤΕΦΑΝΟΣ ΜΕΡΛΙΑΟΥΝΤΑΣ</span></td></tr> \
+              </table>"
+  $("#protocol_viewer").html(html)
+  $("#protocol_viewer").show();
+
 }

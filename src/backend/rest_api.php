@@ -1179,7 +1179,7 @@ function get_lab_materials_current_year_data($conn, $lab_id){
         $invoice_number = $purchace["invoice_number"];
 
         $material_id  = $purchace["material_id"];
-        $sql = "SELECT name FROM materials WHERE id=$material_id";
+        $sql = "SELECT name, type FROM materials WHERE id=$material_id";
         $res = mysqli_query($conn,$sql);
         $name = mysqli_fetch_assoc($res);
 
